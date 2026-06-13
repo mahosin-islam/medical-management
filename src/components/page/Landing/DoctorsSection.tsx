@@ -221,18 +221,17 @@ export default function DoctorsSection() {
 
 
 
-               {/* এখানে h-72 (অথবা আপনার ডিজাইনের সুবিধামতো h-64 / h-[300px]) এবং w-full যোগ করা হয়েছে */}
-<div className="relative h-72 w-full overflow-hidden rounded-t-xl">
+                  <div className="relative h-72 w-full overflow-hidden rounded-t-xl">
 
-  <Image
-    src={doctor.image}
-    alt={doctor.name}
-    fill  
-    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" // পারফরম্যান্সের জন্য এটি দেওয়া ভালো
-    className="object-cover transition-transform duration-500 group-hover:scale-110" 
-  />
+                    <Image
+                      src={doctor.image}
+                      alt={doctor.name}
+                      fill
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" // পারফরম্যান্সের জন্য এটি দেওয়া ভালো
+                      className="object-cover transition-transform duration-500 group-hover:scale-110"
+                    />
 
-</div>
+                  </div>
 
 
 

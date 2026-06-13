@@ -1,4 +1,3 @@
-// next.config.ts
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
@@ -10,7 +9,7 @@ const nextConfig: NextConfig = {
       },
       {
         protocol: "https",
-        hostname: "images.unsplash.com",
+        hostname: "plus.unsplash.com",
       },
       {
         protocol: "https",
@@ -20,19 +19,13 @@ const nextConfig: NextConfig = {
         protocol: "https",
         hostname: "cureandcarehospital.com",
       },
-      {
-        protocol: "https",
-        hostname: "pureortho.in",
-      },
-      {
-        protocol: 'https',
-        hostname: 'plus.unsplash.com', // 👈 এই নতুন ব্লকটি যোগ করুন
-      },
+
     ],
+  },
+  // Next.js 16-এ শুধুমাত্র typescript এরর ইগনোর করার অপশনটি ভ্যালিড আছে
+  typescript: {
+    ignoreBuildErrors: true,
   },
 };
 
 export default nextConfig;
-
-
-

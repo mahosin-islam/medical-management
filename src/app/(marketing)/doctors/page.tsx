@@ -3,9 +3,9 @@ function Doctor() {
   return (
     <div className="h-screen">
           <div className="py-10 pl-10">
-            <h2>Docto naem Mahosin</h2>
+            <h2>Doctor's  naem Mahosin</h2>
          <h3>Desicnation: 4040</h3>
-        <h4>MMBS CSP Dhaka</h4>
+        <h4>MMB;S CSP Dhaka</h4>
           </div>
     </div>
   )

@@ -1,7 +1,7 @@
 # ১. পাইপলাইনের নাম
 name: Medical Management CI Pipeline
 
-# ২. পাইপলাইন কখন রান করবে (main ব্রাঞ্চে পুশ বা পুল রিকোয়েস্ট হলে)
+# ২. পাইপলাইন কখন রান করবে
 on:
   push:
     branches: [ main ]
@@ -17,15 +17,11 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v4
 
-    # ৪. pnpm সেটআপ করা এবং এটিকে বলে দেওয়া যে মূল কোড my-app ফোল্ডারে আছে
+    # ৪. pnpm সেটআপ করা (কোনো অটো-ইনস্টল ছাড়া, একদম ক্লিন সেটআপ)
     - name: Setup pnpm
       uses: pnpm/action-setup@v4
       with:
         version: 9
-        # এই অংশটুকু pnpm-কে সরাসরি আপনার my-app ফোল্ডারে নিয়ে যাবে
-        run_install: |
-          - recursive: false
-            cwd: ./my-app
 
     # ৫. Node.js সেটআপ এবং pnpm ক্যাশ চালু করা
     - name: Set up Node.js
@@ -33,7 +29,6 @@ jobs:
       with:
         node-version: 20
         cache: 'pnpm'
-        # ক্যাশ ফাইলগুলো খোঁজার জন্য pnpm-কে পাথ বলে দেওয়া হলো
         cache-dependency-path: ./my-app/pnpm-lock.yaml
 
     # ৬. ডিপেন্ডেন্সি ইনস্টল করা (my-app ফোল্ডারের ভেতর)
@@ -46,7 +41,7 @@ jobs:
       working-directory: ./my-app
       run: pnpm run lint
 
-    # ৮. নেক্সট জেএস প্রজেক্ট প্রোডাকশনের জন্য বিল্ড করা (ভেঙে যাওয়া লাইনটি সোজা করা হয়েছে)
+    # ৮. নেক্সট জেএস প্রজেক্ট প্রোডাকশনের জন্য বিল্ড করা
     - name: Build Next.js application
       working-directory: ./my-app
       run: pnpm run build

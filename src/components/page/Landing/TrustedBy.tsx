@@ -4,6 +4,7 @@ import { motion, useAnimation, useInView } from "framer-motion";
 import { useEffect, useRef } from "react";
 // Lucide-react এর প্রয়োজনীয় আইকনসমূহ
 import { Building2, Calendar, Hospital, Star, CheckCircle } from "lucide-react";
+import Image from "next/image";
 
 interface Partner {
   id: number;
@@ -77,7 +78,7 @@ export default function TrustedBy() {
 
   return (
     <section ref={sectionRef} className="relative overflow-hidden bg-[#f8fafd] dark:bg-background py-16 md:py-24 transition-colors duration-300">
-      
+
       {/* Background Dot Grid Mesh Effect */}
       <div className="absolute inset-0 bg-[radial-gradient(#e2e8f0_1px,transparent_1px)] dark:bg-[radial-gradient(#334155_1px,transparent_1px)] [background-size:24px_24px] opacity-70 pointer-events-none" />
 
@@ -88,7 +89,7 @@ export default function TrustedBy() {
       </div>
 
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        
+
         {/* Header Block Module */}
         <motion.div
           initial={{ opacity: 0, y: 25 }}
@@ -101,7 +102,7 @@ export default function TrustedBy() {
           <span className="text-xs font-bold tracking-widest uppercase text-teal-600 dark:text-primary block">
             OUR COMPLIANCE NETWORK
           </span>
-          
+
           <h2 className="text-3xl font-black tracking-tight text-[#12283c] dark:text-foreground sm:text-4xl md:text-5xl">
             Trusted by{" "}
             <span className="relative inline-block text-[#0070f3] dark:text-primary">
@@ -114,7 +115,7 @@ export default function TrustedBy() {
               />
             </span>
           </h2>
-          
+
           <p className="mx-auto max-w-2xl text-xs sm:text-sm md:text-base text-slate-500 dark:text-muted-foreground font-medium pt-1">
             Certified medical institutions and healthcare networks actively integrating clinical intelligence.
           </p>
@@ -137,16 +138,21 @@ export default function TrustedBy() {
               whileHover={{ y: -6 }}
               className="group relative bg-white dark:bg-card border border-slate-100 dark:border-border/40 rounded-2xl p-3.5 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between"
             >
-              
+
               <div>
                 {/* Upper Frame Display Area containing Medical Images */}
                 <div className="w-full aspect-[16/10] bg-slate-50 dark:bg-muted/10 rounded-xl overflow-hidden relative border border-slate-100 dark:border-border/20 mb-4">
-                  <img
+                  <Image
                     src={partner.image}
                     alt={partner.name}
                     className="w-full h-full object-cover transition-transform duration-500 ease-out group-hover:scale-103 pointer-events-none"
+                    fill
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+
+
+
                   />
-                  
+
                   {/* Absolute Top-Edge Certification Stamp */}
                   {partner.certified && (
                     <div className="absolute top-2.5 right-2.5 z-10">
@@ -163,10 +169,10 @@ export default function TrustedBy() {
                   <h3 className="text-base font-bold text-[#12283c] dark:text-foreground line-clamp-2 min-h-[44px] group-hover:text-[#0070f3] dark:group-hover:text-primary transition-colors duration-200 leading-snug">
                     {partner.name}
                   </h3>
-                  
+
                   {/* Technical Metadata Rows Vector Layout */}
                   <div className="space-y-2 pt-1 border-t border-slate-50 dark:border-border/10">
-                    
+
                     {/* Organization Type Info Row */}
                     <div className="flex items-center justify-between text-xs font-medium">
                       <div className="flex items-center gap-1.5 text-slate-400 dark:text-muted-foreground">
@@ -207,11 +213,10 @@ export default function TrustedBy() {
                           {[...Array(5)].map((_, i) => (
                             <Star
                               key={i}
-                              className={`h-2.5 w-2.5 ${
-                                i < Math.floor(partner.rating)
+                              className={`h-2.5 w-2.5 ${i < Math.floor(partner.rating)
                                   ? "fill-amber-400 text-amber-400"
                                   : "fill-slate-100 text-slate-200 dark:fill-muted/20 dark:text-muted/10"
-                              }`}
+                                }`}
                             />
                           ))}
                         </div>

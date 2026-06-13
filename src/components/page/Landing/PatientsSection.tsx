@@ -1,20 +1,11 @@
-// app/components/patients/PatientsSection.tsx
+
 "use client";
 
 import { useEffect, useRef } from "react";
 import { useInView,  useAnimation } from "framer-motion";
-import {
-  Heart,
-  Clock,
-  Video,
-  FileText,
 
-  Calendar,
-  Users,
-  ThumbsUp,
-  ChevronRight,
-} from "lucide-react";
 import Image from "next/image";
+import { ChevronRight, Heart } from "lucide-react";
 
 
 

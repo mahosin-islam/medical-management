@@ -1,0 +1,48 @@
+# ১. পাইপলাইনের নাম: এখানে আপনি আপনার প্রজেক্টের নাম দিতে পারেন
+name: Medical Management CI Pipeline
+
+# ২. পাইপলাইন কখন ট্রিগার হবে (কখন রান করবে):
+# এখানে 'main' দেওয়া আছে কারণ সাধারণত মেইন ব্রাঞ্চে কোড পুশ বা মার্জ হলেই পাইপলাইন চলে। 
+# আপনি যদি গিটহাবে 'master' ব্রাঞ্চ ব্যবহার করেন, তবে 'main'-এর জায়গায় 'master' লিখে দেবেন।
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+    # ৩. গিটহাবের ভার্চুয়াল কম্পিউটারে কোড নিয়ে আসা
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    # ৪. pnpm সেটআপ করা (যেহেতু আপনি pnpm ব্যবহার করেন)
+    - name: Setup pnpm
+      uses: pnpm/action-setup@v4
+      with:
+        version: 9 # আপনার পিসিতে pnpm এর যে ভার্সন আছে তা দিতে পারেন (যেমন: 8 বা 9)
+
+    # ৫. Node.js সেটআপ এবং pnpm ক্যাশ চালু করা (বিল্ড ফাস্ট করার জন্য)
+    - name: Set up Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: 20
+        cache: 'pnpm'
+
+    # ৬. ডিপেন্ডেন্সি ইনস্টল করা (my-app ফোল্ডারের ভেতর)
+    - name: Install dependencies
+      working-directory: ./my-app
+      run: pnpm install --frozen-lockfile
+
+    # ৭. কোডের ভুল বা ফরম্যাটিং চেক করা (my-app ফোল্ডারের ভেতর)
+    - name: Run Linter
+      working-directory: ./my-app
+      run: pnpm run lint
+
+    # ৮. নেক্সট জেএস প্রজেক্ট প্রোডাকশনের জন্য বিল্ড করা (my-app ফোল্ডারের ভেতর)
+    - name: Build Next.js application
+      working-directory: ./my-app
+      run: pnpm run build

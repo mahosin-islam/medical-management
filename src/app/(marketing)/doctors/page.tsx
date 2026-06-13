@@ -1,8 +1,8 @@
 
 function Doctor() {
   return (
-    <div>
-  <h2>hello doctor</h2>
+    <div className="h-screen">
+  <h2>hello doctor Mahosin islam</h2>
 
     </div>
   )

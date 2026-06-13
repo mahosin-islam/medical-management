@@ -10,6 +10,10 @@ const nextConfig: NextConfig = {
       },
       {
         protocol: "https",
+        hostname: "images.unsplash.com",
+      },
+      {
+        protocol: "https",
         hostname: "www.bombayhosp.in",
       },
       {
@@ -20,8 +24,15 @@ const nextConfig: NextConfig = {
         protocol: "https",
         hostname: "pureortho.in",
       },
+      {
+        protocol: 'https',
+        hostname: 'plus.unsplash.com', // 👈 এই নতুন ব্লকটি যোগ করুন
+      },
     ],
   },
 };
 
 export default nextConfig;
+
+
+

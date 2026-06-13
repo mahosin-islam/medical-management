@@ -1,7 +1,6 @@
 'use client';
 
 import { authClient } from '@/lib/auth-client';
-import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { LogOut } from 'lucide-react'; // দেখতে সুন্দর লাগার জন্য আইকন (ঐচ্ছিক)
 

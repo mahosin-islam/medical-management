@@ -64,7 +64,7 @@ export default function OrthopedicsPage() {
           <div className="sc-card">
             <h2 className="text-xl font-medium text-(--color-foreground) mb-4">About the department</h2>
             <p className="text-(--color-muted-foreground) leading-relaxed mb-3">
-              ShifaCare's Orthopedics Department is a full-service musculoskeletal center
+              ShifaCares Orthopedics Department is a full-service musculoskeletal center
               with seven highly trained orthopedic surgeons specializing in joint replacement,
               spine surgery, trauma care, and sports medicine.
             </p>

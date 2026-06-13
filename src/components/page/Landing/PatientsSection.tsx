@@ -3,19 +3,20 @@
 
 import { useEffect, useRef } from "react";
 import { useInView, motion, useAnimation } from "framer-motion";
-import { 
-  Heart, 
-  Clock, 
-  Shield, 
-  Video, 
-  FileText, 
-  CreditCard, 
-  Calendar, 
-  Users, 
+import {
+  Heart,
+  Clock,
+  Shield,
+  Video,
+  FileText,
+  CreditCard,
+  Calendar,
+  Users,
   ThumbsUp,
   ChevronRight,
   PhoneCall
 } from "lucide-react";
+import Image from "next/image";
 
 const patientBenefits = [
   {
@@ -66,7 +67,7 @@ const ambulanceFleet = [
     type: "AC Ambulance",
     typeBn: "এসি অ্যাম্বুলেন্স",
     // 🚑 রিয়েল লাইফ সাপোর্ট ইমার্জেন্সি অ্যাম্বুলেন্স (বাহিরের দৃশ্য)
-    image: "https://images.unsplash.com/photo-1597188558265-f0fb7428a243?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", 
+    image: "https://images.unsplash.com/photo-1516549655169-df83a0774514?auto=format&fit=crop&w=600&q=80",
     features: ["Get ambulance within 30 minutes*", "24/7 affordable quality service", "We are just a call away: 01405600700"]
   },
   {
@@ -74,7 +75,7 @@ const ambulanceFleet = [
     type: "ICU Ambulance",
     typeBn: "আইসিইউ অ্যাম্বুলেন্স",
     // 🏥 অ্যাডভান্সড লাইফ সাপোর্ট ও আইসিইউ ইকুইপমেন্ট (অ্যাম্বুলেন্সের ভেতরের দৃশ্য)
-    image: "https://images.unsplash.com/photo-1551076805-e1869033e561?auto=format&fit=crop&w=600&q=80", 
+    image: "https://images.unsplash.com/photo-1551076805-e1869033e561?auto=format&fit=crop&w=600&q=80",
     features: ["Get ambulance within 30 minutes*", "24/7 affordable quality service", "We are just a call away: 01405600700"]
   },
   {
@@ -82,10 +83,11 @@ const ambulanceFleet = [
     type: "AIR Ambulance",
     typeBn: "এয়ার অ্যাম্বুলেন্স",
     // 🚁 ইমার্জেন্সি এয়ার মেডিকেল রেসকিউ হেলিকপ্টার
-    image: "https://images.unsplash.com/photo-1540962351504-03099e0a754b?auto=format&fit=crop&w=600&q=80", 
+    image: "https://images.unsplash.com/photo-1540962351504-03099e0a754b?auto=format&fit=crop&w=600&q=80",
     features: ["Get ambulance within 60 minutes*", "24/7 affordable quality service", "We are just a call away: 01405600700"]
   }
 ];
+
 const stats = [
   { value: "50k+", label: "Active Patients", icon: Users, color: "text-blue-500" },
   { value: "98%", label: "Satisfaction Rate", icon: ThumbsUp, color: "text-green-500" },
@@ -105,15 +107,15 @@ export default function PatientsSection() {
   }, [isInView, controls]);
 
   return (
-    <section ref={containerRef} className="py-16 md:py-14 bg-gradient-to-b from-background to-muted/30 relative overflow-hidden transition-colors duration-300">
+    <section ref={containerRef} className="py-6 md:py-14 bg-gradient-to-b from-background to-muted/30 relative overflow-hidden transition-colors duration-300">
       {/* Soft Background Blur Glows */}
       <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-primary/5 rounded-full blur-[120px] pointer-events-none" />
       <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-teal-500/5 rounded-full blur-[120px] pointer-events-none" />
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        
+
         {/* ================= HEADER SECTION ================= */}
-        <div className="text-center mb-16">
+        <div className="text-center mb-5">
           <div className="inline-flex items-center gap-2 bg-primary/10 px-4 py-1.5 rounded-full mb-4 border border-primary/20">
             <Heart className="w-4 h-4 text-primary animate-pulse" />
             <span className="text-xs font-semibold text-primary tracking-wide uppercase">Patient-Centric Care</span>
@@ -130,7 +132,7 @@ export default function PatientsSection() {
         </div>
 
         {/* ================= EMERGENCY AMBULANCE SECTION ================= */}
-        <div className="mb-10">
+        <div className="mb-20">
           <div className="flex items-center justify-between mb-6 border-b border-border/60 pb-4">
             <div>
               <h3 className="text-xl md:text-2xl font-bold tracking-tight text-foreground">
@@ -145,17 +147,28 @@ export default function PatientsSection() {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {ambulanceFleet.map((fleet) => (
-              <div 
+              <div
                 key={fleet.id}
                 className="bg-card border border-border/80 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 flex flex-col group"
               >
                 {/* Image Wrap */}
                 <div className="aspect-[16/10] overflow-hidden bg-muted relative border-b border-border/50">
-                  <img 
-                    src={fleet.image} 
-                    alt={fleet.type}
-                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-102"
-                  />
+                  <div className="relative h-full w-full overflow-hidden">
+
+                    <Image
+                      src={fleet.image}
+                      alt={fleet.type}
+                      fill
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-102"
+                    />
+                  </div>
+
+
+
+
+
+
                   <div className="absolute top-3 right-3 bg-background/80 backdrop-blur-md border border-border px-2.5 py-1 rounded-lg text-[11px] font-bold text-foreground">
                     24/7 Available
                   </div>
@@ -186,6 +199,9 @@ export default function PatientsSection() {
             ))}
           </div>
         </div>
+
+
+
 
       </div>
     </section>

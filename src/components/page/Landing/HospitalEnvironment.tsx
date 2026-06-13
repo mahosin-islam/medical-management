@@ -2,10 +2,11 @@
 
 import React from 'react';
 import { useRouter } from 'next/navigation';
-import {  FiArrowRight } from 'react-icons/fi';
+import { FiArrowRight } from 'react-icons/fi';
 import { RiShieldCrossLine } from 'react-icons/ri';
 import { MdOutlineCleanHands } from 'react-icons/md';
 import { BiBuildingHouse } from 'react-icons/bi';
+import Image from 'next/image';
 
 interface FeaturePoint {
   id: number;
@@ -45,17 +46,20 @@ export default function HospitalEnvironment() {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
-          
+
           {/* Left Column: Premium Interactive Imagery Area */}
           <div className="lg:col-span-6 space-y-4 order-2 lg:order-1">
             <div className="relative group rounded-[2rem] overflow-hidden bg-slate-100 dark:bg-muted/10 border border-slate-100 dark:border-border/30 shadow-[0_20px_50px_rgba(18,40,60,0.12)]">
-              
+
               {/* Main Medical/Hospital High-End Environment Image */}
               <div className="w-full h-full aspect-[4/3] sm:aspect-[16/11] overflow-hidden">
-                <img
+                <Image
                   src="https://images.unsplash.com/photo-1586773860418-d37222d8fce3?q=80&w=1173&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
                   alt="Modern Hospital Clinic Environment"
                   className="w-full h-full object-cover object-center transition-transform duration-700 ease-out group-hover:scale-102"
+                  fill // width/height এর বদলে fill ব্যবহার করা হলো
+                  priority
+
                 />
               </div>
 
@@ -69,7 +73,7 @@ export default function HospitalEnvironment() {
 
           {/* Right Column: Dynamic Typography & Core Feature Nodes */}
           <div className="lg:col-span-6 space-y-8 order-1 lg:order-2">
-            
+
             {/* Header Module */}
             <div className="space-y-3">
               <span className="text-xs font-bold tracking-widest uppercase text-teal-600 dark:text-primary block">
@@ -88,7 +92,7 @@ export default function HospitalEnvironment() {
             <div className="space-y-6">
               {features.map((feat) => (
                 <div key={feat.id} className="flex items-start gap-4 group">
-                  
+
                   {/* Icon Badge Holder */}
                   <div className="w-11 h-11 sm:w-12 sm:h-12 rounded-xl bg-slate-50 dark:bg-card text-[#12283c] dark:text-primary flex items-center justify-center shrink-0 border border-slate-100 dark:border-border/60 shadow-sm transition-all duration-300 group-hover:bg-[#0070f3] group-hover:text-white dark:group-hover:bg-primary dark:group-hover:text-primary-foreground group-hover:scale-105">
                     {feat.icon}

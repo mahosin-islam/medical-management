@@ -115,7 +115,7 @@ export default function FeedbackSection() {
 
                                     {/* Feedback Message */}
                                     <p className="text-xs md:text-sm text-muted-foreground leading-relaxed mb-6">
-                                        "{item.feedback}"
+                                        {item.feedback}
                                     </p>
                                 </div>
 

@@ -4,16 +4,17 @@
 import { motion, useAnimation, useInView } from "framer-motion";
 import { useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
-import { 
-  MapPin, 
-  Clock, 
-  Star, 
+import {
+  MapPin,
+  Clock,
+  Star,
   Calendar,
   Award,
   Video,
   MessageCircle,
   ChevronRight
 } from "lucide-react";
+import Image from "next/image";
 
 // Hardcoded Doctors Data
 const doctorsData = [
@@ -113,7 +114,7 @@ const doctorsData = [
     onlineConsultation: false,
     chamberPhone: "+880 1714-567890"
   },
- 
+
 ];
 
 export default function DoctorsSection() {
@@ -150,8 +151,8 @@ export default function DoctorsSection() {
           }}
           className="mb-12 text-center md:mb-16"
         >
-        
-         
+
+
 
           {/* Title */}
           <h2 className="mb-4 text-2xl font-bold tracking-tight text-foreground sm:text-3xl md:text-4xl lg:text-5xl">
@@ -166,7 +167,7 @@ export default function DoctorsSection() {
               />
             </span>
           </h2>
-          
+
           {/* Description */}
           <p className="mx-auto max-w-2xl text-sm text-muted-foreground md:text-base">
             Choose from our experienced doctors across various specialties for your healthcare needs
@@ -194,7 +195,7 @@ export default function DoctorsSection() {
               <div className="relative h-full overflow-hidden rounded-2xl border border-border bg-card transition-all duration-300 hover:border-primary/20 hover:shadow-2xl">
                 {/* Hover Glow Effect */}
                 <div className="absolute inset-0 bg-gradient-to-br from-primary/0 via-primary/0 to-transparent opacity-0 transition-all duration-500 group-hover:from-primary/10 group-hover:via-primary/5 group-hover:opacity-100" />
-                
+
                 {/* Available Badge */}
                 {doctor.available && (
                   <div className="absolute left-3 top-3 z-10">
@@ -217,16 +218,27 @@ export default function DoctorsSection() {
 
                 {/* Doctor Image */}
                 <div className="relative overflow-hidden">
-                  <div className="aspect-square w-full">
-                    <img
-                      src={doctor.image}
-                      alt={doctor.name}
-                      className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
-                    />
-                  </div>
+
+
+
+               {/* এখানে h-72 (অথবা আপনার ডিজাইনের সুবিধামতো h-64 / h-[300px]) এবং w-full যোগ করা হয়েছে */}
+<div className="relative h-72 w-full overflow-hidden rounded-t-xl">
+
+  <Image
+    src={doctor.image}
+    alt={doctor.name}
+    fill  
+    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" // পারফরম্যান্সের জন্য এটি দেওয়া ভালো
+    className="object-cover transition-transform duration-500 group-hover:scale-110" 
+  />
+
+</div>
+
+
+
                   {/* Overlay Gradient */}
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
-                  
+
                   {/* Quick View Button on Hover */}
                   <div className="absolute inset-0 flex items-center justify-center opacity-0 transition-opacity duration-300 group-hover:opacity-100">
                     <div className="rounded-full bg-white px-4 py-2 text-sm font-semibold text-primary shadow-lg dark:bg-gray-900">
@@ -244,7 +256,7 @@ export default function DoctorsSection() {
                   <p className="mb-2 text-xs text-primary">
                     {doctor.degree.split(',')[0]} • {doctor.specialty}
                   </p>
-                  
+
                   {/* Rating */}
                   <div className="mb-3 flex items-center gap-2">
                     <div className="flex items-center">

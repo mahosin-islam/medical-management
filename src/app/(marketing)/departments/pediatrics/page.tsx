@@ -70,7 +70,7 @@ export default function PediatricsPage() {
           <div className="sc-card">
             <h2 className="text-xl font-medium text-(--color-foreground) mb-4">About the department</h2>
             <p className="text-(--color-muted-foreground) leading-relaxed mb-3">
-              ShifaCare's Pediatrics Department offers comprehensive medical care for children
+              ShifaCares Pediatrics Department offers comprehensive medical care for children
               from birth through adolescence. Our team of six dedicated pediatricians and
               specialist nurses work together to provide a warm, child-friendly environment
               where young patients feel safe and cared for.
@@ -172,7 +172,7 @@ export default function PediatricsPage() {
             <div className="bg-(--color-primary) p-5">
               <CalendarPlus className="w-7 h-7 text-white mb-2" />
               <h3 className="text-white font-medium text-base">Book an appointment</h3>
-              <p className="text-white/70 text-sm mt-1">For your child's health, today.</p>
+              <p className="text-white/70 text-sm mt-1">For your childs health, today.</p>
             </div>
             <div className="bg-(--color-card) p-4 space-y-2">
               <Link href="/patient/appointments?dept=pediatrics" className="flex items-center justify-center gap-2 w-full py-2.5 rounded-lg bg-(--color-primary) text-white text-sm font-medium hover:opacity-90 transition-opacity">

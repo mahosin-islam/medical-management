@@ -53,7 +53,7 @@ export default function BestDoctors() {
   const router = useRouter();
 
   const handleSocialClick = (e: React.MouseEvent, url: string) => {
-    e.stopPropagation(); 
+    e.stopPropagation();
     if (url !== '#') {
       window.open(url, '_blank', 'noopener,noreferrer');
     }
@@ -62,7 +62,7 @@ export default function BestDoctors() {
   return (
     <section className=" bg-background transition-colors duration-300">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        
+
         {/* Section Title Header Area */}
         <div className="mb-16 text-center md:text-left space-y-2">
           <div className="text-xs font-bold tracking-widest uppercase text-teal-600 dark:text-primary">
@@ -81,18 +81,21 @@ export default function BestDoctors() {
               onClick={() => router.push(`/doctors/${doc.id}`)}
               className="group relative bg-white dark:bg-card border border-slate-100 dark:border-border/40 rounded-2xl p-4 shadow-sm hover:shadow-md transition-all duration-300 cursor-pointer overflow-hidden"
             >
-              
+
               {/* Doctor Visual Port Container */}
               <div className="w-full aspect-[4/5] bg-slate-50 dark:bg-muted/10 rounded-xl overflow-hidden relative">
                 <Image
                   src={doc.image}
                   alt={doc.name}
                   className="w-full h-full object-cover object-top pointer-events-none"
+                  fill // width/height এর বদলে fill ব্যবহার করা হলো
+                  priority
+
                 />
 
                 {/* Identity Presentation Board - (আপনার স্ক্রিনশটের ডিজাইনের অবিকল রূপ) */}
                 <div className="absolute bottom-4 left-1/2 -translate-x-1/2 w-[90%] bg-[#12283c] dark:bg-[#111c24] text-white rounded-xl p-4 text-center border border-white/5 shadow-lg transition-all duration-300 flex flex-col justify-center items-center">
-                  
+
                   {/* Text Information Core */}
                   <h4 className="text-sm sm:text-base font-bold tracking-tight text-white line-clamp-1">
                     {doc.name}
@@ -104,7 +107,7 @@ export default function BestDoctors() {
                   {/* Social Action Deck - মাউস হোভার করলে এটি ১ম কার্ড থেকে কনভার্ট হয়ে ২য় কার্ডের মতো রিভিল হবে */}
                   <div className="grid grid-rows-[0fr] opacity-0 transition-all duration-300 ease-in-out group-hover:grid-rows-[1fr] group-hover:opacity-100 group-hover:mt-3 group-hover:pt-2.5 group-hover:border-t group-hover:border-white/10 w-full">
                     <div className="overflow-hidden flex items-center justify-center gap-5">
-                      
+
                       <button
                         onClick={(e) => handleSocialClick(e, doc.socials.facebook)}
                         className="text-white/80 hover:text-white transition-colors cursor-pointer"
@@ -112,7 +115,7 @@ export default function BestDoctors() {
                       >
                         <FaFacebookF size={13} />
                       </button>
-                      
+
                       <button
                         onClick={(e) => handleSocialClick(e, doc.socials.twitter)}
                         className="text-white/80 hover:text-white transition-colors cursor-pointer"
@@ -120,7 +123,7 @@ export default function BestDoctors() {
                       >
                         <FaXTwitter size={13} />
                       </button>
-                      
+
                       <button
                         onClick={(e) => handleSocialClick(e, doc.socials.linkedin)}
                         className="text-white/80 hover:text-white transition-colors cursor-pointer"

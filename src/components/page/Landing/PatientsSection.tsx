@@ -2,64 +2,21 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { useInView, motion, useAnimation } from "framer-motion";
+import { useInView,  useAnimation } from "framer-motion";
 import {
   Heart,
   Clock,
-  Shield,
   Video,
   FileText,
-  CreditCard,
+
   Calendar,
   Users,
   ThumbsUp,
   ChevronRight,
-  PhoneCall
 } from "lucide-react";
 import Image from "next/image";
 
-const patientBenefits = [
-  {
-    id: 1,
-    title: "Easy Booking",
-    titleBn: "সহজ বুকিং",
-    description: "Book doctor appointments and active time sheets in under 60 seconds.",
-    icon: Calendar,
-    color: "text-blue-500",
-    bgColor: "bg-blue-50 dark:bg-blue-950/30",
-    stat: "50k+ Appointments"
-  },
-  {
-    id: 2,
-    title: "Save Time",
-    titleBn: "সময় বাঁচান",
-    description: "No long lines. Instantly schedule your visit based on live doctor slot sheets.",
-    icon: Clock,
-    color: "text-green-500",
-    bgColor: "bg-green-50 dark:bg-green-950/30",
-    stat: "Save 2+ Hours"
-  },
-  {
-    id: 3,
-    title: "Telemedicine",
-    titleBn: "টেলিমেডিসিন",
-    description: "Connect securely via embedded high-quality live video calls from home.",
-    icon: Video,
-    color: "text-purple-500",
-    bgColor: "bg-purple-50 dark:bg-purple-950/30",
-    stat: "500+ Online Doctors"
-  },
-  {
-    id: 4,
-    title: "Digital Records",
-    titleBn: "ডিজিটাল রেকর্ড",
-    description: "Access prescriptions, lab results, and patient charts securely in one vault.",
-    icon: FileText,
-    color: "text-teal-500",
-    bgColor: "bg-teal-50 dark:bg-teal-950/30",
-    stat: "Lifetime Storage"
-  }
-];
+
 
 const ambulanceFleet = [
   {
@@ -88,12 +45,7 @@ const ambulanceFleet = [
   }
 ];
 
-const stats = [
-  { value: "50k+", label: "Active Patients", icon: Users, color: "text-blue-500" },
-  { value: "98%", label: "Satisfaction Rate", icon: ThumbsUp, color: "text-green-500" },
-  { value: "500+", label: "Verified Specialists", icon: Heart, color: "text-red-500" },
-  { value: "24/7", label: "Instant Response", icon: Clock, color: "text-purple-500" }
-];
+
 
 export default function PatientsSection() {
   const containerRef = useRef(null);
@@ -163,10 +115,6 @@ export default function PatientsSection() {
                       className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-102"
                     />
                   </div>
-
-
-
-
 
 
                   <div className="absolute top-3 right-3 bg-background/80 backdrop-blur-md border border-border px-2.5 py-1 rounded-lg text-[11px] font-bold text-foreground">

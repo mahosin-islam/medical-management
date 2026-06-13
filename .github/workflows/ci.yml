@@ -11,28 +11,30 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    # ১. GitHub থেকে কোড নিয়ে আসা
     - name: Checkout repository
       uses: actions/checkout@v4
 
-    # ২. Node.js সেটআপ করা
     - name: Set up Node.js
       uses: actions/setup-node@v4
       with:
         node-version: 20
 
-    # ৩. গ্লোবালি pnpm ইনস্টল করা (আপনার প্রজেক্টের pnpm-lock.yaml ফাইল অনুযায়ী কাজ করবে)
     - name: Install pnpm
-      run: npm install -g pnpm
+      uses: pnpm/action-setup@v4
+      with:
+        version: latest
 
-    # ৪. ডিপেন্ডেন্সি ইনস্টল করা (সরাসরি মেইন রুটে)
     - name: Install dependencies
       run: pnpm install --frozen-lockfile
 
-    # ৫. কোডের ভুল বা ফরম্যাটিং চেক করা
     - name: Run Linter
       run: pnpm run lint
 
-    # ৬. নেক্সট জেএস প্রজেক্ট প্রোডাকশনের জন্য বিল্ড করা
     - name: Build Next.js application
       run: pnpm run build
+      env:
+        BETTER_AUTH_SECRET: ${{ secrets.BETTER_AUTH_SECRET }}
+        BETTER_AUTH_URL: ${{ secrets.BETTER_AUTH_URL }}
+        MONGODB_URL: ${{ secrets.MONGODB_URL }}
+        GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
+        GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}

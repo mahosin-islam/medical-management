@@ -2,7 +2,7 @@
 function Doctor() {
   return (
     <div className="h-screen">
-  <h2>hello doctor Mahosin islam</h2>
+  <h2>helle Docrot jara</h2>
 
     </div>
   )

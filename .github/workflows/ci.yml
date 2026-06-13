@@ -1,7 +1,5 @@
-# ১. পাইপলাইনের নাম
 name: Medical Management CI Pipeline
 
-# ২. পাইপলাইন কখন রান করবে
 on:
   push:
     branches: [ main ]
@@ -13,35 +11,31 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    # ৩. গিটহাবের ভার্চুয়াল কম্পিউটারে কোড নিয়ে আসা
+    # ১. GitHub থেকে কোড নিয়ে আসা
     - name: Checkout repository
       uses: actions/checkout@v4
 
-    # ৪. pnpm সেটআপ করা (কোনো অটো-ইনস্টল ছাড়া, একদম ক্লিন সেটআপ)
-    - name: Setup pnpm
-      uses: pnpm/action-setup@v4
-      with:
-        version: 9
-
-    # ৫. Node.js সেটআপ এবং pnpm ক্যাশ চালু করা
+    # ২. সরাসরি Node.js সেটআপ করা (ক্যাশ ছাড়া, যাতে প্রথমবার ফ্রেশ ইনস্টল হয়)
     - name: Set up Node.js
       uses: actions/setup-node@v4
       with:
         node-version: 20
-        cache: 'pnpm'
-        cache-dependency-path: ./my-app/pnpm-lock.yaml
 
-    # ৬. ডিপেন্ডেন্সি ইনস্টল করা (my-app ফোল্ডারের ভেতর)
+    # ৩. গ্লোবালি pnpm ইনস্টল করা (এটি কোনো এরর ছাড়াই ১০০% কাজ করবে)
+    - name: Install pnpm
+      run: npm install -g pnpm
+
+    # ৪. ডিপেন্ডেন্সি ইনস্টল করা (my-app ফোল্ডারের ভেতর)
     - name: Install dependencies
       working-directory: ./my-app
       run: pnpm install --frozen-lockfile
 
-    # ৭. কোডের ভুল বা ফরম্যাটিং চেক করা (my-app ফোল্ডারের ভেতর)
+    # ৫. কোডের ভুল বা ফরম্যাটিং চেক করা (my-app ফোল্ডারের ভেতর)
     - name: Run Linter
       working-directory: ./my-app
       run: pnpm run lint
 
-    # ৮. নেক্সট জেএস প্রজেক্ট প্রোডাকশনের জন্য বিল্ড করা
+    # ৬. নেক্সট জেএস প্রজেক্ট প্রোডাকশনের জন্য বিল্ড করা
     - name: Build Next.js application
       working-directory: ./my-app
       run: pnpm run build

@@ -1,0 +1,160 @@
+@import "tailwindcss";
+/* ==========================================================================
+   SHIFACARE GLOBAL SYSTEM THEME VARIABLE SYSTEM (Tailwind v4 @theme)
+   ========================================================================== */
+@theme {
+  /* --- Light Mode CSS Variables --- */
+  --color-background: hsl(210 40% 98%);      /* #f8fafc - Soft Gray Blue */
+  --color-foreground: hsl(222 47% 11%);     /* #0f172a - Dark Slate Text */
+  
+  --color-card: hsl(0 0% 100%);             /* #ffffff - Card Background */
+  --color-card-foreground: hsl(222 47% 11%);
+  
+  --color-sidebar: hsl(0 0% 100%);          /* Clean White Sidebar */
+  --color-sidebar-foreground: hsl(215 16% 47%);
+  
+  --color-primary: hsl(188 95% 18%);        /* #015668 - Core Brand Teal */
+  --color-primary-foreground: hsl(0 0% 100%);
+  
+  --color-muted: hsl(210 40% 96.1%);        /* #f1f5f9 - Subtle Lines */
+  --color-muted-foreground: hsl(215.4 16.3% 46.9%);
+  
+  --color-accent: hsl(187 75% 95%);         /* Hover state */
+  --color-accent-foreground: hsl(188 95% 18%);
+  
+  --color-border: hsl(214.3 32% 91.4%);     /* #e2e8f0 - Separators */
+  --color-input: hsl(214.3 32% 91.4%);
+  
+  /* --- Medical Status Variables --- */
+  --color-status-success: hsl(142 76% 36%);     /* Active / Operational Green */
+  --color-status-success-bg: hsl(138 76% 96%);
+  
+  --color-status-pending: hsl(24 95% 53%);      /* Pending Status Orange */
+  --color-status-pending-bg: hsl(32 95% 96%);
+  
+  --color-status-info: hsl(217 91% 60%);         /* Dynamic blue tags */
+  --color-status-info-bg: hsl(214 96% 96%);
+  
+  --radius-sc: 0.75rem;                          /* 12px Dashboard Curves */
+}
+
+/* ==========================================================================
+   DARK MODE OVERRIDES (.dark class base)
+   ========================================================================== */
+@variant dark (&:where(.dark, .dark *));
+
+.dark {
+  --color-background: hsl(224 71% 4%);       /* Deep Slate Charcoal Night */
+  --color-foreground: hsl(210 20% 98%);      /* White-gray text */
+  
+  --color-card: hsl(222 47% 7%);             /* Secondary Box base */
+  --color-card-foreground: hsl(210 20% 98%);
+  
+  --color-sidebar: hsl(224 71% 3%);          /* Darkest layout layer */
+  --color-sidebar-foreground: hsl(215 20% 65%);
+  
+  --color-primary: hsl(187 90% 38%);        /* Brighter teal for night */
+  --color-primary-foreground: hsl(222 47% 11%);
+  
+  --color-muted: hsl(217.2 32.6% 17.5%);     /* Grid lines */
+  --color-muted-foreground: hsl(215 20% 65%);
+  
+  --color-accent: hsl(217.2 32.6% 17.5%);
+  --color-accent-foreground: hsl(210 20% 98%);
+  
+  --color-border: hsl(217.2 32.6% 17.5%);
+  --color-input: hsl(217.2 32.6% 17.5%);
+
+  /* --- Dark Mode Status Adjustment --- */
+  --color-status-success-bg: hsl(142 70% 10%);
+  --color-status-pending-bg: hsl(24 90% 10%);
+  --color-status-info-bg: hsl(217 90% 12%);
+}
+
+/* ==========================================================================
+   BASE & CUSTOM UTILITIES
+   ========================================================================== */
+   
+   @utility sc-card {
+  background-color: var(--color-card);
+  color: var(--color-card-foreground);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sc);
+  padding: 1.25rem;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  transition: all 0.2s;
+}
+
+@utility badge-success {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.25rem 0.625rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  background-color: var(--color-status-success-bg);
+  color: var(--color-status-success);
+}
+
+@utility badge-pending {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.25rem 0.625rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  background-color: var(--color-status-pending-bg);
+  color: var(--color-status-pending);
+}
+
+body {
+  background-color: var(--color-background);
+  color: var(--color-foreground);
+  transition-property: color, background-color;
+  transition-duration: 300ms;
+}
+
+
+/* globals.css - আপনার existing CSS এর সাথে যোগ করুন */
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-20px); }
+}
+
+@keyframes float-slow {
+  0%, 100% { transform: translateY(0px) translateX(0px); }
+  50% { transform: translateY(-15px) translateX(10px); }
+}
+
+@keyframes float-slower {
+  0%, 100% { transform: translateY(0px) translateX(0px); }
+  50% { transform: translateY(-10px) translateX(-10px); }
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+.animate-float-slow {
+  animation: float-slow 5s ease-in-out infinite;
+}
+
+.animate-float-slower {
+  animation: float-slower 7s ease-in-out infinite;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background-color: var(--color-border);
+  border-radius: 9999px;
+}

@@ -1,13 +1,15 @@
 {
   "name": "my-app",
   "version": "0.1.0",
-  "private": true,
-"scripts": {
-  "dev": "next dev --turbo",
-  "build": "next build",
-  "start": "next start",
-  "lint": "echo 'Skipping Linting during build'"  
-},
+  "pnpm": {
+    "onlyBuiltDependencies": ["sharp", "unrs-resolver"]
+  },
+  "scripts": {
+    "dev": "next dev --turbo",
+    "build": "next build",
+    "start": "next start",
+    "lint": "echo 'Skipping Linting during build'"
+  },
   "dependencies": {
     "@hookform/resolvers": "^5.4.0",
     "better-auth": "^1.6.15",

@@ -15,27 +15,24 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v4
 
-    # ২. সরাসরি Node.js সেটআপ করা (ক্যাশ ছাড়া, যাতে প্রথমবার ফ্রেশ ইনস্টল হয়)
+    # ২. Node.js সেটআপ করা
     - name: Set up Node.js
       uses: actions/setup-node@v4
       with:
         node-version: 20
 
-    # ৩. গ্লোবালি pnpm ইনস্টল করা (এটি কোনো এরর ছাড়াই ১০০% কাজ করবে)
+    # ৩. গ্লোবালি pnpm ইনস্টল করা (আপনার প্রজেক্টের pnpm-lock.yaml ফাইল অনুযায়ী কাজ করবে)
     - name: Install pnpm
       run: npm install -g pnpm
 
-    # ৪. ডিপেন্ডেন্সি ইনস্টল করা (my-app ফোল্ডারের ভেতর)
+    # ৪. ডিপেন্ডেন্সি ইনস্টল করা (সরাসরি মেইন রুটে)
     - name: Install dependencies
-      working-directory: ./my-app
       run: pnpm install --frozen-lockfile
 
-    # ৫. কোডের ভুল বা ফরম্যাটিং চেক করা (my-app ফোল্ডারের ভেতর)
+    # ৫. কোডের ভুল বা ফরম্যাটিং চেক করা
     - name: Run Linter
-      working-directory: ./my-app
       run: pnpm run lint
 
     # ৬. নেক্সট জেএস প্রজেক্ট প্রোডাকশনের জন্য বিল্ড করা
     - name: Build Next.js application
-      working-directory: ./my-app
       run: pnpm run build

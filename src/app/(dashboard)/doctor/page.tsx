@@ -36,7 +36,7 @@ export default function DashboardPage() {
             Welcome back, Dr. Siam Khan
           </h1>
           <p className="text-muted-foreground text-sm mt-1">
-            Here's what is happening with your chamber today.
+            Heres what is happening with your chamber today.
           </p>
         </div>
         <div className="text-sm font-semibold text-primary bg-accent px-4 py-2.5 rounded-2xl border border-border self-start md:self-auto transition-colors">
@@ -133,7 +133,7 @@ export default function DashboardPage() {
           </div>
         </div>
 
-        {/* Right Side: Today's Appointments (Takes 1 column) */}
+        {/* Right Side: Todays Appointments (Takes 1 column) */}
         <div className="sc-card flex flex-col justify-between">
           <div>
             <h3 className="font-bold text-foreground text-lg mb-6">Upcoming Today</h3>

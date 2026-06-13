@@ -66,7 +66,7 @@ export default function NeurologyPage() {
             <p className="text-(--color-muted-foreground) leading-relaxed mb-3">
               The Neurology Department at ShifaCare provides specialized care for a full
               range of neurological conditions — from common headaches and migraines to
-              complex disorders like Parkinson's disease, epilepsy, and stroke.
+              complex disorders like Parkinson&apos;s disease, epilepsy, and stroke. {/* FIXED LINE */}
             </p>
             <p className="text-(--color-muted-foreground) leading-relaxed">
               Our department features a dedicated Stroke Unit with rapid-response protocols,
@@ -180,8 +180,8 @@ export default function NeurologyPage() {
               { day: "Sat – Wed", time: "6:00 PM – 8:00 PM" },
               { day: "Thursday", time: "10:00 AM – 1:00 PM" },
               { day: "Friday", time: "Closed" },
-            ].map((t) => (
-              <div key={t.day + t.time} className="flex justify-between py-2 border-b border-(--color-border) last:border-0 text-sm">
+            ].map((t, idx) => ( // FIXED KEY USING INDEX
+              <div key={idx} className="flex justify-between py-2 border-b border-(--color-border) last:border-0 text-sm">
                 <span className="text-(--color-muted-foreground)">{t.day}</span>
                 <span className={t.time === "Closed" ? "text-red-500 font-medium" : "text-(--color-primary) font-medium"}>{t.time}</span>
               </div>

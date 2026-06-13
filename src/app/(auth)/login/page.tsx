@@ -145,7 +145,7 @@ export default function LoginPage() {
 
       {/* Navigation Redirect Link */}
       <div className="text-center text-sm text-muted-foreground pt-2">
-        Don't have an account?{' '}
+        Dont have an account?{' '}
         <Link href="/singup" className="font-bold text-primary hover:underline underline-offset-4">
           Sign up
         </Link>

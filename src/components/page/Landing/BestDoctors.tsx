@@ -4,6 +4,7 @@ import React from 'react';
 import { useRouter } from 'next/navigation';
 // রিকোয়ার্ড সোশ্যাল আইকনগুলো react-icons/fa6 থেকে নেওয়া হয়েছে
 import { FaFacebookF, FaXTwitter, FaLinkedinIn } from 'react-icons/fa6';
+import Image from 'next/image';
 
 interface Doctor {
   id: number;
@@ -83,7 +84,7 @@ export default function BestDoctors() {
               
               {/* Doctor Visual Port Container */}
               <div className="w-full aspect-[4/5] bg-slate-50 dark:bg-muted/10 rounded-xl overflow-hidden relative">
-                <img
+                <Image
                   src={doc.image}
                   alt={doc.name}
                   className="w-full h-full object-cover object-top pointer-events-none"

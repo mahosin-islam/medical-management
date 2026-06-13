@@ -27,7 +27,7 @@ export default function NotFound() {
           Case File Not Found
         </h2>
         <p className="text-sm text-muted-foreground max-w-sm mx-auto mb-8 leading-relaxed">
-          The medical record, patient file, or workspace page you are looking for doesn't exist, has been restricted, or was moved to another department.
+          The medical record, patient file, or workspace page you are looking for doesnt exist, has been restricted, or was moved to another department.
         </p>
 
         {/* Dynamic Navigation Action Buttons */}

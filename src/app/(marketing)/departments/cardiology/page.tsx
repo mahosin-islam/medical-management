@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import {
   HeartPulse, CheckCircle2, Clock, CalendarPlus,
-  ChevronRight, Users, Star, Phone, ArrowRight,
+  ChevronRight, Users,  Phone, ArrowRight,
 } from "lucide-react";
 
 export default function CardiologyPage() {

@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { useRouter } from 'next/navigation';
-import { FiCheckCircle, FiArrowRight } from 'react-icons/fi';
+import {  FiArrowRight } from 'react-icons/fi';
 import { RiShieldCrossLine } from 'react-icons/ri';
 import { MdOutlineCleanHands } from 'react-icons/md';
 import { BiBuildingHouse } from 'react-icons/bi';

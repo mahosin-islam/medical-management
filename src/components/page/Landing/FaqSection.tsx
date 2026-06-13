@@ -110,7 +110,7 @@ export default function FaqSection() {
               <div className="space-y-2">
                 <h3 className="text-xl font-bold tracking-tight">Any More Questions?</h3>
                 <p className="text-xs sm:text-sm text-slate-300 font-medium leading-relaxed">
-                  Can't find the answers you are looking for? Get in touch with our dedicated medical support team.
+                  Cant find the answers you are looking for? Get in touch with our dedicated medical support team.
                 </p>
               </div>
 

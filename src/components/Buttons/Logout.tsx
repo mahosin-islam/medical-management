@@ -6,7 +6,7 @@ import { useState } from 'react';
 import { LogOut } from 'lucide-react'; // দেখতে সুন্দর লাগার জন্য আইকন (ঐচ্ছিক)
 
 function Logout() {
-  const router = useRouter();
+
   const [isLoading, setIsLoading] = useState(false); // লোডিং স্টেট
 
   async function handleLogOut() {

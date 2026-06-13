@@ -2,7 +2,8 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import { ShieldCheck, HeartPulse, Target, Eye } from 'lucide-react';
+import { ShieldCheck,  Target, Eye } from 'lucide-react';
+import Image from 'next/image';
 
 export default function AboutSection() {
   return (
@@ -38,23 +39,29 @@ export default function AboutSection() {
         {/* Middle Grid: Premium Image Presentation & Core Statements */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center mb-16">
           
-          {/* Visual Presentation Frame */}
-          <motion.div 
-            initial={{ opacity: 0, x: -30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="lg:col-span-5 relative"
-          >
-            <div className="absolute inset-0 bg-gradient-to-tr from-teal-500/10 to-transparent rounded-3xl blur-xl pointer-events-none" />
-            <div className="aspect-[4/5] rounded-3xl overflow-hidden border border-border bg-muted/20 shadow-lg">
-              <img 
-                src="https://images.unsplash.com/photo-1516549655169-df83a0774514?w=800&auto=format&fit=crop&q=80" 
-                alt="Modern healthcare facility environment"
-                className="w-full h-full object-cover object-center grayscale hover:grayscale-0 transition-all duration-700 hover:scale-102"
-              />
-            </div>
-          </motion.div>
+  <motion.div 
+      initial={{ opacity: 0, x: -30 }}
+      whileInView={{ opacity: 1, x: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.6 }}
+      className="lg:col-span-5 relative"
+    >
+      <div className="absolute inset-0 bg-gradient-to-tr from-teal-500/10 to-transparent rounded-3xl blur-xl pointer-events-none" />
+      
+      <div className="aspect-[4/5] rounded-3xl overflow-hidden border border-border bg-muted/20 shadow-lg relative"> 
+        {/* লিনাক্স/নেক্সট জেএস-এ fill ব্যবহার করলে প্যারেন্ট ডিভে 'relative' ক্লাস থাকা বাধ্যতামূলক */}
+        
+        <Image 
+          src="https://images.unsplash.com/photo-1516549655169-df83a0774514?w=800&auto=format&fit=crop&q=80" 
+          alt="Modern healthcare facility environment"
+          fill // এর মানে ইমেজটি পুরো ডিভ জুড়ে থাকবে
+          sizes="(max-width: 1024px) 100vw, 40vw" // রেস্পন্সিভ পারফরম্যান্স আরও ভালো করার জন্য
+          priority // ফাস্ট লোডের জন্য (LCP ফিক্স করার বেস্ট ওয়ে)
+          className="w-full h-full object-cover object-center grayscale hover:grayscale-0 transition-all duration-700 hover:scale-102"
+        />
+
+      </div>
+    </motion.div>
 
           {/* Mission & Vision Framework Blocks */}
           <div className="lg:col-span-7 space-y-6">

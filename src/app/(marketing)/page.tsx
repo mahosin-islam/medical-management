@@ -11,7 +11,6 @@ import CtaBanner from "@/components/page/Landing/CtaBanner"
 import HospitalEnvironment from "@/components/page/Landing/HospitalEnvironment"
 import FeedbackSection from "@/components/page/Landing/FeedbackSection"
 import Hero from "@/components/web/Hero"
-import { div } from "framer-motion/client"
 
 function HomePage() {
   return (

@@ -144,7 +144,7 @@ export default function FeaturesGrid() {
           animate={controls}
           className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3"
         >
-          {featuresData.map((feature, idx) => {
+          {featuresData.map((feature, ) => {
             const Icon = feature.icon;
             return (
               <motion.div

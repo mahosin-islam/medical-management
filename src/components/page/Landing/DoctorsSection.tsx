@@ -1,11 +1,10 @@
-// app/components/doctors/DoctorsSection.tsx
+
 "use client";
 
 import { motion, useAnimation, useInView } from "framer-motion";
 import { useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { 
-  Stethoscope, 
   MapPin, 
   Clock, 
   Star, 

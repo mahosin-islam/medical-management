@@ -25,10 +25,12 @@ jobs:
         version: latest
 
     - name: Install dependencies
-      run: pnpm install --frozen-lockfile
+      run: pnpm install --frozen-lockfile --ignore-scripts
 
-    - name: Approve build scripts
-      run: pnpm approve-builds --all
+    - name: Build scripts approve
+      run: |
+        pnpm rebuild sharp
+        pnpm rebuild unrs-resolver
 
     - name: Run Linter
       run: pnpm run lint

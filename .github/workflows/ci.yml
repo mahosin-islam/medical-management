@@ -30,7 +30,7 @@ jobs:
     - name: Build scripts approve
       run: |
         pnpm rebuild sharp
-        pnpm rebuild unres-resolver
+        pnpm rebuild unrs-resolver
 
     - name: Run Linter
       run: pnpm run lint
@@ -44,11 +44,11 @@ jobs:
         GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
         GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
 
-    # === Vercel-এ ডেপ্লয় করার জন্য স্টেপ ===
+        # === এই নিচের অংশটুকু যুক্ত করতে হবে Vercel-এ পাঠানোর জন্য ===
     - name: Deploy to Vercel
       uses: amondnet/vercel-action@v25
       with:
-        vercel-token: ${{ secrets.VERCEL_TOKEN }}
+        vercel-token: ${{ secrets.VERCEL_TOKEN }} # GitHub Settings-এ এই সিক্রেটগুলোও লাগবে
         vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
         vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
         vercel-args: '--prod'

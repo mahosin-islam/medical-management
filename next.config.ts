@@ -1,6 +1,6 @@
 import type { NextConfig } from "next";
 
-const nextConfig: NextConfig = {
+const nextConfig = {
   images: {
     remotePatterns: [
       {
@@ -19,16 +19,14 @@ const nextConfig: NextConfig = {
         protocol: "https",
         hostname: "cureandcarehospital.com",
       },
-
     ],
   },
- typescript: {
+  typescript: {
     ignoreBuildErrors: false, 
   },
-  // এখানে টাইপস্ক্রিপ্টের এরর এড়াতে আমরা টাইপটিকে স্যাটিসফাই (satisfies) করে দিতে পারি
   eslint: {
     ignoreDuringBuilds: false,
   },
-} as any; // অথবা সরাসরি NextConfig-এর কড়া টাইপ চেক সাময়িকভাবে শিথিল করতে পারেন
+} satisfies NextConfig; // এখানে টাইপটি চেক করা হচ্ছে
 
 export default nextConfig;

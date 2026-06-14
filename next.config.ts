@@ -24,9 +24,6 @@ const nextConfig = {
   typescript: {
     ignoreBuildErrors: false, 
   },
-  eslint: {
-    ignoreDuringBuilds: false,
-  },
 } satisfies NextConfig; // এখানে টাইপটি চেক করা হচ্ছে
 
 export default nextConfig;

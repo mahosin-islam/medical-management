@@ -43,12 +43,3 @@ jobs:
         MONGODB_URL: ${{ secrets.MONGODB_URL }}
         GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
         GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
-
-        # === এই নিচের অংশটুকু যুক্ত করতে হবে Vercel-এ পাঠানোর জন্য ===
-    - name: Deploy to Vercel
-      uses: amondnet/vercel-action@v25
-      with:
-        vercel-token: ${{ secrets.VERCEL_TOKEN }} # GitHub Settings-এ এই সিক্রেটগুলোও লাগবে
-        vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
-        vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
-        vercel-args: '--prod'

@@ -5,7 +5,7 @@ function Doctor() {
     <div className="h-screen">
           <div className="py-10 pl-10">
             <h2>Doctor  naem's Mahosin</h2>
-            <h4>mama kan </h4>
+            <h2>Hello DhKA</h2>
           </div>
     </div>
   )

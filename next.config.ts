@@ -24,7 +24,7 @@ const nextConfig: NextConfig = {
   },
   // Next.js 16-এ শুধুমাত্র typescript এরর ইগনোর করার অপশনটি ভ্যালিড আছে
   typescript: {
-    ignoreBuildErrors: true,
+    ignoreBuildErrors: false,
   },
 };
 

@@ -30,7 +30,7 @@ jobs:
     - name: Build scripts approve
       run: |
         pnpm rebuild sharp
-        pnpm rebuild unrs-resolver
+        pnpm rebuild unres-resolver
 
     - name: Run Linter
       run: pnpm run lint
@@ -43,3 +43,12 @@ jobs:
         MONGODB_URL: ${{ secrets.MONGODB_URL }}
         GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
         GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
+
+    # === Vercel-এ ডেপ্লয় করার জন্য স্টেপ ===
+    - name: Deploy to Vercel
+      uses: amondnet/vercel-action@v25
+      with:
+        vercel-token: ${{ secrets.VERCEL_TOKEN }}
+        vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+        vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
+        vercel-args: '--prod'

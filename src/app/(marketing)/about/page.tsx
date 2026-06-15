@@ -15,6 +15,8 @@ export default function AboutSection() {
         <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-emerald-500/5 dark:bg-primary/5 rounded-full blur-3xl" />
       </div>
 
+      <h1>This is a about page</h1>
+
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         
         {/* Top Grid: Title and Main Description */}
@@ -46,9 +48,9 @@ export default function AboutSection() {
       transition={{ duration: 0.6 }}
       className="lg:col-span-5 relative"
     >
-      <div className="absolute inset-0 bg-gradient-to-tr from-teal-500/10 to-transparent rounded-3xl blur-xl pointer-events-none" />
+      <div className="absolute inset-0 bg-linear-to-tr from-teal-500/10 to-transparent rounded-3xl blur-xl pointer-events-none" />
       
-      <div className="aspect-[4/5] rounded-3xl overflow-hidden border border-border bg-muted/20 shadow-lg relative"> 
+      <div className="aspect-4/5 rounded-3xl overflow-hidden border border-border bg-muted/20 shadow-lg relative"> 
         {/* লিনাক্স/নেক্সট জেএস-এ fill ব্যবহার করলে প্যারেন্ট ডিভে 'relative' ক্লাস থাকা বাধ্যতামূলক */}
         
         <Image 

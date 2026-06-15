@@ -15,7 +15,7 @@ export default function AboutSection() {
         <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-emerald-500/5 dark:bg-primary/5 rounded-full blur-3xl" />
       </div>
 
-      <h1>This is a about page</h1>
+      <h1>This is Mahosin</h1>
 
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         

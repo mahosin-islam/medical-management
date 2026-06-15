@@ -1,12 +1,19 @@
-
 import { createAuthClient } from "better-auth/react"
 import { inferAdditionalFields } from "better-auth/client/plugins"
-// 🌟 ২. আপনার মেইন auth.ts ফাইলের টাইপ ইম্পোর্ট করুন (পাথ ঠিক আছে কিনা দেখে নেবেন)
 import type { auth } from "./auth" 
 
+// 🚀 ফিক্স: উইন্ডো অবজেক্ট চেক করে ডাইনামিকালি কারেন্ট ইউআরএল নেওয়া হচ্ছে
+// এটি লোকালহোস্টে থাকলে localhost নেবে, ভার্সেলে গেলে অটোমেটিক লাইভ ডোমেইন নিয়ে নেবে!
+const getBaseUrl = () => {
+    if (typeof window !== "undefined") {
+        return window.location.origin; // ব্রাউজারের লাইভ ডোমেইন
+    }
+    return process.env.BETTER_AUTH_URL || "http://localhost:3000"; // সার্ভার সাইড ব্যাকআপ
+};
+
 export const authClient = createAuthClient({
-    baseURL: process.env.BETTER_AUTH_URL || "http://localhost:3000",
-    // 🌟 ৩. প্লাগইনটি এখানে যুক্ত করে দিন
+    baseURL: getBaseUrl(), 
+    
     plugins: [
         inferAdditionalFields<typeof auth>()
     ]

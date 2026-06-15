@@ -20,7 +20,7 @@ interface DoctorData {
 async function getDoctors(): Promise<DoctorData[]> {
   try {
     // 🎯 আপনার লোকাল বা প্রোডাকশন ইউআরএল অনুযায়ী ফেচ হবে
-    const baseUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
+    const baseUrl = process.env.BETTER_AUTH_URL || "http://localhost:3000";
     const res = await fetch(`${baseUrl}/api/home/doctors`, { 
       cache: "no-store" // প্রতিবার লেটেস্ট ডাটা রিফ্লেক্ট করার জন্য
     });

@@ -24,6 +24,7 @@ import {
   CreditCard,
   BarChart3,
 } from "lucide-react";
+import Link from "next/link";
 
 import { useState } from "react";
 
@@ -146,10 +147,12 @@ export default function AdminDashboardPage() {
             <Download className="w-4 h-4 text-muted-foreground" />
             Export Report
           </button>
+         <Link href="/admin/add-doctor">
           <button className="bg-primary text-primary-foreground text-sm font-semibold px-5 py-2.5 rounded-2xl hover:opacity-90 transition-all flex items-center gap-2 cursor-pointer shadow-md active:scale-95">
             <UserPlus className="w-4 h-4" />
             Add Doctor
           </button>
+         </Link>
         </div>
       </div>
 

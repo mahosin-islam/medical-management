@@ -1,10 +1,11 @@
-import { FeatherIcon, Sun } from "lucide-react"
-
+import FindDocot from "@/components/page/doctor/FindDocot"
 function Doctor() {
   return (
     <div className="h-screen">
-          <div className="py-10 pl-10">
-             <h2>Today pracitc's text</h2>
+          <div className="">
+            
+                   <FindDocot/>
+           
           </div>
     </div>
   )

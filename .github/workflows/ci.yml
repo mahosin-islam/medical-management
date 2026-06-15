@@ -1,5 +1,4 @@
 name: Medical Management CI Pipeline
-
 on:
   push:
     branches: [ main ]

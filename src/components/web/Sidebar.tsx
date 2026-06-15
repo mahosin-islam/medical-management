@@ -8,7 +8,8 @@ import { motion, AnimatePresence } from "framer-motion";
 import { 
   LayoutDashboard, CalendarDays, Users, FileText, CreditCard, Settings, LogOut, Menu, X, Activity,
   Stethoscope, Building2, BarChart3, Package, ClipboardList, ShieldCheck, Bell, FlaskConical, Video,
-  MessageSquare, Clock, NotebookPen, DollarSign, UserCircle, FolderHeart
+  MessageSquare, Clock, NotebookPen, DollarSign, UserCircle, FolderHeart,
+  Plus
 } from "lucide-react";
 
 const adminMenuItems = [
@@ -23,11 +24,12 @@ const adminMenuItems = [
   { name: "Audit Logs",    href: "/admin/audit-logs",     icon: ClipboardList },
   { name: "Roles",         href: "/admin/roles",          icon: ShieldCheck },
   { name: "Notifications", href: "/admin/notifications",  icon: Bell },
+  { name: "AddDoctor", href: "/admin/add-doctor",  icon: Plus },
   { name: "Settings",      href: "/admin/settings",       icon: Settings },
 ];
 
 const doctorMenuItems = [
-  { name: "Dashboard",     href: "/doctor/dashboard",     icon: LayoutDashboard },
+  { name: "Dashboard",     href: "/doctor",     icon: LayoutDashboard },
   { name: "Appointments",  href: "/doctor/appointments", icon: CalendarDays },
   { name: "My Patients",   href: "/doctor/patients",     icon: Users },
   { name: "Prescriptions", href: "/doctor/prescriptions",icon: FileText },
@@ -41,7 +43,7 @@ const doctorMenuItems = [
 ];
 
 const patientMenuItems = [
-  { name: "Dashboard",       href: "/patient/dashboard",       icon: LayoutDashboard },
+  { name: "Dashboard",       href: "/patient",       icon: LayoutDashboard },
   { name: "Appointments",    href: "/patient/appointments",    icon: CalendarDays },
   { name: "Find Doctors",    href: "/patient/doctors",         icon: Stethoscope },
   { name: "Prescriptions",   href: "/patient/prescriptions",    icon: FileText },

@@ -15,7 +15,7 @@ import Hero from "@/components/web/Hero"
 function HomePage() {
   return (
     <div>
-        <Hero/>
+       <Hero/>
       <div className='w-full px-10'>
       <DoctorsSection />
       <FeaturesGrid />

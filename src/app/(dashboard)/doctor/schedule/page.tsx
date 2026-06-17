@@ -17,6 +17,11 @@ export default function DoctorSchedulePage() {
     defaultValues: {
       clinicAddress: "",
       consultationFee: 500,
+      chamberPhone: "", // 🌟 নতুন
+      experience: 0,   // 🌟 নতুন
+      hospital: "",     // 🌟 নতুন
+      education: "",    // 🌟 নতুন
+      specialization: "", // 🌟 নতুন
       availableDays: [],
       startTime: "10:00 AM",
       endTime: "03:00 PM",
@@ -29,16 +34,13 @@ export default function DoctorSchedulePage() {
   const selectedDays = watch("availableDays") || [];
   const doctorEmail = session?.user?.email; 
 
-  // 🎯 ডাইনামিক মাসের লিস্ট জেনারেট করার লজিক 
   const getDynamicMonths = () => {
     const months = [];
     const currentDate = new Date();
-
     for (let i = 0; i < 4; i++) {
       const futureDate = new Date(currentDate.getFullYear(), currentDate.getMonth() + i, 1);
       const monthName = futureDate.toLocaleString('default', { month: 'long' }); 
       const year = futureDate.getFullYear(); 
-      
       months.push({
         label: `${monthName} ${year}`, 
         value: i + 1 
@@ -49,7 +51,6 @@ export default function DoctorSchedulePage() {
 
   const dynamicMonths = getDynamicMonths();
 
-  // 🔄 ডাটাবেজ থেকে ডাটা এনে ফর্ম প্রি-ফিল (Pre-fill) করা
   useEffect(() => {
     if (!doctorEmail) return;
 
@@ -58,10 +59,16 @@ export default function DoctorSchedulePage() {
         const res = await fetch(`/api/doctor/profile?email=${doctorEmail}`, { method: "GET" });
         if (res.ok) {
           const data = await res.json();
-          if (data?.scheduleConfig || data?.bioDetails) {
+          if (data) {
             reset({
               clinicAddress: data.bioDetails?.clinicAddress || "",
               consultationFee: data.bioDetails?.consultationFee || 500,
+              chamberPhone: data.bioDetails?.chamberPhone || "", // 🌟 প্রি-ফিল
+              experience: data.experience || 0,                 // 🌟 প্রি-ফিল
+              hospital: data.hospital || "",                     // 🌟 প্রি-ফিল
+              // অ্যারে ডেটাকে ফ্রন্টএন্ড কমা সেপারেটেড স্ট্রিং বানিয়ে দেখানো হচ্ছে
+              education: Array.isArray(data.education) ? data.education.join(", ") : "", 
+              specialization: Array.isArray(data.specialization) ? data.specialization.join(", ") : "",
               availableDays: data.scheduleConfig?.availableDays || [],
               startTime: data.scheduleConfig?.startTime || "10:00 AM",
               endTime: data.scheduleConfig?.endTime || "03:00 PM",
@@ -117,7 +124,7 @@ export default function DoctorSchedulePage() {
       <div className="mb-6">
         <h2 className="text-2xl font-bold text-zinc-900 dark:text-zinc-50">Doctor Dashboard & Schedule Planner</h2>
         <p className="text-sm text-zinc-500 dark:text-zinc-400 mt-1">
-          আপনার চেম্বারের প্রোফাইল এবং আগামী কয়েক মাসের রোগী দেখার শিডিউল এখান থেকে সেট করুন।
+          আপনার চেম্বারের প্রফেশনাল প্রোফাইল এবং রোগী দেখার সাপ্তাহিক শিডিউল এখান থেকে ম্যানেজ করুন।
         </p>
       </div>
 
@@ -128,15 +135,44 @@ export default function DoctorSchedulePage() {
       )}
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-        {/* চেম্বার ও ফি ইনফো */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        
+        {/* 🌟 নতুন প্রফেশনাল সেকশন ১: বেসিক এক্সপেরিয়েন্স ও হসপিটাল */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 border-b border-zinc-100 dark:border-zinc-900 pb-4">
           <div>
-            <label className="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-1">Chamber / Clinic Address</label>
-            <input type="text" {...register("clinicAddress")} placeholder="e.g. Popular Diagnostic, Dhanmondi" className="w-full px-3 py-2 border rounded-lg dark:bg-zinc-900 dark:border-zinc-700 text-zinc-900 dark:text-zinc-100" />
+            <label className="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-1">Current Hospital Name</label>
+            <input type="text" {...register("hospital")} placeholder="e.g. United Hospital Ltd." className="w-full px-3 py-2 border rounded-lg dark:bg-zinc-900 dark:border-zinc-700 text-zinc-900 dark:text-zinc-100" />
           </div>
           <div>
+            <label className="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-1">Years of Experience</label>
+            <input type="number" {...register("experience")} placeholder="e.g. 12" className="w-full px-3 py-2 border rounded-lg dark:bg-zinc-900 dark:border-zinc-700 text-zinc-900 dark:text-zinc-100" />
+          </div>
+        </div>
+
+        {/* চেম্বার ও ফি ইনফো */}
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <div className="sm:col-span-1">
+            <label className="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-1">Chamber Phone Number</label>
+            <input type="text" {...register("chamberPhone")} placeholder="e.g. +880 171X-XXXXXX" className="w-full px-3 py-2 border rounded-lg dark:bg-zinc-900 dark:border-zinc-700 text-zinc-900 dark:text-zinc-100" />
+          </div>
+          <div className="sm:col-span-1">
             <label className="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-1">Consultation Fee (BDT)</label>
             <input type="number" {...register("consultationFee")} className="w-full px-3 py-2 border rounded-lg dark:bg-zinc-900 dark:border-zinc-700 text-zinc-900 dark:text-zinc-100" />
+          </div>
+          <div className="sm:col-span-1">
+            <label className="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-1">Chamber Address</label>
+            <input type="text" {...register("clinicAddress")} placeholder="e.g. Block B, Dhanmondi" className="w-full px-3 py-2 border rounded-lg dark:bg-zinc-900 dark:border-zinc-700 text-zinc-900 dark:text-zinc-100" />
+          </div>
+        </div>
+
+        {/* 🌟 নতুন প্রফেশনাল সেকশন ২: এডুকেশন এবং স্পেশালাইজেশন ট্যাগ লজিক */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 border-t border-zinc-100 dark:border-zinc-900 pt-4">
+          <div>
+            <label className="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-1">Education Degrees (comma separated)</label>
+            <textarea {...register("education")} placeholder="MBBS - DMC (2005), MS (Ortho) - NITOR (2012)" rows={2} className="w-full px-3 py-2 border rounded-lg dark:bg-zinc-900 dark:border-zinc-700 text-zinc-900 dark:text-zinc-100 text-sm" />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-1">Specializations (comma separated)</label>
+            <textarea {...register("specialization")} placeholder="Joint Replacement, Spine Surgery, Sports Injury" rows={2} className="w-full px-3 py-2 border rounded-lg dark:bg-zinc-900 dark:border-zinc-700 text-zinc-900 dark:text-zinc-100 text-sm" />
           </div>
         </div>
 
@@ -154,7 +190,6 @@ export default function DoctorSchedulePage() {
                     if (e.target.checked) {
                       setValue("availableDays", [...selectedDays, day]);
                     } else {
-                      // 🎯 টাইপ ফিক্স: (d: string) করে দেওয়া হলো
                       setValue("availableDays", selectedDays.filter((d: string) => d !== day));
                     }
                   }}
@@ -168,40 +203,27 @@ export default function DoctorSchedulePage() {
 
         {/* সময়, রোগী লিমিট এবং ডাইনামিক মাস */}
         <div className="grid grid-cols-1 sm:grid-cols-4 gap-4 items-end">
-          
-          {/* কাস্টম স্টার্ট টাইম পিকার */}
           <Controller
             name="startTime"
             control={control}
             render={({ field }) => (
-              <TimePicker 
-                label="Start Time" 
-                value={field.value} 
-                onChange={field.onChange} 
-              />
+              <TimePicker label="Start Time" value={field.value} onChange={field.onChange} />
             )}
           />
 
-          {/* কাস্টম এন্ড টাইম পিকার */}
           <Controller
             name="endTime"
             control={control}
             render={({ field }) => (
-              <TimePicker 
-                label="End Time" 
-                value={field.value} 
-                onChange={field.onChange} 
-              />
+              <TimePicker label="End Time" value={field.value} onChange={field.onChange} />
             )}
           />
 
-          {/* ম্যাক্স পেশেন্ট ফিল্ড */}
           <div>
             <label className="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-1">Max Patients / Day</label>
             <input type="number" {...register("maxPatients")} className="w-full px-3 py-2.5 border rounded-lg dark:bg-zinc-900 dark:border-zinc-700 text-zinc-900 dark:text-zinc-100" />
           </div>
 
-          {/* মডার্ন পপআপ মাস পিকার */}
           <div className="w-full">
             <Controller
               name="nextMonthsToSchedule"
@@ -216,7 +238,6 @@ export default function DoctorSchedulePage() {
               )}
             />
           </div>
-
         </div>
 
         {/* ইমার্জেন্সি ক্লোজড টগল */}

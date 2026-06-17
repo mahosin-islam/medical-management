@@ -18,21 +18,17 @@ export async function GET(req: NextRequest) {
     if (!email) {
       return NextResponse.json({ error: "Email is required" }, { status: 400 });
     }
-   console.log("email",email)
+    
     await connectDB();
     const db = client.db();
     
-    // 🎯 আপনার থিংকিং অনুযায়ী লগইন করা ইমেইল দিয়ে ডাটাবেজে খোঁজা হচ্ছে
     const doctor = await db.collection("doctors").findOne({ email });
-    console.log("doct",doctor)
 
-    // যদি এই ইমেইলে কোনো ডাক্তারই না থাকে
     if (!doctor) {
       return NextResponse.json({ error: "Doctor not found in collection" }, { status: 404 });
     }
 
-    // 🎯 ফিক্স: ডাক্তার যদি থাকে, কিন্তু তার bioDetails বা scheduleConfig না থাকে,
-    // তবে ক্র্যাশ এড়াতে অবজেক্টগুলো ব্যাকএন্ড থেকেই ডিফাইন করে রেসপন্স পাঠানো হচ্ছে।
+    // 🎯 ফিক্স ও ফিচার অ্যাড: নতুন প্রফেশনাল ফিল্ডগুলোর সেফটি ফালব্যাক সহ রেসপন্স তৈরি
     const responseData = {
       _id: doctor._id,
       name: doctor.name,
@@ -40,16 +36,23 @@ export async function GET(req: NextRequest) {
       specialty: doctor.specialty,
       degree: doctor.degree,
       image: doctor.image,
+      // 🌟 নতুন ডিরেক্ট প্রফেশনাল ফিল্ডস
+      experience: Number(doctor.experience) || 0,
+      hospital: doctor.hospital || "",
+      education: doctor.education || [],
+      specialization: doctor.specialization || [],
+      
       bioDetails: doctor.bioDetails || {
         clinicAddress: "",
-        consultationFee: 500
+        consultationFee: 500,
+        chamberPhone: "" // 🌟 নতুন ফিল্ড
       },
       scheduleConfig: doctor.scheduleConfig || {
         availableDays: [],
         startTime: "",
         endTime: "",
         maxPatients: 20,
-        nextMonthsToSchedule: 1,
+        nextMonthsToSchedule: [],
         isClosed: false
       }
     };

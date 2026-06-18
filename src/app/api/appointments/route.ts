@@ -1,65 +1,88 @@
 import { NextResponse } from "next/server";
-import { ObjectId } from "mongodb";
 import { db } from "@/lib/mongodb";
+import { ObjectId } from "mongodb";
 
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const { 
-      doctorId, 
-      monthStr,         
-      dateStr,          
-      dayName,          
-      serialNumber,     
-      patientName, 
+    
+    const {
+      doctorId,
+      doctorName,         // 👈 পেশেন্ট ড্যাশবোর্ডের জন্য ডক্টরের নামও সেভ করে রাখছি
+      doctorPhone,        // 👈 ডক্টরের ফোন নম্বর
+      monthStr,
+      dateStr,
+      dayName,
+      serialNumber,
+      patientName,
       patientEmail,
+      patientPhone,
+      paidAmountInput,    // 👈 পেশেন্ট কত টাকা ইনপুট দিল
+      totalFee,           // 👈 ডক্টরের টোটাল ফি
+      location,
+      consultationType,
       appointmentType,
-      consultationType
     } = body;
 
-    const doctorsCollection = db.collection("doctors");
-
-    // মঙ্গোডিবির ডাইনামিক নেস্টেড পাথ তৈরি
-    const basePath = `bookedSchedules.${monthStr}.${dateStr}`;
-
-    // চেক করা: সিরিয়ালটি অলরেডি বুকড কি না
-    const doctor = await doctorsCollection.findOne({ _id: new ObjectId(doctorId) });
-    if (!doctor) {
-      return NextResponse.json({ success: false, message: "Doctor not found" }, { status: 404 });
+    // ১. মিনিমাম ৫০% পেমেন্ট ভ্যালিডেশন (ব্যাকএন্ড সেফটি)
+    const minRequired = Number(totalFee) / 2;
+    const paid = Number(paidAmountInput);
+    
+    if (paid < minRequired) {
+      return NextResponse.json(
+        { error: `You must pay at least 50% (${minRequired} Tk) of the total fee.` },
+        { status: 400 }
+      );
     }
 
-    const existingSerials = doctor?.bookedSchedules?.[monthStr]?.[dateStr]?.serials || [];
-    if (existingSerials.includes(serialNumber)) {
-      return NextResponse.json({ success: false, message: "This serial is already booked!" }, { status: 400 });
-    }
+    // ২. Due এবং Payment Status ক্যালকুলেশন
+    const dueAmount = Number(totalFee) - paid;
+    const paymentStatus = dueAmount === 0 ? "paid" : "partial";
 
-    // মঙ্গোডিবির নেটিভ আপডেট কোয়েরি
-    await doctorsCollection.updateOne(
+    // ৩. নতুন অ্যাপয়েন্টমেন্ট অবজেক্ট (মঙ্গোডিবি এখানে অটোমেটিক ইউনিক _id জেনারেট করবে)
+    const newAppointment = {
+      doctorId: new ObjectId(doctorId),
+      doctorName: doctorName || "Unknown Doctor",
+      doctorPhone: doctorPhone || "N/A",
+      patientName,
+      patientEmail,
+      patientPhone,
+      location,
+      consultationType,
+      appointmentType,
+      totalFee: Number(totalFee),
+      paidAmount: paid,
+      dueAmount: dueAmount,
+      paymentStatus: paymentStatus,
+      date: dateStr,
+      month: monthStr,
+      day: dayName,
+      serialNumber: Number(serialNumber),
+      status: "pending",
+      bookedAt: new Date(),
+    };
+
+    // ৪. appointments কালেকশনে ডাটা ইনসার্ট
+    const result = await db.collection("appointments").insertOne(newAppointment);
+
+    // ৫. ডক্টরের শিডিউল আপডেট (আগের লজিক)
+    const updateKey = `bookedSchedules.${monthStr}.${dateStr}`;
+    await db.collection("doctors").updateOne(
       { _id: new ObjectId(doctorId) },
       {
-        $set: {
-          [`${basePath}.day`]: dayName
-        },
-        $push: {
-          [`${basePath}.serials`]: serialNumber,
-          [`${basePath}.patientDetails`]: {
-            serial: serialNumber,
-            name: patientName,
-            email: patientEmail,
-            appointmentType,
-            consultationType,
-            status: "pending",
-            bookedAt: new Date()
-          }
-        }
-      },
-      { upsert: true }
+        $addToSet: {
+          [`${updateKey}.serials`]: Number(serialNumber)
+        } as any
+      }
     );
 
-    return NextResponse.json({ success: true, message: "Booking successfully saved!" });
+    return NextResponse.json(
+      { success: true, appointmentId: result.insertedId },
+      { status: 201 }
+    );
 
-  } catch (error: any) {
-    console.error("MongoDB native update error:", error);
-    return NextResponse.json({ success: false, message: "Server Error" }, { status: 500 });
+  } catch (error) {
+    console.error("Booking error:", error);
+    return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
   }
 }

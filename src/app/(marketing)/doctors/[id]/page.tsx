@@ -2,6 +2,8 @@ import { ObjectId } from "mongodb";
 import BookingWidget from "./BookingWidget";
 import { notFound } from "next/navigation";
 import { db } from "@/lib/mongodb";
+import { auth } from "@/lib/auth"; // 👈 আপনার Better-Auth কনফিগ ফাইল
+import { headers } from "next/headers"; // 👈 সেশন রিড করার জন্য হেডারস লাগবে
 
 interface PageProps {
   params: Promise<{ id: string }>; 
@@ -10,13 +12,24 @@ interface PageProps {
 export default async function DoctorDetailPage({ params }: PageProps) {
   const { id } = await params;
 
-  // ১. আইডি ভ্যালিডেশন চেক
+  // আইডি ভ্যালিডেশন চেক
   if (!ObjectId.isValid(id)) {
     return notFound();
   }
 
+  // 🌟 ১. Better-Auth এর নিয়ম অনুযায়ী সার্ভার কম্পোনেন্টে সেশন ফেচ করা
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
+
+  // 🌟 ২. সেশন থেকে ডেটা নিয়ে সম্পূর্ণ ডাইনামিক অবজেক্ট তৈরি
+  const currentUser = {
+    name: session?.user?.name || "",   // সেশন থাকলে লগইনড ইউজারের আসল নাম আসবে
+    email: session?.user?.email || "", // সেশন থাকলে আসল ইমেইল (যেমন: sabbir@gmail.com) আসবে
+  };
+
   try {
-    // ২. ডাটাবেজ থেকে ডক্টরের রিয়াল ডাটা ফেচ করা
+    // ডাটাবেজ থেকে ডক্টরের রিয়াল ডাটা ফেচ করা
     const doctorData = await db.collection("doctors").findOne({ _id: new ObjectId(id) });
 
     if (!doctorData) {
@@ -25,7 +38,7 @@ export default async function DoctorDetailPage({ params }: PageProps) {
 
     console.log("doctordata", doctorData);
 
-    // ৩. সব বাফার, অবজেক্টআইডি এবং ডেটকে প্লেইন স্ট্রিং-এ কনভার্ট করা
+    // সব বাফার, অবজেক্টআইডি এবং ডেটকে প্লেইন স্ট্রিং-এ কনভার্ট করা
     const doctor = {
       ...doctorData,
       _id: doctorData._id.toString(),
@@ -33,13 +46,11 @@ export default async function DoctorDetailPage({ params }: PageProps) {
       createdAt: doctorData.createdAt ? doctorData.createdAt.toISOString() : null,
       updatedAt: doctorData.updatedAt ? doctorData.updatedAt.toISOString() : null,
       
-      // 🌟 নতুন রিয়াল প্রফেশনাল ফিল্ডসমূহ
       experience: Number(doctorData.experience) || 0,
       hospital: doctorData.hospital || "",
       education: Array.isArray(doctorData.education) ? doctorData.education : [],
       specialization: Array.isArray(doctorData.specialization) ? doctorData.specialization : [],
       
-      // 🎯 নতুন স্ট্রাকচার
       bioDetails: {
         clinicAddress: doctorData.bioDetails?.clinicAddress || doctorData.chamberConfig?.clinicAddress || "Not Provided",
         consultationFee: Number(doctorData.bioDetails?.consultationFee || doctorData.chamberConfig?.consultationFee) || 500,
@@ -54,23 +65,19 @@ export default async function DoctorDetailPage({ params }: PageProps) {
         isClosed: Boolean(doctorData.scheduleConfig.isClosed),
       } : null,
 
-      // 🎯 🎯 [ক্র্যাশ ও এরর ফিক্স ট্রিক] 🎯 🎯
-      // আপনার BookingWidget যদি পুরাতন কোড অনুযায়ী 'chamberConfig' খুঁজে থাকে, 
-      // তবে যেন কোনোভাবেই এরর না আসে বা ক্র্যাশ না করে, তাই এখানেও ডেটা ম্যাপ করে দেওয়া হলো।
+      // ওল্ড কম্পোনেন্ট সেফটি ব্যাকআপ
       chamberConfig: {
         clinicAddress: doctorData.bioDetails?.clinicAddress || doctorData.chamberConfig?.clinicAddress || "N/A",
         consultationFee: Number(doctorData.bioDetails?.consultationFee || doctorData.chamberConfig?.consultationFee) || 500,
       }
     };
 
-    // শিডিউল ডে স্ট্রিং ফরম্যাট করা (UI এর জন্য)
     const formattedDays = doctor.scheduleConfig?.availableDays?.join(", ") || "No Scheduled Days";
 
     return (
       <div className="max-w-6xl mx-auto p-4 md:p-8 bg-zinc-50/30 min-h-screen">
-        {/* 🌟 টপ প্রিমিয়াম ডক্টর প্রোফাইল ব্যানার কার্ড */}
+        {/* টপ প্রিমিয়াম ডক্টর প্রোফাইল ব্যানারカード */}
         <div className="bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-900 rounded-3xl p-6 md:p-8 shadow-sm mb-8 flex flex-col md:flex-row gap-6 items-center md:items-start">
-          {/* ডক্টর ইমেজ */}
           <div className="relative h-32 w-32 md:h-40 md:w-40 rounded-2xl overflow-hidden bg-zinc-100 border border-zinc-200 flex-shrink-0">
             {doctor.image ? (
               <img 
@@ -85,7 +92,6 @@ export default async function DoctorDetailPage({ params }: PageProps) {
             )}
           </div>
 
-          {/* ডক্টর টেক্সট ইনফো */}
           <div className="flex-1 text-center md:text-left space-y-2">
             <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-blue-50 dark:bg-blue-950/40 text-blue-600 dark:text-blue-400 text-xs font-semibold rounded-full uppercase tracking-wider">
               ★ Verified Specialist
@@ -94,7 +100,6 @@ export default async function DoctorDetailPage({ params }: PageProps) {
             <p className="text-sm md:text-base font-semibold text-zinc-500">{doctor.degree}</p>
             <p className="text-base font-bold text-blue-600 dark:text-blue-400 uppercase tracking-wide">{doctor.specialty}</p>
             
-            {/* এক্সপেরিয়েন্স মেটা */}
             <div className="flex items-center justify-center md:justify-start gap-4 pt-1 text-xs font-medium text-zinc-600 dark:text-zinc-400">
               <div className="flex items-center gap-1">
                 <span className="text-amber-500 text-sm">★</span>
@@ -106,9 +111,8 @@ export default async function DoctorDetailPage({ params }: PageProps) {
           </div>
         </div>
 
-        {/* 🌟 মেইন লেআউট গ্রিড */}
+        {/* মেইন লেআউট গ্রিড */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {/* বাম পাশের ২টি কলামে ডক্টরের বাকি প্রফেশনাল ইনফো */}
           <div className="md:col-span-2 space-y-6">
             
             {/* ১. কারেন্ট হসপিটাল ও চেম্বার কন্টাক্ট */}
@@ -183,10 +187,11 @@ export default async function DoctorDetailPage({ params }: PageProps) {
 
           </div>
 
-          {/* ডান পাশের ১টি কলামে আপনার বুকিং উইজেট কম্পোনেন্ট */}
+          {/* ডান পাশের কলামে বুকিং উইজেট */}
           <div className="md:col-span-1">
             <div className="sticky top-6">
-              <BookingWidget doctor={doctor as any} />
+              {/* 🌟 ৩. উইজেটের ভেতরে সাকসেসফুলি রিয়াল ডাইনামিক ইউজার অবজেক্ট পাস করে দেওয়া হলো */}
+              <BookingWidget doctor={doctor as any} currentUser={currentUser} />
             </div>
           </div>
         </div>

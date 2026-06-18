@@ -13,6 +13,7 @@ export default function AboutSection() {
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute -top-24 left-1/4 w-96 h-96 bg-teal-500/5 dark:bg-primary/5 rounded-full blur-3xl" />
         <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-emerald-500/5 dark:bg-primary/5 rounded-full blur-3xl" />
+
       </div>
 
       <h1>This is Mahosin</h1>
@@ -147,3 +148,9 @@ export default function AboutSection() {
     </section>
   );
 }
+
+
+
+
+
+

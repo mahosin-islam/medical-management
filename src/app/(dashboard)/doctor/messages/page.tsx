@@ -1,11 +1,33 @@
-import React from 'react'
+import { auth } from "@/lib/auth"; 
+import { headers } from "next/headers";
+import { db } from "@/lib/mongodb";
+import DoctorMessengerClient from "./DoctorMessengerClient"; // আপনার ক্লায়েন্ট ফাইলের পাথ ঠিক রাখুন
+import { redirect } from "next/navigation";
 
-function Messages() {
-  return (
-    <div>
-        <h2>messages</h2>
-    </div>
-  )
+export default async function DoctorMessengerPage() {
+  // 🔐 ১. কারেন্ট একটিভ সেশন চেক করা হচ্ছে
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
+
+  // ইউজার যদি লগইন না থাকে তবে তাকে সরাসরি রিডাইরেক্ট করা হবে
+  if (!session?.user?.email) {
+    redirect("/login");
+  }
+
+  const userEmail = session.user.email.toLowerCase();
+
+  // 🔎 ২. ডক্টর কালেকশন থেকে লগইন করা ইউজারের প্রোফাইল আইডি খুঁজে বের করা হচ্ছে
+  const doctorData = await db.collection("doctors").findOne({ 
+    email: { $regex: new RegExp(`^${userEmail}$`, "i") } 
+  });
+
+  // যদি ডক্টর প্রোফাইল থাকে তবে প্রোফাইল আইডি যাবে, নয়তো ব্যাকআপ হিসেবে সেশন ইউজার আইডি যাবে
+  const currentDoctor = {
+    id: doctorData ? doctorData._id.toString() : session.user.id.toString(),
+    name: doctorData ? doctorData.name : (session.user.name || "Doctor"),
+  };
+
+  // 🎯 ৩. ক্লায়েন্ট কম্পোনেন্টে কারেন্ট ইউজারের সঠিক আইডি সেফলি পাস করা হলো
+  return <DoctorMessengerClient currentDoctor={currentDoctor} />;
 }
-
-export default Messages

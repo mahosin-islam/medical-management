@@ -1,5 +1,4 @@
 
-import DoctorsSection from "@/components/page/Landing/DoctorsSection"
 import FeaturesGrid from "@/components/page/Landing/FeaturesGrid"
 import HowItWorks from "@/components/page/Landing/HowItWorks"
 import PatientsSection from "@/components/page/Landing/PatientsSection"
@@ -11,13 +10,15 @@ import CtaBanner from "@/components/page/Landing/CtaBanner"
 import HospitalEnvironment from "@/components/page/Landing/HospitalEnvironment"
 import FeedbackSection from "@/components/page/Landing/FeedbackSection"
 import Hero from "@/components/web/Hero"
+import FeaturedDoctors from "@/components/page/Landing/FeaturedDoctors"
 
 function HomePage() {
   return (
     <div>
        <Hero/>
       <div className='w-full px-10'>
-      <DoctorsSection />
+   
+      <FeaturedDoctors/>
       <FeaturesGrid />
       <PatientsSection />
       <HospitalEnvironment />

@@ -158,7 +158,7 @@ export default function HowItWorks() {
         >
           <Link
             // 'singup' typo fixed internally based on standard root configuration
-            href="/signup"
+            href="/login"
             className="inline-flex items-center gap-2 bg-primary text-primary-foreground px-5 py-2.5 rounded-xl text-xs font-bold shadow-sm hover:gap-3 transition-all hover:bg-primary/90 hover:shadow-md cursor-pointer"
           >
             Start Your Journey

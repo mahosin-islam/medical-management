@@ -3,12 +3,12 @@
 import { motion, useAnimation, useInView } from "framer-motion";
 import { useEffect, useRef } from "react";
 import { 
-  CalendarClock, 
-  FileText, 
-  Video, 
-  Pill, 
-  ClipboardList,
-  ShieldCheck,
+  Heart, 
+  Baby, 
+  Brain, 
+  Bone, 
+  Eye, 
+  ActivitySquare,
   ArrowRight,
   UserCheck,
   Stethoscope,
@@ -17,70 +17,71 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 
-const featuresData = [
+// 🎯 আপনার ৪টি কারেন্ট রুট এবং ২টি ডেমো রুটসহ ডিপার্টমেন্ট ডাটা
+const departmentsData = [
   {
     id: 1,
-    title: "Online Appointment",
-    description: "Book appointments with specialist doctors instantly from anywhere, anytime with just a few clicks.",
-    icon: CalendarClock, // 📅 শিডিউলিং ও অ্যাপয়েন্টমেন্ট ট্র্যাকিং
+    title: "Cardiology",
+    description: "Expert care for your heart health, dealing with complex cardiovascular conditions and hypertension management.",
+    icon: Heart, // ❤️ কার্ডিওলজি ও হার্ট কেয়ার
     color: "text-blue-500 border-blue-500/20",
     bgColor: "bg-blue-50 dark:bg-blue-950/20",
-    link: "/appointments",
-    stats: "50k+ Appointments Booked"
+    link: "/departments/cardiology", // 🔗 কারেন্ট রুট
+    stats: "25+ Specialists"
   },
   {
     id: 2,
-    title: "Digital Prescription",
-    description: "Get digital prescriptions directly from doctors. Access your medical history and prescriptions anytime.",
-    icon: FileText, // 📄 ডিজিটাল প্রেসক্রিপশন ও মেডিকেল রেকর্ড শিট
+    title: "Pediatrics",
+    description: "Comprehensive medical care for infants, children, and adolescents, ensuring healthy growth and development.",
+    icon: Baby, // 👶 শিশু রোগ বিশেষজ্ঞ বিভাগ
     color: "text-emerald-500 border-emerald-500/20",
     bgColor: "bg-emerald-50 dark:bg-emerald-950/20",
-    link: "/prescriptions",
-    stats: "100k+ Prescriptions Issued"
+    link: "/departments/pediatrics", // 🔗 কারেন্ট রুট
+    stats: "18+ Specialists"
   },
   {
     id: 3,
-    title: "Telemedicine Service",
-    description: "Consult with top doctors via video call from the comfort of your home. Quality healthcare at your fingertips.",
-    icon: Video, // 📹 ইনস্ট্যান্ট হাই-কোয়ালিটি লাইভ ভিডিও কনসাল্টেশন
+    title: "Neurology",
+    description: "Advanced diagnosis and treatment for disorders of the nervous system, brain, spinal cord, and muscles.",
+    icon: Brain, // 🧠 নিউরোলজি ও ব্রেইন কেয়ার
     color: "text-purple-500 border-purple-500/20",
     bgColor: "bg-purple-50 dark:bg-purple-950/20",
-    link: "/telemedicine",
-    stats: "24/7 Available"
+    link: "/departments/neurology", // 🔗 কারেন্ট রুট
+    stats: "12+ Specialists"
   },
   {
     id: 4,
-    title: "Medicine Delivery",
-    description: "Order prescribed medicines online and get them delivered to your doorstep with guaranteed authenticity.",
-    icon: Pill, // 💊 মেডিসিন ও ফার্মা কেয়ার সাপোর্ট
+    title: "Orthopedics",
+    description: "Dedicated treatment for bone, joint, ligament, and muscle injuries, restoring mobility and muscle function.",
+    icon: Bone, // 🦴 অর্থোপেডিক ও বোন কেয়ার
     color: "text-rose-500 border-rose-500/20",
     bgColor: "bg-rose-50 dark:bg-rose-950/20",
-    link: "/medicine-delivery",
-    stats: "2-Hour Delivery"
+    link: "/departments/orthopedics", // 🔗 কারেন্ট রুট
+    stats: "20+ Specialists"
   },
   {
     id: 5,
-    title: "Medical Records",
-    description: "Securely store and access all your medical records, lab reports, and health history in one place.",
-    icon: ClipboardList, // 📋 অর্গানাইজড পেশেন্ট কেস ফাইল ও ল্যাব রিপোর্টস
+    title: "Ophthalmology",
+    description: "Comprehensive eye examinations, advanced surgical procedures, and treatment for all vision-related disorders.",
+    icon: Eye, // 👁️ চোখের ডাক্তার (ডেমো রুট)
     color: "text-teal-500 border-teal-500/20",
     bgColor: "bg-teal-50 dark:bg-teal-950/20",
-    link: "/medical-records",
-    stats: "100% Secure"
+    link: "/departments/ophthalmology", // 🔗 ডেমো রুট
+    stats: "15+ Specialists"
   },
   {
     id: 6,
-    title: "Health Insurance",
-    description: "Cashless treatment with partnered insurance providers. Easy claim processing and approval.",
-    icon: ShieldCheck, // 🛡️ ভেরিফাইড হেলথ ইন্স্যুরেন্স প্রোটেকশন
+    title: "Internal Medicine",
+    description: "Comprehensive primary care preventing, diagnosing, and treating complex chronic adult illnesses.",
+    icon: ActivitySquare, // 🩺 মেডিসিন বিভাগ (ডেমো রুট)
     color: "text-indigo-500 border-indigo-500/20",
     bgColor: "bg-indigo-50 dark:bg-indigo-950/20",
-    link: "/insurance",
-    stats: "10+ Insurance Partners"
+    link: "/departments/internal-medicine", // 🔗 ডেমো রুট
+    stats: "30+ Specialists"
   }
 ];
 
-export default function FeaturesGrid() {
+export default function DepartmentsGrid() {
   const sectionRef = useRef(null);
   const isInView = useInView(sectionRef, { once: true, amount: 0.1 });
   const controls = useAnimation();
@@ -127,28 +128,28 @@ export default function FeaturesGrid() {
           className="mb-12 text-center md:mb-16"
         >
           <h2 className="mb-3 text-3xl font-extrabold tracking-tight text-foreground sm:text-4xl lg:text-5xl">
-            Comprehensive{" "}
+            Our Medical{" "}
             <span className="relative inline-block text-transparent bg-clip-text bg-gradient-to-r from-primary via-emerald-500 to-teal-500">
-              Healthcare Solutions
+              Specialized Departments
             </span>
           </h2>
           <p className="mx-auto max-w-xl text-xs md:text-sm text-muted-foreground leading-relaxed">
-            Everything you need for modern healthcare management in one integrated digital platform.
+            আপনার স্বাস্থ্য সুরক্ষায় আমাদের বিশেষায়িত চিকিৎসা বিভাগসমূহ থেকে অভিজ্ঞ ডক্টর বেছে নিন।
           </p>
         </motion.div>
 
-        {/* ================= FEATURES GRID ================= */}
+        {/* ================= DEPARTMENTS GRID ================= */}
         <motion.div
           variants={containerVariants}
           initial="hidden"
           animate={controls}
           className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3"
         >
-          {featuresData.map((feature, ) => {
-            const Icon = feature.icon;
+          {departmentsData.map((dept) => {
+            const Icon = dept.icon;
             return (
               <motion.div
-                key={feature.id}
+                key={dept.id}
                 variants={{
                   hidden: { opacity: 0, y: 20 },
                   visible: { opacity: 1, y: 0, transition: { duration: 0.4 } }
@@ -156,35 +157,35 @@ export default function FeaturesGrid() {
                 whileHover={{ y: -6 }}
                 className="group relative"
               >
-                <Link href={feature.link}>
+                <Link href={dept.link}>
                   <div className="relative h-full overflow-hidden rounded-2xl border border-border bg-card p-6 transition-all duration-300 hover:border-primary/20 hover:shadow-xl md:p-8 flex flex-col justify-between">
                     
                     <div>
                       {/* Icon Component Block */}
-                      <div className={`relative mb-5 inline-flex rounded-2xl ${feature.bgColor} ${feature.color} p-3 border transition-all duration-300 group-hover:scale-105 group-hover:shadow-sm`}>
+                      <div className={`relative mb-5 inline-flex rounded-2xl ${dept.bgColor} ${dept.color} p-3 border transition-all duration-300 group-hover:scale-105 group-hover:shadow-sm`}>
                         <Icon className="h-6 w-6 stroke-[2.2]" />
                       </div>
 
                       {/* Title */}
                       <h3 className="mb-2 text-lg font-bold text-foreground transition-colors group-hover:text-primary md:text-xl tracking-tight">
-                        {feature.title}
+                        {dept.title}
                       </h3>
 
                       {/* Description */}
                       <p className="mb-4 text-xs md:text-sm text-muted-foreground leading-relaxed">
-                        {feature.description}
+                        {dept.description}
                       </p>
                     </div>
 
                     <div>
                       {/* Stats Badge */}
                       <div className="mb-4 inline-block rounded-lg bg-muted/60 px-2.5 py-1 border border-border/40">
-                        <span className="text-[11px] font-bold text-muted-foreground">{feature.stats}</span>
+                        <span className="text-[11px] font-bold text-muted-foreground">{dept.stats}</span>
                       </div>
 
                       {/* Action Link Arrow */}
                       <div className="flex items-center gap-1.5 text-xs font-bold text-primary opacity-0 -translate-x-2 transition-all duration-300 group-hover:opacity-100 group-hover:translate-x-0">
-                        <span>Learn More</span>
+                        <span>Find Doctors</span>
                         <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" />
                       </div>
                     </div>
@@ -197,34 +198,6 @@ export default function FeaturesGrid() {
               </motion.div>
             );
           })}
-        </motion.div>
-
-        {/* ================= BOTTOM CTA BANNER ================= */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={controls}
-          variants={{
-            visible: { opacity: 1, y: 0, transition: { delay: 0.4, duration: 0.5 } }
-          }}
-          className="mt-12 rounded-2xl bg-gradient-to-r from-primary/5 via-teal-500/5 to-transparent p-6 border border-border/60 backdrop-blur-sm md:mt-16 md:p-8"
-        >
-          <div className="flex flex-col items-center justify-between gap-4 text-center md:flex-row md:text-left">
-            <div>
-              <h3 className="text-base font-bold text-foreground md:text-lg tracking-tight">
-                Ready to transform your healthcare experience?
-              </h3>
-              <p className="text-xs text-muted-foreground mt-0.5">
-                Join thousands of satisfied patients using ShifaCare dashboard today.
-              </p>
-            </div>
-            <Link
-              href="/signup"
-              className="group inline-flex items-center gap-2 rounded-xl bg-primary px-5 py-2.5 text-xs font-bold text-primary-foreground transition-all hover:bg-primary/90 hover:shadow-md cursor-pointer shrink-0"
-            >
-              Get Started Now
-              <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" />
-            </Link>
-          </div>
         </motion.div>
 
         {/* ================= TRUST INDICATORS ================= */}

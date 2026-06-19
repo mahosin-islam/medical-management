@@ -48,7 +48,7 @@ export default function CtaBanner() {
               
               {/* Primary Action Call: Register / Get Started */}
               <button
-                onClick={() => router.push('/register')}
+                onClick={() => router.push('/login')}
                 className="w-full sm:w-auto px-8 py-4 bg-[#0070f3] hover:bg-[#0062d1] text-white text-sm font-bold rounded-xl shadow-lg shadow-[#0070f3]/20 flex items-center justify-center gap-2 group transition-all duration-300 cursor-pointer hover:-translate-y-0.5"
               >
                 <span>Get Started Now</span>
@@ -57,7 +57,7 @@ export default function CtaBanner() {
 
               {/* Secondary Action Call: Schedule/Book or Contact */}
               <button
-                onClick={() => router.push('/contact')}
+                onClick={() => router.push('/doctors')}
                 className="w-full sm:w-auto px-8 py-4 bg-white/5 hover:bg-white/10 text-white text-sm font-bold rounded-xl border border-white/10 flex items-center justify-center gap-2 transition-all duration-300 cursor-pointer hover:-translate-y-0.5"
               >
                 <FiCalendar size={16} className="text-[#00c9a7]" />

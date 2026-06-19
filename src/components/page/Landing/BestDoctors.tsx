@@ -78,7 +78,7 @@ export default function BestDoctors() {
           {bestDoctors.map((doc) => (
             <div
               key={doc.id}
-              onClick={() => router.push(`/doctors/${doc.id}`)}
+             
               className="group relative bg-white dark:bg-card border border-slate-100 dark:border-border/40 rounded-2xl p-4 shadow-sm hover:shadow-md transition-all duration-300 cursor-pointer overflow-hidden"
             >
 

@@ -6,26 +6,21 @@ import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 
 import { 
-  LayoutDashboard, CalendarDays, Users, FileText, CreditCard, Settings, LogOut, Menu, X, Activity,
-  Stethoscope, Building2, BarChart3, Package, ClipboardList, ShieldCheck, Bell, FlaskConical, Video,
-  MessageSquare, Clock, NotebookPen, DollarSign, UserCircle, FolderHeart,
+  LayoutDashboard, CalendarDays, Users, FileText,  LogOut, Menu, X, Activity,
+  Stethoscope, Building2,  Package,  ShieldCheck, Bell,  Video,
+  MessageSquare, Clock, NotebookPen, DollarSign, UserCircle, 
   Plus
 } from "lucide-react";
 
 const adminMenuItems = [
   { name: "Dashboard",     href: "/admin",     icon: LayoutDashboard },
-  { name: "Users",         href: "/admin/users",          icon: Users },
   { name: "Doctors",       href: "/admin/doctors",        icon: Stethoscope },
-  { name: "Departments",   href: "/admin/departments",    icon: Building2 },
-  { name: "Appointments",  href: "/admin/appointments",   icon: CalendarDays },
-  { name: "Billing",       href: "/admin/billing",        icon: CreditCard },
-  { name: "Reports",       href: "/admin/reports",        icon: BarChart3 },
-  { name: "Inventory",     href: "/admin/inventory",      icon: Package },
-  { name: "Audit Logs",    href: "/admin/audit-logs",     icon: ClipboardList },
-  { name: "Roles",         href: "/admin/roles",          icon: ShieldCheck },
-  { name: "Notifications", href: "/admin/notifications",  icon: Bell },
   { name: "AddDoctor", href: "/admin/add-doctor",  icon: Plus },
-  { name: "Settings",      href: "/admin/settings",       icon: Settings },
+  { name: "Roles",         href: "/admin/roles",          icon: ShieldCheck },
+  { name: "Departments",   href: "/admin/departments",    icon: Building2 },
+  { name: "Inventory",     href: "/admin/inventory",      icon: Package },
+  { name: "Notifications", href: "/admin/notifications",  icon: Bell },
+  { name: "Profile", href: "/admin/profile",  icon: UserCircle },
 ];
 
 const doctorMenuItems = [
@@ -33,7 +28,6 @@ const doctorMenuItems = [
   { name: "Appointments",  href: "/doctor/appointments", icon: CalendarDays },
   { name: "My Patients",   href: "/doctor/patients",     icon: Users },
   { name: "Prescriptions", href: "/doctor/prescriptions",icon: FileText },
-  { name: "Lab Results",   href: "/doctor/lab-results",  icon: FlaskConical },
   { name: "Telemedicine",  href: "/doctor/telemedicine", icon: Video },
   { name: "Messages",      href: "/doctor/messages",     icon: MessageSquare },
   { name: "Schedule",      href: "/doctor/schedule",     icon: Clock },
@@ -45,13 +39,9 @@ const doctorMenuItems = [
 const patientMenuItems = [
   { name: "Dashboard",       href: "/patient",       icon: LayoutDashboard },
   { name: "Appointments",    href: "/patient/appointments",    icon: CalendarDays },
-  { name: "Find Doctors",    href: "/patient/doctors",         icon: Stethoscope },
-  { name: "Prescriptions",   href: "/patient/prescriptions",    icon: FileText },
-  { name: "Lab Results",     href: "/patient/lab-results",     icon: FlaskConical },
-  { name: "Billing",         href: "/patient/billing",         icon: CreditCard },
-  { name: "Telemedicine",    href: "/patient/telemedicine",    icon: Video },
   { name: "Messages",        href: "/patient/messages",        icon: MessageSquare },
-  { name: "Medical Records", href: "/patient/medical-records", icon: FolderHeart },
+  { name: "Telemedicine",    href: "/patient/telemedicine",    icon: Video },
+  { name: "Prescriptions",   href: "/patient/prescriptions",    icon: FileText },
   { name: "Notifications",   href: "/patient/notifications",   icon: Bell },
   { name: "Profile",         href: "/patient/profile",         icon: UserCircle },
 ];

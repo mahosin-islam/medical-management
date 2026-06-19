@@ -193,14 +193,25 @@ export default function BookingWidget({ doctor, currentUser }: BookingWidgetProp
     }
   };
 
-  if (bookingSuccess) {
+ if (bookingSuccess) {
+    // 🎯 ফ্রন্টএন্ডে রিয়েলটাইম স্ট্যাটাস টেক্সট ক্যালকুলেশন
+    const finalStatus = (consultationFee - paidAmountInput) === 0 ? "Completed" : "Pending";
+
     return (
       <div className="bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-2xl p-6 text-center shadow-sm">
         <div className="h-12 w-12 rounded-full bg-emerald-100 dark:bg-emerald-950/40 text-emerald-600 flex items-center justify-center mx-auto mb-3 text-xl">✓</div>
         <h3 className="text-sm font-bold text-zinc-900 dark:text-zinc-50">Appointment Requested!</h3>
         <p className="text-xs text-zinc-500 mt-2">পেশেন্ট <span className="font-semibold text-zinc-800 dark:text-zinc-200">{currentUser.name}</span> এর জন্য ডেট {selectedDateStr}-এ সিরিয়াল <span className="font-bold text-blue-600">#{selectedSerial}</span> কনফার্ম হয়েছে।</p>
+        
+        {/* 🎯 এখানে স্ট্যাটাস ডায়নামিক করা হয়েছে */}
+        <div className="mt-3 flex justify-center gap-2">
+          <span className={`text-[10px] font-black uppercase px-2 py-0.5 rounded-md ${finalStatus === "Completed" ? "bg-green-100 text-green-700" : "bg-blue-100 text-blue-700"}`}>
+            Status: {finalStatus}
+          </span>
+        </div>
+
         <div className="bg-zinc-50 dark:bg-zinc-900 text-[11px] p-2.5 rounded-xl mt-3 text-zinc-600 dark:text-zinc-400 font-medium">
-          Paid Advance: <span className="text-emerald-600 font-bold">{paidAmountInput} Tk</span> | Due Balance: <span className="text-red-500 font-bold">{consultationFee - paidAmountInput} Tk</span>
+          Paid Advance: <span className="text-emerald-600 font-bold">{paidAmountInput} Tk</span> | Due Balance: <span className="text-rose-500 font-bold">{consultationFee - paidAmountInput} Tk</span>
         </div>
         <button onClick={() => { setIsBookingStarted(false); setBookingSuccess(false); setSelectedDateStr(""); setSelectedSerial(null); setPatientPhone(""); setPaidAmountInput(minRequiredFee); setPaymentError(""); }} className="mt-4 w-full bg-zinc-900 text-white text-xs font-semibold py-2 rounded-xl">Done</button>
       </div>

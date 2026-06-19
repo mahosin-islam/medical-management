@@ -1,7 +1,6 @@
 import { MongoClient } from "mongodb";
 
 const uri = process.env.MONGODB_URL as string;
-
 if (!uri) {
   throw new Error("Please add your MONGODB_URL to .env.local or Vercel Environment Variables");
 }

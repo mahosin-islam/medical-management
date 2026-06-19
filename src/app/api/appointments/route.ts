@@ -8,8 +8,8 @@ export async function POST(request: Request) {
     
     const {
       doctorId,
-      doctorName,         // 👈 পেশেন্ট ড্যাশবোর্ডের জন্য ডক্টরের নামও সেভ করে রাখছি
-      doctorPhone,        // 👈 ডক্টরের ফোন নম্বর
+      doctorName,         
+      doctorPhone,        
       monthStr,
       dateStr,
       dayName,
@@ -17,8 +17,8 @@ export async function POST(request: Request) {
       patientName,
       patientEmail,
       patientPhone,
-      paidAmountInput,    // 👈 পেশেন্ট কত টাকা ইনপুট দিল
-      totalFee,           // 👈 ডক্টরের টোটাল ফি
+      paidAmountInput,    
+      totalFee,           
       location,
       consultationType,
       appointmentType,
@@ -35,11 +35,14 @@ export async function POST(request: Request) {
       );
     }
 
-    // ২. Due এবং Payment Status ক্যালকুলেশন
+    // ২. Due, Payment Status এবং Visit Status ডায়নামিক ক্যালকুলেশন 🎯
     const dueAmount = Number(totalFee) - paid;
     const paymentStatus = dueAmount === 0 ? "paid" : "partial";
+    
+    // 💸 ফুল পেমেন্ট করলে স্ট্যাটাস 'completed', কম দিলে 'pending'
+    const finalStatus = dueAmount === 0 ? "completed" : "pending";
 
-    // ৩. নতুন অ্যাপয়েন্টমেন্ট অবজেক্ট (মঙ্গোডিবি এখানে অটোমেটিক ইউনিক _id জেনারেট করবে)
+    // ৩. নতুন অ্যাপয়েন্টমেন্ট অবজেক্ট
     const newAppointment = {
       doctorId: new ObjectId(doctorId),
       doctorName: doctorName || "Unknown Doctor",
@@ -58,14 +61,14 @@ export async function POST(request: Request) {
       month: monthStr,
       day: dayName,
       serialNumber: Number(serialNumber),
-      status: "pending",
+      status: finalStatus, // 🎯 ডায়নামিক স্ট্যাটাস সেট হলো
       bookedAt: new Date(),
     };
 
     // ৪. appointments কালেকশনে ডাটা ইনসার্ট
     const result = await db.collection("appointments").insertOne(newAppointment);
 
-    // ৫. ডক্টরের শিডিউল আপডেট (আগের লজিক)
+    // ৫. ডক্টরের শিডিউল আপডেট
     const updateKey = `bookedSchedules.${monthStr}.${dateStr}`;
     await db.collection("doctors").updateOne(
       { _id: new ObjectId(doctorId) },

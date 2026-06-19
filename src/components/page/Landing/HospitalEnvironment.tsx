@@ -115,7 +115,7 @@ export default function HospitalEnvironment() {
             {/* Lower Engagement Action Trigger */}
             <div className="pt-2">
               <button
-                onClick={() => router.push('/clinics')}
+                onClick={() => router.push('/login')}
                 className="inline-flex items-center gap-2.5 px-6 py-3.5 bg-slate-900 hover:bg-[#12283c] dark:bg-card dark:hover:bg-muted/80 text-white dark:text-foreground text-xs sm:text-sm font-bold rounded-xl border border-transparent dark:border-border/60 shadow-md hover:shadow-lg transition-all duration-300 cursor-pointer hover:-translate-y-0.5 group"
               >
                 <span>Explore Partner Facilities</span>

@@ -36,7 +36,6 @@ export default async function DoctorDetailPage({ params }: PageProps) {
       return notFound();
     }
 
-    console.log("doctordata", doctorData);
 
     // সব বাফার, অবজেক্টআইডি এবং ডেটকে প্লেইন স্ট্রিং-এ কনভার্ট করা
     const doctor = {

@@ -9,6 +9,7 @@ import {
   CheckCircle2, 
   AlertCircle 
 } from "lucide-react";
+import Link from "next/link";
 
 // ১. স্ট্যাটিস্টিকস ডাটা (Stats Data)
 const stats = [
@@ -158,9 +159,11 @@ export default function DashboardPage() {
             </div>
           </div>
           
+         <Link href="/doctor/appointments">
           <button className="w-full bg-primary text-primary-foreground text-sm font-semibold py-3.5 rounded-2xl hover:bg-primary/90 transition-all shadow-md mt-6 cursor-pointer">
             Manage All Appointments
           </button>
+         </Link>
         </div>
 
       </div>

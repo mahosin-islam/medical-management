@@ -110,7 +110,7 @@ export default function Hero() {
           >
             {/* Button 1: Register Online Now */}
             <Link
-              href="/signup"
+              href="/login"
               className="group inline-flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-5 sm:px-6 py-3 rounded-lg font-bold text-xs sm:text-sm transition-all shadow-md hover:shadow-blue-600/20 cursor-pointer"
             >
               <span>Register Online Now</span>
@@ -119,7 +119,7 @@ export default function Hero() {
 
             {/* Button 2: Find Specialist Doctor */}
             <Link
-              href="/appointments"
+              href="/doctors"
               className="inline-flex items-center justify-center gap-2 bg-slate-900/60 hover:bg-slate-900/80 text-white border border-white/20 backdrop-blur-md px-5 sm:px-6 py-3 rounded-lg font-bold text-xs sm:text-sm transition-all cursor-pointer group"
             >
               <CalendarDays className="w-4 h-4 text-teal-400" />

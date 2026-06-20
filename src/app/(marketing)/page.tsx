@@ -16,7 +16,7 @@ function HomePage() {
   return (
     <div>
        <Hero/>
-      <div className='w-full px-10'>
+      <div className='w-full md:px-10'>
    
       <FeaturedDoctors/>
       <FeaturesGrid />

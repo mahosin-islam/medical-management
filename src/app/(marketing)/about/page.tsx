@@ -16,7 +16,7 @@ export default function AboutSection() {
 
       </div>
 
-      <h1>This is Mahosin</h1>
+    
 
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         

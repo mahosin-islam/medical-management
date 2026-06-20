@@ -17,6 +17,7 @@ interface Message {
     senderId: string;
     receiverId: string;
     text: string;
+    message?: string; // 🎯 ডক্টর অ্যাপের 'message' ফিল্ডের সাথে সেফটি সিঙ্ক
     createdAt: string;
 }
 
@@ -40,28 +41,28 @@ export default function PatientChatContainer({ allowedDoctors, patientId }: { al
         enabled: !!selectedDoctor,
     });
 
-    // 🚀 Pusher রিয়েল-টাইม লিসেনার সাবস্ক্রিপশন 🎯
+    // 🚀 Pusher রিয়েল-টাইম লিসেনার সাবস্ক্রিপশন
     useEffect(() => {
         if (!selectedDoctor?.id || !patientId) return;
 
-        // 🎯 বিস্ময়সূচক চিহ্ন (!) তুলে দিয়ে সেফ ফলব্যাক ব্যবহার করা হলো যাতে Vercel-এ ক্র্যাশ না করে
         const pusher = new PusherClient(process.env.NEXT_PUBLIC_PUSHER_KEY || "", {
             cluster: process.env.NEXT_PUBLIC_PUSHER_CLUSTER || "ap2",
         });
 
-        // 🎯 ডক্টর সাইডের সাথে মিল রেখে চ্যানেল তৈরি
-        const channelName = `chat-${[selectedDoctor.id, patientId].sort().join("-")}`;
+        const docIdStr = String(selectedDoctor.id).trim();
+        const patIdStr = String(patientId).trim();
+        const channelName = `chat-${[docIdStr, patIdStr].sort().join("-")}`;
+        
         const channel = pusher.subscribe(channelName);
 
-        // নতুন মেসেজ আসা মাত্রই TanStack Query এর ক্যাশ ডাটা রিফ্রেশ (Invalidate) করে দেওয়া হবে
         channel.bind("new-message", () => {
             queryClient.invalidateQueries({ queryKey: ["chatHistory", selectedDoctor.id] });
         });
 
         return () => {
             channel.unbind_all();
-            pusher.unsubscribe(channelName); // সেফ আনসাবস্ক্রাইব
-            pusher.disconnect();
+            pusher.unsubscribe(channelName);
+            // 🎯 pusher.disconnect(); 👈 কানেকশন ড্রপ প্রিভেনশন সাকসেসফুলি বজায় রইলো
         };
     }, [selectedDoctor?.id, patientId, queryClient]);
 
@@ -74,6 +75,7 @@ export default function PatientChatContainer({ allowedDoctors, patientId }: { al
                 body: JSON.stringify({
                     receiverId: selectedDoctor?.id,
                     text,
+                    message: text, // 🎯 ব্যাকএন্ড বা ডক্টর প্যানেল যদি 'message' এক্সপেক্ট করে
                 }),
             });
             return res.json();
@@ -84,9 +86,11 @@ export default function PatientChatContainer({ allowedDoctors, patientId }: { al
         },
     });
 
-    // মেসেজ লিস্টে নতুন মেসেজ আসলে বা ডাক্তার চেঞ্জ হলে স্ক্রোল নিচে নামানোর জন্য useEffect
+    // 🎯 ফিক্স: মেসেজ লোড বা নতুন মেসেজ আসলে অটোমেটিক নিচে স্ক্রোল করার নির্ভরযোগ্য লজিক
     useEffect(() => {
-        messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+        if (!isLoading && messages.length > 0) {
+            messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+        }
     }, [messages, isLoading]);
 
     const handleSend = (e: React.FormEvent) => {
@@ -124,10 +128,11 @@ export default function PatientChatContainer({ allowedDoctors, patientId }: { al
                                 key={doc.id}
                                 type="button"
                                 onClick={() => setSelectedDoctor(doc)}
-                                className={`w-full flex items-center gap-3 p-3 rounded-2xl text-left transition ${isSelected
+                                className={`w-full flex items-center gap-3 p-3 rounded-2xl text-left transition ${
+                                    isSelected
                                         ? "bg-blue-600 text-white shadow-sm"
                                         : "hover:bg-zinc-100 dark:hover:bg-zinc-900 text-zinc-800 dark:text-zinc-200"
-                                    }`}
+                                }`}
                             >
                                 <div className="w-10 h-10 rounded-xl bg-zinc-200 dark:bg-zinc-800 flex-shrink-0 overflow-hidden flex items-center justify-center font-bold">
                                     {doc.image ? <img src={doc.image} alt={doc.name} className="w-full h-full object-cover" /> : <User className="w-4 h-4" />}
@@ -142,7 +147,7 @@ export default function PatientChatContainer({ allowedDoctors, patientId }: { al
                 </div>
             </div>
 
-            {/* 💬 ডান পাশ: একটিভ চ্যাট باکس উইন্ডো */}
+            {/* 💬 ডান পাশ: একটিভ চ্যাট উইন্ডো */}
             <div className="md:col-span-2 flex flex-col h-full bg-white dark:bg-zinc-950 overflow-hidden">
                 {selectedDoctor ? (
                     <>

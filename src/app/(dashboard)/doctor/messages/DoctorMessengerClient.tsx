@@ -60,23 +60,27 @@ export default function DoctorMessengerClient({ currentDoctor }: MessengerProps)
     }
   };
 
-  // Pusher রিয়েল-টাইম লিসেনার সাবস্ক্রিপশন
+  // 🚀 Pusher রিয়েল-টাইম লিসেনার সাবস্ক্রিপশন (ফিক্সড পার্ট)
   useEffect(() => {
     const patientId = activePatient?.patientId || activePatient?._id || activePatient?.patientPhone;
     
     if (!patientId || !currentDoctor?.id) return;
 
-// ✅ ১টি লাইনের সেফ ফিক্স (যা কখনো পেজ ক্র্যাশ করতে দেবে না):
-const pusher = new PusherClient(process.env.NEXT_PUBLIC_PUSHER_KEY || "", {
-  cluster: process.env.NEXT_PUBLIC_PUSHER_CLUSTER || "ap2",
-});
+    // ✅ সেফ ইনিশিয়েলাইজেশন
+    const pusher = new PusherClient(process.env.NEXT_PUBLIC_PUSHER_KEY || "", {
+      cluster: process.env.NEXT_PUBLIC_PUSHER_CLUSTER || "ap2",
+    });
 
-    const channelName = `chat-${[currentDoctor.id, patientId].sort().join("-")}`;
+    // 🎯 ফিক্স: আইডি দুটিকে স্ট্রিং বানিয়ে ট্রিম (Trim) করা হলো যাতে চ্যানেলের নাম হুবহু ম্যাচ করে
+    const docIdStr = String(currentDoctor.id).trim();
+    const patIdStr = String(patientId).trim();
+    const channelName = `chat-${[docIdStr, patIdStr].sort().join("-")}`;
+    
     const channel = pusher.subscribe(channelName);
 
     channel.bind("new-message", (data: any) => {
       setMessages((prev) => {
-        // ডুপ্লিকেট মেসেজ প্রিভেনশন চেক (টেক্সট এবং মেসেজ উভয় ফিল্ডই চেক রাখা হলো)
+        // ডুপ্লিকেট মেসেজ প্রিভেনশন চেক
         const isDuplicate = prev.some(
           (msg) => 
             (msg.message === data.message || msg.text === data.text || msg.message === data.text || msg.text === data.message) && 
@@ -89,10 +93,9 @@ const pusher = new PusherClient(process.env.NEXT_PUBLIC_PUSHER_KEY || "", {
 
     return () => {
       channel.unbind_all();
-      channel.unsubscribe();
-      pusher.disconnect();
+      pusher.unsubscribe(channelName); // 🎯 নির্দিষ্ট চ্যানেল আনসাবস্ক্রাইব করা হলো
+      // ❌ pusher.disconnect(); 👈 এই লাইনটি কেটে দেওয়া হলো যাতে কানেকশন ড্রপ না করে
     };
-    // 🎯 ফিক্স: ডিপেন্ডেন্সি অ্যারে সঠিকভাবে হ্যান্ডেল করা হলো যাতে চ্যাট সুইচ করলে লিসেনার না হারায়
   }, [activePatient, currentDoctor?.id]);
 
   // অটো স্ক্রোল টু বটম
@@ -115,7 +118,7 @@ const pusher = new PusherClient(process.env.NEXT_PUBLIC_PUSHER_KEY || "", {
       senderId: currentDoctor.id,
       receiverId: patientId,
       message: messageText,
-      text: messageText, // 🎯 পেশেন্ট সাইডের স্কিমার সাথে ম্যাচ করানোর সেফটি ফিল্ড
+      text: messageText, 
       timestamp: new Date().toISOString()
     };
     setMessages((prev) => [...prev, tempMessage]);
@@ -128,7 +131,7 @@ const pusher = new PusherClient(process.env.NEXT_PUBLIC_PUSHER_KEY || "", {
           senderId: currentDoctor.id,
           receiverId: patientId, 
           message: messageText,
-          text: messageText, // 🎯 ব্যাকএন্ড চ্যাট রাউটে যদি 'text' ফিল্ড এক্সপেক্ট করে
+          text: messageText, 
         }),
       });
       const result = await res.json();
@@ -169,7 +172,6 @@ const pusher = new PusherClient(process.env.NEXT_PUBLIC_PUSHER_KEY || "", {
             <div className="p-8 text-center text-xs text-zinc-400">📭 কোনো ইউজার নেই।</div>
           ) : (
             filteredChats.map((chat) => {
-              // 🎯 একটিভ ট্র্যাকিং আইডি সিঙ্ক করা হলো
               const chatPatientId = chat.patientId || chat._id;
               const currentActiveId = activePatient?.patientId || activePatient?._id;
               const isSelected = currentActiveId === chatPatientId;
@@ -208,7 +210,6 @@ const pusher = new PusherClient(process.env.NEXT_PUBLIC_PUSHER_KEY || "", {
                 return (
                   <div key={idx} className={`flex ${isMe ? 'justify-end' : 'justify-start'}`}>
                     <div className={`max-w-xs px-3 py-2 rounded-2xl text-xs shadow-sm ${isMe ? 'bg-blue-600 text-white rounded-br-none' : 'bg-white dark:bg-zinc-900 text-zinc-800 dark:text-zinc-200 rounded-bl-none border border-zinc-100 dark:border-zinc-800/60'}`}>
-                      {/* 🎯 ফিক্স ১: এপিআই থেকে ডেটা 'text' বা 'message' যাই আসুক যেন ক্র্যাশ না করে */}
                       {msg.message || msg.text}
                     </div>
                   </div>

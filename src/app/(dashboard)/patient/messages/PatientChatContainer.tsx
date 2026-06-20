@@ -38,29 +38,29 @@ export default function PatientChatContainer({ allowedDoctors, patientId }: { al
             return result.messages || [];
         },
         enabled: !!selectedDoctor,
-        // 🎯 নোট: Pusher অন করার পর এই ৪ সেকেন্ডের পোলিং (refetchInterval) আর দরকার নেই, তাও ব্যাকআপ হিসেবে রাখতে পারেন।
     });
 
-    // 🚀 Pusher রিয়েল-টাইম লিসেনার সাবস্ক্রিপশন (পেশেন্ট সাইডের জন্য ম্যাজিক পার্ট)
+    // 🚀 Pusher রিয়েল-টাইม লিসেনার সাবস্ক্রিপশন 🎯
     useEffect(() => {
         if (!selectedDoctor?.id || !patientId) return;
 
-        const pusher = new PusherClient(process.env.NEXT_PUBLIC_PUSHER_KEY!, {
-            cluster: process.env.NEXT_PUBLIC_PUSHER_CLUSTER!,
+        // 🎯 বিস্ময়সূচক চিহ্ন (!) তুলে দিয়ে সেফ ফলব্যাক ব্যবহার করা হলো যাতে Vercel-এ ক্র্যাশ না করে
+        const pusher = new PusherClient(process.env.NEXT_PUBLIC_PUSHER_KEY || "", {
+            cluster: process.env.NEXT_PUBLIC_PUSHER_CLUSTER || "ap2",
         });
 
-        // 🎯 ডক্টর সাইডের সাথে মিল রেখে ঠিক একই নিয়মে চ্যানেল তৈরি করা হলো
+        // 🎯 ডক্টর সাইডের সাথে মিল রেখে চ্যানেল তৈরি
         const channelName = `chat-${[selectedDoctor.id, patientId].sort().join("-")}`;
         const channel = pusher.subscribe(channelName);
 
-        // নতুন মেসেজ আসা মাত্রই TanStack Query এর ক্যাশ ডাটা রিফ্রেশ (Invalidate) করে দেওয়া হবে
+        // নতুন মেসেজ আসা মাত্রই TanStack Query এর ক্যাশ ডাটা রিফ্রেশ (Invalidate) করে দেওয়া হবে
         channel.bind("new-message", () => {
             queryClient.invalidateQueries({ queryKey: ["chatHistory", selectedDoctor.id] });
         });
 
         return () => {
             channel.unbind_all();
-            channel.unsubscribe();
+            pusher.unsubscribe(channelName); // সেফ আনসাবস্ক্রাইব
             pusher.disconnect();
         };
     }, [selectedDoctor?.id, patientId, queryClient]);
@@ -113,7 +113,7 @@ export default function PatientChatContainer({ allowedDoctors, patientId }: { al
             {/* 📁 বাম পাশ: ডক্টর লিস্ট প্যানেল */}
             <div className="border-r border-zinc-200 dark:border-zinc-800 flex flex-col bg-zinc-50/50 dark:bg-zinc-900/10 h-full overflow-hidden">
                 <div className="p-4 border-b border-zinc-200 dark:border-zinc-800">
-                    <p className="text-[10px] font-black text-zinc-400 uppercase tracking-wider">My Doctors</p>
+                    <p className="text-[10px] font-black text-zinc-400 uppercase tracking-wider">My Doctors list</p>
                 </div>
 
                 <div className="flex-1 overflow-y-auto p-2 space-y-1">
@@ -142,14 +142,14 @@ export default function PatientChatContainer({ allowedDoctors, patientId }: { al
                 </div>
             </div>
 
-            {/* 💬 ডান পাশ: একটিভ চ্যাট বক্স উইন্ডো */}
+            {/* 💬 ডান পাশ: একটিভ চ্যাট باکس উইন্ডো */}
             <div className="md:col-span-2 flex flex-col h-full bg-white dark:bg-zinc-950 overflow-hidden">
                 {selectedDoctor ? (
                     <>
                         {/* চ্যাট হেডার */}
                         <div className="p-4 bg-zinc-50 dark:bg-zinc-900 border-b border-zinc-200 dark:border-zinc-800 flex items-center gap-3">
                             <div className="w-8 h-8 rounded-lg bg-blue-50 dark:bg-zinc-900 flex items-center justify-center text-blue-600 font-bold text-xs">
-                                {selectedDoctor.name[0]}
+                                {selectedDoctor.name ? selectedDoctor.name[0] : "D"}
                             </div>
                             <div>
                                 <h4 className="text-sm font-bold text-zinc-800 dark:text-zinc-100">{selectedDoctor.name}</h4>

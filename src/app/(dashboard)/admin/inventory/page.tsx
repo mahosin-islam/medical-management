@@ -1,9 +1,9 @@
 import React from 'react'
 
-function Inventory() {
+function InvetorPage() {
   return (
-    <div>Inventory</div>
+    <div>InvetorPage</div>
   )
 }
 
-export default Inventory
+export default InvetorPage

@@ -26,7 +26,7 @@ export default function PatientAppointmentsPage() {
   }
 
   return (
-    <div className="p-6 max-w-6xl mx-auto">
+    <div className="md:p-6 ">
       {/* আমরা আগে যে টেবিলটি বানিয়েছিলাম সেটি এখানে কল করা হলো */}
       <PatientAppointments appointments={appointments} />
     </div>

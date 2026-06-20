@@ -77,7 +77,7 @@ export default function AddDoctorPage() {
   };
 
   return (
-    <div className="max-w-2xl mx-auto mt-8 p-8 bg-white dark:bg-zinc-950 rounded-xl shadow-sm border border-zinc-200 dark:border-zinc-800">
+    <div className="md:max-w-2xl md:mx-auto mt-8 p-8 bg-white dark:bg-zinc-950 rounded-xl shadow-sm border border-zinc-200 dark:border-zinc-800">
       <div className="mb-6">
         <h2 className="text-2xl font-bold tracking-tight text-zinc-900 dark:text-zinc-50">
           Add New Doctor

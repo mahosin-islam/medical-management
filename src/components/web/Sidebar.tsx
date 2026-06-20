@@ -11,6 +11,7 @@ import {
   MessageSquare, Clock, NotebookPen, DollarSign, UserCircle, 
   Plus
 } from "lucide-react";
+import Logout from "../Buttons/Logout";
 
 const adminMenuItems = [
   { name: "Dashboard",     href: "/admin",     icon: LayoutDashboard },
@@ -109,13 +110,7 @@ export default function Sidebar() {
 
       {/* Bottom Logout Section */}
       <div className="mt-auto border-t border-border/60 pt-4">
-        <button 
-          onClick={() => console.log("Logout Clicked")}
-          className="w-full flex items-center gap-3 px-4 py-3 rounded-2xl text-sm font-semibold text-rose-500 hover:bg-rose-500/10 transition-colors group cursor-pointer active:scale-95"
-        >
-          <LogOut className="w-5 h-5 text-rose-400 group-hover:text-rose-500 transition-transform group-hover:translate-x-0.5" />
-          <span>Logout</span>
-        </button>
+       <Logout />
       </div>
     </div>
   );

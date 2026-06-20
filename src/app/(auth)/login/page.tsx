@@ -2,7 +2,7 @@
 import { authClient } from '@/lib/auth-client';
 import { useState } from 'react';
 import Link from 'next/link';
-import { Mail, Lock, Eye, EyeOff, ArrowRight } from 'lucide-react';
+import { Mail, Lock, Eye, EyeOff, ArrowRight, ShieldAlert, User, Stethoscope } from 'lucide-react';
 
 export default function LoginPage() {
   const [email, setEmail] = useState('');
@@ -10,6 +10,38 @@ export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
+
+  // 🎯 ডেমো অ্যাকাউন্টস কনফিগারেশন
+  const demoAccounts = [
+    {
+      role: 'Admin',
+      email: 'admin@gmail.com',
+      password: '123456Az',
+      icon: <ShieldAlert className="w-3.5 h-3.5 text-amber-500" />,
+      bg: 'hover:bg-amber-500/10 dark:hover:bg-amber-500/20 border-amber-500/20'
+    },
+    {
+      role: 'Doctor',
+      email: 'jakia@gmail.com',
+      password: '123456Az',
+      icon: <Stethoscope className="w-3.5 h-3.5 text-purple-500" />,
+      bg: 'hover:bg-purple-500/10 dark:hover:bg-purple-500/20 border-purple-500/20'
+    },
+    {
+      role: 'Patient',
+      email: 'sifat@gmail.com',
+      password: '123456Az',
+      icon: <User className="w-3.5 h-3.5 text-blue-500" />,
+      bg: 'hover:bg-blue-500/10 dark:hover:bg-blue-500/20 border-blue-500/20'
+    }
+  ];
+
+  // ⚡ ডেমো বাটনে ক্লিক করলে ফিল্ড পপুলেট করার ফাংশন
+  const handleDemoClick = (demoEmail: string, demoPass: string) => {
+    setEmail(demoEmail);
+    setPassword(demoPass);
+    setErrorMessage(''); // আগের এরর মেসেজ ক্লিয়ার করা
+  };
 
   // Handle email/password sign-in logic
   async function handleSubmit(e: React.FormEvent) {
@@ -55,6 +87,27 @@ export default function LoginPage() {
       {/* Header Typography */}
       <div className="space-y-2 text-center lg:text-left">
         <h2 className="text-3xl font-bold tracking-tight text-foreground">Welcome back</h2>
+      </div>
+
+      {/* 🛠️ ডেমো কুইক লগইন প্যানেল */}
+      <div className="bg-muted/40 dark:bg-muted/10 p-4 rounded-2xl border border-border space-y-2.5">
+        <p className="text-[11px] font-bold text-muted-foreground uppercase tracking-wider text-center lg:text-left">
+          Quick Demo Access
+        </p>
+        <div className="grid grid-cols-3 gap-2">
+          {demoAccounts.map((demo) => (
+            <button
+              key={demo.role}
+              type="button"
+              disabled={isLoading}
+              onClick={() => handleDemoClick(demo.email, demo.password)}
+              className={`flex flex-col sm:flex-row items-center justify-center gap-1.5 py-2 px-1.5 bg-background border rounded-xl text-xs font-semibold text-foreground transition-all cursor-pointer shadow-sm disabled:opacity-50 ${demo.bg}`}
+            >
+              {demo.icon}
+              <span>{demo.role}</span>
+            </button>
+          ))}
+        </div>
       </div>
 
       {/* Dynamic Native Error Alert Box */}
@@ -145,7 +198,7 @@ export default function LoginPage() {
 
       {/* Navigation Redirect Link */}
       <div className="text-center text-sm text-muted-foreground pt-2">
-        Dont have an account?{' '}
+        Don't have an account?{' '}
         <Link href="/singup" className="font-bold text-primary hover:underline underline-offset-4">
           Sign up
         </Link>

@@ -8,7 +8,7 @@ interface UserType {
   id: string;
   name: string;
   email: string;
-  role: "patient" | "doctor" | string;
+  role: "admin" | "patient" | "doctor" | string;
   image?: string;
 }
 
@@ -16,7 +16,7 @@ export default function AdminRoleManagement() {
   const queryClient = useQueryClient();
   const [searchTerm, setSearchTerm] = useState("");
 
-  // 🔎 TanStack Query: সব ইউজার নিয়ে আসা
+  // 🔎 TanStack Query: সব ইউজার নিয়ে আসা
   const { data: users = [], isLoading } = useQuery<UserType[]>({
     queryKey: ["adminAllUsers"],
     queryFn: async () => {
@@ -26,7 +26,7 @@ export default function AdminRoleManagement() {
     },
   });
 
-  // 🚀 TanStack Mutation: রোল পরিবর্তন করার রিকোয়েস্ট পাঠানো
+  // 🚀 TanStack Mutation: রোল পরিবর্তন করার রিকোয়েস্ট পাঠানো
   const changeRoleMutation = useMutation({
     mutationFn: async ({ userId, newRole }: { userId: string; newRole: string }) => {
       const res = await fetch("/api/admin/users", {
@@ -43,7 +43,10 @@ export default function AdminRoleManagement() {
   });
 
   const handleRoleChange = (userId: string, currentRole: string) => {
-    // যদি বর্তমান রোল patient হয় তবে doctor হবে, আর doctor হলে patient হবে
+    // 🔐 সেফটি গার্ড: যদি বর্তমান রোল admin হয়, তবে ফাংশনটি এখানেই থেমে যাবে
+    if (currentRole === "admin") return;
+
+    // যদি বর্তমান রোল patient হয় তবে doctor হবে, আর doctor হলে patient হবে
     const newRole = currentRole === "patient" ? "doctor" : "patient";
     changeRoleMutation.mutate({ userId, newRole });
   };
@@ -100,7 +103,7 @@ export default function AdminRoleManagement() {
               ) : filteredUsers.length === 0 ? (
                 <tr>
                   <td colSpan={4} className="text-center py-12 text-zinc-400 text-[11px]">
-                    কোনো ইউজার খুঁজে পাওয়া যায়নি।
+                    কোনো ইউজার খুঁজে পাওয়া যায়নি।
                   </td>
                 </tr>
               ) : (
@@ -125,9 +128,11 @@ export default function AdminRoleManagement() {
                     {/* বর্তমান রোল ব্যাজ */}
                     <td className="p-4">
                       <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[10px] font-bold border ${
-                        user.role === "doctor"
-                          ? "bg-purple-50 dark:bg-purple-950/30 text-purple-600 dark:text-purple-400 border-purple-100 dark:border-purple-900/20"
-                          : "bg-blue-50 dark:bg-blue-950/30 text-blue-600 dark:text-blue-400 border-blue-100 dark:border-blue-900/20"
+                        user.role === "admin"
+                          ? "bg-amber-50 dark:bg-amber-950/30 text-amber-600 dark:text-amber-400 border-amber-100 dark:border-amber-900/20"
+                          : user.role === "doctor"
+                            ? "bg-purple-50 dark:bg-purple-950/30 text-purple-600 dark:text-purple-400 border-purple-100 dark:border-purple-900/20"
+                            : "bg-blue-50 dark:bg-blue-950/30 text-blue-600 dark:text-blue-400 border-blue-100 dark:border-blue-900/20"
                       }`}>
                         <Shield className="w-3 h-3" />
                         {user.role.toUpperCase()}
@@ -138,16 +143,22 @@ export default function AdminRoleManagement() {
                     <td className="p-4 text-right">
                       <button
                         type="button"
-                        disabled={changeRoleMutation.isPending}
+                        // 🎯 কন্ডিশনাল ডিজেবল: রোল যদি admin হয় অথবা মিউটেশন রানিং থাকে
+                        disabled={user.role === "admin" || changeRoleMutation.isPending}
                         onClick={() => handleRoleChange(user.id, user.role)}
                         className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl font-bold transition shadow-sm text-[11px] ${
-                          user.role === "patient"
-                            ? "bg-purple-600 hover:bg-purple-700 text-white"
-                            : "bg-zinc-900 dark:bg-zinc-100 hover:opacity-90 text-white dark:text-zinc-950"
+                          user.role === "admin"
+                            ? "bg-zinc-200 dark:bg-zinc-800 text-zinc-400 dark:text-zinc-600 cursor-not-allowed opacity-60"
+                            : user.role === "patient"
+                              ? "bg-purple-600 hover:bg-purple-700 text-white cursor-pointer"
+                              : "bg-zinc-900 dark:bg-zinc-100 hover:opacity-90 text-white dark:text-zinc-950 cursor-pointer"
                         }`}
                       >
-                        <RefreshCw className={`w-3 h-3 ${changeRoleMutation.isPending ? "animate-spin" : ""}`} />
-                        Change to {user.role === "patient" ? "Doctor" : "Patient"}
+                        <RefreshCw className={`w-3 h-3 ${changeRoleMutation.isPending && user.role !== "admin" ? "animate-spin" : ""}`} />
+                        {user.role === "admin" 
+                          ? "Admin Locked" 
+                          : `Change to ${user.role === "patient" ? "Doctor" : "Patient"}`
+                        }
                       </button>
                     </td>
 

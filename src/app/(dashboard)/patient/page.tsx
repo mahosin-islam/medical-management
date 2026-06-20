@@ -13,8 +13,9 @@ import {
   DollarSign,
   Download,
   Video,
-  MapPin
+  MapPin 
 } from "lucide-react";
+import Link from "next/link";
 
 // ১. পেশেন্ট স্ট্যাটিস্টিকস ডাটা
 const patientStats = [
@@ -159,10 +160,10 @@ export default function PatientDashboardPage() {
               ))}
             </div>
 
-            <button className="w-full bg-primary text-primary-foreground text-sm font-semibold py-3.5 rounded-2xl hover:bg-primary/90 transition-all shadow-md mt-6 flex items-center justify-center gap-2 cursor-pointer">
+            <Link href="/doctors" className="w-full bg-primary text-primary-foreground text-sm font-semibold py-3.5 rounded-2xl hover:bg-primary/90 transition-all shadow-md mt-6 flex items-center justify-center gap-2 cursor-pointer">
               <Calendar className="w-4 h-4" />
               Book New Appointment
-            </button>
+            </Link>
           </div>
 
           {/* সাম্প্রতিক প্রেসক্রিপশন */}

@@ -66,9 +66,10 @@ export default function DoctorMessengerClient({ currentDoctor }: MessengerProps)
     
     if (!patientId || !currentDoctor?.id) return;
 
-    const pusher = new PusherClient(process.env.NEXT_PUBLIC_PUSHER_KEY!, {
-      cluster: process.env.NEXT_PUBLIC_PUSHER_CLUSTER!,
-    });
+// ✅ ১টি লাইনের সেফ ফিক্স (যা কখনো পেজ ক্র্যাশ করতে দেবে না):
+const pusher = new PusherClient(process.env.NEXT_PUBLIC_PUSHER_KEY || "", {
+  cluster: process.env.NEXT_PUBLIC_PUSHER_CLUSTER || "ap2",
+});
 
     const channelName = `chat-${[currentDoctor.id, patientId].sort().join("-")}`;
     const channel = pusher.subscribe(channelName);
@@ -150,7 +151,7 @@ export default function DoctorMessengerClient({ currentDoctor }: MessengerProps)
         <div className="bg-white dark:bg-zinc-950 p-4 rounded-2xl border border-zinc-200 dark:border-zinc-800 shadow-sm space-y-3">
           <div>
             <h1 className="text-lg font-bold text-zinc-900 dark:text-zinc-50">Patients</h1>
-            <p className="text-[11px] text-zinc-500">পেইড রোগীদের চ্যাট লিস্ট</p>
+            <p className="text-[11px] text-zinc-500">Mahoin পেইড রোগীদের চ্যাট লিস্ট</p>
           </div>
           <input 
             type="text" 

@@ -15,7 +15,7 @@ const ambulanceFleet = [
     type: "AC Ambulance",
     typeBn: "এসি অ্যাম্বুলেন্স",
     // 🚑 রিয়েল লাইফ সাপোর্ট ইমার্জেন্সি অ্যাম্বুলেন্স (বাহিরের দৃশ্য)
-    image: "https://images.unsplash.com/photo-1516549655169-df83a0774514?auto=format&fit=crop&w=600&q=80",
+    image: "https://images.unsplash.com/photo-1705264895993-c544cf74a0c7?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     features: ["Get ambulance within 30 minutes*", "24/7 affordable quality service", "We are just a call away: 01405600700"]
   },
   {
@@ -23,7 +23,7 @@ const ambulanceFleet = [
     type: "ICU Ambulance",
     typeBn: "আইসিইউ অ্যাম্বুলেন্স",
     // 🏥 অ্যাডভান্সড লাইফ সাপোর্ট ও আইসিইউ ইকুইপমেন্ট (অ্যাম্বুলেন্সের ভেতরের দৃশ্য)
-    image: "https://images.unsplash.com/photo-1551076805-e1869033e561?auto=format&fit=crop&w=600&q=80",
+    image: "https://plus.unsplash.com/premium_photo-1664299503603-237d266dc7cb?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     features: ["Get ambulance within 30 minutes*", "24/7 affordable quality service", "We are just a call away: 01405600700"]
   },
   {
@@ -31,7 +31,7 @@ const ambulanceFleet = [
     type: "AIR Ambulance",
     typeBn: "এয়ার অ্যাম্বুলেন্স",
     // 🚁 ইমার্জেন্সি এয়ার মেডিকেল রেসকিউ হেলিকপ্টার
-    image: "https://images.unsplash.com/photo-1540962351504-03099e0a754b?auto=format&fit=crop&w=600&q=80",
+    image: "https://plus.unsplash.com/premium_photo-1661868386344-80726f22a620?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     features: ["Get ambulance within 60 minutes*", "24/7 affordable quality service", "We are just a call away: 01405600700"]
   }
 ];

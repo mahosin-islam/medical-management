@@ -104,7 +104,7 @@ export default function DepartmentsGrid() {
   };
 
   return (
-    <section ref={sectionRef} className="relative overflow-hidden bg-gradient-to-b from-background via-muted/5 to-background py-16 md:py-20">
+    <section ref={sectionRef} className="relative overflow-hidden bg-gradient-to-b from-background via-muted/5 to-background pb-8 md:py-20">
       
       {/* Dynamic Background Gradients */}
       <div className="absolute inset-0 pointer-events-none">

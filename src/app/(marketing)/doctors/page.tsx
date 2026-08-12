@@ -16,7 +16,7 @@ export default async function FindDoctorPage() {
         <p className="text-xs text-zinc-500">আপনার প্রয়োজনীয় স্পেশালিটি বা ডক্টরের নাম লিখে সহজে অনুসন্ধান করুন।</p>
       </div>
 
-      {/* 🚀 সার্ভার পেজের পেটের ভেতরে আমরা ক্লায়েন্ট উইজেটটি ঢুকিয়ে দিচ্ছি */}
+      
       <SearchFilterWidget />
     </div>
   );

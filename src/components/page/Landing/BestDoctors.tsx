@@ -2,7 +2,6 @@
 
 import React from 'react';
 import { useRouter } from 'next/navigation';
-// রিকোয়ার্ড সোশ্যাল আইকনগুলো react-icons/fa6 থেকে নেওয়া হয়েছে
 import { FaFacebookF, FaXTwitter, FaLinkedinIn } from 'react-icons/fa6';
 import Image from 'next/image';
 
@@ -24,14 +23,14 @@ const bestDoctors: Doctor[] = [
     name: "Dr. Nadim Kamal",
     specialty: "Associate Eye Specialist",
     image: "https://images.unsplash.com/photo-1622253692010-333f2da6031d?w=600&auto=format&fit=crop&q=80",
-    socials: { facebook: "#", twitter: "#", linkedin: "#" }
+    socials: { facebook: "https://facebook.com", twitter: "#", linkedin: "#" }
   },
   {
     id: 2,
     name: "Dr. Zinia Zara",
     specialty: "Neurology",
     image: "https://images.unsplash.com/photo-1712215544003-af10130f8eb3?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    socials: { facebook: "#", twitter: "#", linkedin: "#" }
+    socials: { facebook: "https://facebook.com", twitter: "#", linkedin: "#" }
   },
   {
     id: 3,

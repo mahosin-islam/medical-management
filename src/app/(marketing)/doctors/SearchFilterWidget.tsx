@@ -62,11 +62,11 @@ export default function SearchFilterWidget() {
       {isLoading && !doctors ? (
         <div className="text-center text-xs text-zinc-500 p-12">Searching doctors...</div>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 2xl:grid-cols-4 gap-4">
           {doctors?.map((doc: any) => (
             <div key={doc._id} className="bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-2xl p-5 shadow-sm flex gap-4 hover:shadow-md transition">
-              <div className="w-20 h-20 bg-blue-50 dark:bg-blue-950/40 rounded-xl overflow-hidden flex-shrink-0 flex items-center justify-center font-bold text-blue-600 text-xl">
-                {doc.image ? <img src={doc.image} alt={doc.name} className="w-full h-full object-cover" /> : doc.name[0]}
+              <div className="w-20 h-30 bg-blue-50 dark:bg-blue-950/40 rounded-xl overflow-hidden flex-shrink-0 flex items-center justify-center font-bold text-blue-600 text-xl">
+                {doc.image ? <img src={doc.image} alt={doc.name} className=" w-full h-full object-cover" /> : doc.name[0]}
               </div>
               
               <div className="flex-1 min-w-0 space-y-1">

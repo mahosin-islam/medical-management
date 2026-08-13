@@ -22,28 +22,28 @@ const bestDoctors: Doctor[] = [
     id: 1,
     name: "Dr. Nadim Kamal",
     specialty: "Associate Eye Specialist",
-    image: "https://images.unsplash.com/photo-1622253692010-333f2da6031d?w=600&auto=format&fit=crop&q=80",
+    image: "https://res.cloudinary.com/rob9jlkw/image/upload/v1786445712/images__2_-removebg-preview_cw36it.png",
     socials: { facebook: "https://facebook.com", twitter: "#", linkedin: "#" }
   },
   {
     id: 2,
     name: "Dr. Zinia Zara",
     specialty: "Neurology",
-    image: "https://images.unsplash.com/photo-1712215544003-af10130f8eb3?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    image: "https://res.cloudinary.com/rob9jlkw/image/upload/v1786445703/images__3_-removebg-preview_bw6zq3.png",
     socials: { facebook: "https://facebook.com", twitter: "#", linkedin: "#" }
   },
   {
     id: 3,
     name: "Dr. Jeffrey Davis",
     specialty: "Associate Eye Specialist",
-    image: "https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=600&auto=format&fit=crop&q=80",
+    image: "https://res.cloudinary.com/rob9jlkw/image/upload/v1786445484/images-removebg-preview_w5khbv.png",
     socials: { facebook: "#", twitter: "#", linkedin: "#" }
   },
   {
     id: 4,
     name: "Dr. Mariya",
     specialty: "Cardiology",
-    image: "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=600&auto=format&fit=crop&q=80",
+    image: "https://res.cloudinary.com/rob9jlkw/image/upload/v1786445463/ls8jZeYgnHXzPdoUXNd9svUT0-removebg-preview_eor8om.png",
     socials: { facebook: "#", twitter: "#", linkedin: "#" }
   }
 ];

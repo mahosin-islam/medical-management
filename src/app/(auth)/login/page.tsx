@@ -22,14 +22,14 @@ export default function LoginPage() {
     },
     {
       role: 'Doctor',
-      email: 'jakia@gmail.com',
+      email: 'arifulislam@gmail.com',
       password: '123456Az',
       icon: <Stethoscope className="w-3.5 h-3.5 text-purple-500" />,
       bg: 'hover:bg-purple-500/10 dark:hover:bg-purple-500/20 border-purple-500/20'
     },
     {
       role: 'Patient',
-      email: 'sifat@gmail.com',
+      email: 'mahosin@gmail.com',
       password: '123456Az',
       icon: <User className="w-3.5 h-3.5 text-blue-500" />,
       bg: 'hover:bg-blue-500/10 dark:hover:bg-blue-500/20 border-blue-500/20'

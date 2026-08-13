@@ -142,16 +142,23 @@ export default function TrustedBy() {
               <div>
                 {/* Upper Frame Display Area containing Medical Images */}
                 <div className="w-full aspect-[16/10] bg-slate-50 dark:bg-muted/10 rounded-xl overflow-hidden relative border border-slate-100 dark:border-border/20 mb-4">
-                  <Image
-                    src={partner.image}
-                    alt={partner.name}
-                    className="w-full h-full object-cover transition-transform duration-500 ease-out group-hover:scale-103 pointer-events-none"
-                    fill
-                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-
-
-
-                  />
+                  {/* প্যারেন্ট ট্যাগে অবশ্যই 'relative' এবং কোনো Height/Aspect Ratio থাকতে হবে */}
+<div className="relative w-full h-48 overflow-hidden">
+  {partner.image ? (
+    <Image
+      src={partner.image}
+      alt={partner.name || "Partner"}
+      fill
+      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+      className="object-cover transition-transform duration-500 ease-out group-hover:scale-[1.03] pointer-events-none"
+    />
+  ) : (
+    /* image = null বা খালি থাকলে নিরাপদ ব্যাকআপ UI */
+    <div className="w-full h-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center font-bold text-slate-400 text-lg">
+      {partner.name ? partner.name[0] : "P"}
+    </div>
+  )}
+</div>
 
                   {/* Absolute Top-Edge Certification Stamp */}
                   {partner.certified && (

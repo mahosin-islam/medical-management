@@ -83,14 +83,24 @@ export default function BestDoctors() {
 
               {/* Doctor Visual Port Container */}
               <div className="w-full aspect-[4/5] bg-slate-50 dark:bg-muted/10 rounded-xl overflow-hidden relative">
-                <Image
-                  src={doc.image}
-                  alt={doc.name}
-                  className="w-full h-full object-cover object-top pointer-events-none"
-                  fill // width/height এর বদলে fill ব্যবহার করা হলো
-                  priority
-
-                />
+               {/* প্যারেন্ট ট্যাগে relative থাকা বাধ্যতামূলক */}
+<div className="relative w-full h-full overflow-hidden">
+  {doc.image ? (
+    <Image
+      src={doc.image}
+      alt={doc.name || "Doctor"}
+      fill
+      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+      className="object-cover object-top pointer-events-none"
+      priority
+    />
+  ) : (
+    /* image = null বা খালি হলে নিরাপদ ব্যাকআপ UI */
+    <div className="w-full h-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center font-bold text-slate-400 text-xl">
+      {doc.name ? doc.name[0] : "D"}
+    </div>
+  )}
+</div>
 
                 {/* Identity Presentation Board - (আপনার স্ক্রিনশটের ডিজাইনের অবিকল রূপ) */}
                 <div className="absolute bottom-4 left-1/2 -translate-x-1/2 w-[90%] bg-[#12283c] dark:bg-[#111c24] text-white rounded-xl p-4 text-center border border-white/5 shadow-lg transition-all duration-300 flex flex-col justify-center items-center">

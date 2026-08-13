@@ -50,7 +50,7 @@ export default function PatientsSection() {
   }, [isInView, controls]);
 
   return (
-    <section ref={containerRef} className="py-6 md:py-14 bg-gradient-to-b from-background to-muted/30 relative overflow-hidden transition-colors duration-300">
+    <section ref={containerRef} className="py-6  md:py-8 bg-gradient-to-b from-background to-muted/30 relative overflow-hidden transition-colors duration-300">
       {/* Soft Background Blur Glows */}
       <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-primary/5 rounded-full blur-[120px] pointer-events-none" />
       <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-teal-500/5 rounded-full blur-[120px] pointer-events-none" />
@@ -96,16 +96,22 @@ export default function PatientsSection() {
               >
                 {/* Image Wrap */}
                 <div className="aspect-[16/10] overflow-hidden bg-muted relative border-b border-border/50">
-                  <div className="relative h-full w-full overflow-hidden">
-
-                    <Image
-                      src={fleet.image}
-                      alt={fleet.type}
-                      fill
-                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-102"
-                    />
-                  </div>
+                 <div className="relative w-full h-64 overflow-hidden">
+  {fleet.image ? (
+    <Image
+      src={fleet.image}
+      alt={fleet.type || "Fleet"}
+      fill
+      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+      className="object-cover transition-transform duration-500 group-hover:scale-105"
+    />
+  ) : (
+    /* image = null হলে সেফ Fallback UI */
+    <div className="w-full h-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-400 font-medium text-xs">
+      <span>ছবি উপলব্ধ নেই</span>
+    </div>
+  )}
+</div>
 
 
                   <div className="absolute top-3 right-3 bg-background/80 backdrop-blur-md border border-border px-2.5 py-1 rounded-lg text-[11px] font-bold text-foreground">

@@ -20,13 +20,16 @@ export default function OrthopedicsPage() {
       </nav>
 
       <section className="relative h-[420px] overflow-hidden">
-        <Image
-          src="https://images.unsplash.com/photo-1597764690523-15bea4c581c9?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-          alt="Orthopedics department"
-          fill
-          priority
-          className="object-cover brightness-40"
-        />
+        <div className="relative w-full h-[350px] sm:h-[450px] overflow-hidden">
+  <Image
+    src="https://images.unsplash.com/photo-1597764690523-15bea4c581c9?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+    alt="Orthopedics department"
+    fill
+    priority
+    sizes="100vw"
+    className="object-cover brightness-[0.4]"
+  />
+</div>
         <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
         <div className="absolute inset-0 flex flex-col justify-end max-w-6xl mx-auto px-6 pb-12">
           <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-white/30 bg-white/10 backdrop-blur-sm text-white text-xs mb-4 w-fit">
@@ -101,12 +104,22 @@ export default function OrthopedicsPage() {
 
           <div className="sc-card overflow-hidden p-0">
             <div className="relative h-52">
-              <Image
-                src="https://images.unsplash.com/photo-1559757175-5700dde675bc?w=900&q=80"
-                alt="Orthopedic surgery"
-                fill
-                className="object-cover brightness-60"
-              />
+             
+
+
+
+<div className="relative w-full h-52 sm:h-[450px] overflow-hidden">
+  <Image
+    src="https://images.unsplash.com/photo-1559757175-5700dde675bc?w=900&q=80"
+    alt="Orthopedics department"
+    fill
+    priority
+    sizes="100vw"
+    className="object-cover brightness-[0.4]"
+  />
+</div>
+
+
               <div className="absolute inset-0 flex items-end p-6">
                 <div>
                   <h2 className="text-xl font-medium text-white mb-1">Key procedures</h2>

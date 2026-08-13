@@ -20,13 +20,20 @@ export default function NeurologyPage() {
       </nav>
 
       <section className="relative h-[420px] overflow-hidden">
-        <Image
-          src="https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=1400&q=80"
-          alt="Neurology department"
-          fill
-          priority
-          className="object-cover brightness-40"
-        />
+  
+
+<div className="relative w-full h-[350px] sm:h-[450px] overflow-hidden">
+  <Image
+    src="https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=1400&q=80"
+    alt="Cardiology department"
+    fill
+    priority
+    sizes="100vw"
+    className="object-cover brightness-[0.4]"
+  />
+</div>
+
+
         <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
         <div className="absolute inset-0 flex flex-col justify-end max-w-6xl mx-auto px-6 pb-12">
           <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-white/30 bg-white/10 backdrop-blur-sm text-white text-xs mb-4 w-fit">

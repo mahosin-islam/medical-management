@@ -52,16 +52,16 @@ export default function HospitalEnvironment() {
             <div className="relative group rounded-[2rem] overflow-hidden bg-slate-100 dark:bg-muted/10 border border-slate-100 dark:border-border/30 shadow-[0_20px_50px_rgba(18,40,60,0.12)]">
 
               {/* Main Medical/Hospital High-End Environment Image */}
-              <div className="w-full h-full aspect-[4/3] sm:aspect-[16/11] overflow-hidden">
-                <Image
-                  src="https://images.unsplash.com/photo-1586773860418-d37222d8fce3?q=80&w=1173&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                  alt="Modern Hospital Clinic Environment"
-                  className="w-full h-full object-cover object-center transition-transform duration-700 ease-out group-hover:scale-102"
-                  fill // width/height এর বদলে fill ব্যবহার করা হলো
-                  priority
-
-                />
-              </div>
+              <div className="relative w-full aspect-[4/3] sm:aspect-[16/11] overflow-hidden">
+  <Image
+    src="https://images.unsplash.com/photo-1586773860418-d37222d8fce3?q=80&w=1173&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+    alt="Modern Hospital Clinic Environment"
+    fill
+    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 50vw"
+    className="object-cover object-center transition-transform duration-700 ease-out group-hover:scale-[1.02]"
+    priority
+  />
+</div>
 
               {/* Float Badge Tag Over Image Frame */}
               <div className="absolute top-4 left-4 bg-[#12283c]/90 dark:bg-[#111c24]/90 backdrop-blur-md px-4 py-2.5 rounded-xl border border-white/10 shadow-lg flex items-center gap-2.5">

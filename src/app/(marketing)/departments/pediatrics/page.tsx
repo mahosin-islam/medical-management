@@ -19,16 +19,21 @@ export default function PediatricsPage() {
           <span className="text-(--color-foreground) font-medium">Pediatrics</span>
         </div>
       </nav>
-
       {/* Hero */}
       <section className="relative h-[420px] overflow-hidden">
-        <Image
-          src="https://images.unsplash.com/photo-1581056771107-24ca5f033842?w=1400&q=80"
-          alt="Pediatrics department"
-          fill
-          priority
-          className="object-cover brightness-40"
-        />
+        <div className="relative w-full h-[350px] sm:h-[450px] overflow-hidden">
+          <Image
+            src="https://images.unsplash.com/photo-1581056771107-24ca5f033842?w=1400&q=80"
+            alt="Cardiology department"
+            fill
+            priority
+            sizes="100vw"
+            className="object-cover brightness-[0.4]"
+          />
+        </div>
+
+
+
         <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
         <div className="absolute inset-0 flex flex-col justify-end max-w-6xl mx-auto px-6 pb-12">
           <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-white/30 bg-white/10 backdrop-blur-sm text-white text-xs mb-4 w-fit">

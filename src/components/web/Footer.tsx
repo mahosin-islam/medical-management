@@ -200,7 +200,7 @@ export default function Footer() {
         {/* ================= BOTTOM BAR ================= */}
         <div className="border-t border-slate-800 pt-4 flex flex-col sm:flex-row items-center justify-between gap-2 text-[11px] text-slate-500">
           <div>
-            Designed by <span className="text-slate-400 font-medium">Siam Khan</span>
+            Designed by <span className="text-slate-400 font-medium">Mahosin</span>
           </div>
           <div>
             © {currentYear} ShifaCare. All rights reserved.

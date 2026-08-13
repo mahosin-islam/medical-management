@@ -59,8 +59,7 @@ export default function Hero() {
         </AnimatePresence>
       </div>
 
-      {/* ================= LEFT-ALIGNED ADVANCED GRADIENT OVERLAY ================= */}
-      {/* এই ওভারলেটি ব্যাকগ্রাউন্ড ইমেজকে ক্লিয়ার রাখবে, কিন্তু টেক্সটের নিচে রিডাবিলিটি লেয়ার তৈরি করবে */}
+   
       <div className="absolute inset-0 z-10 bg-gradient-to-r from-slate-950/90 via-slate-950/60 to-transparent w-full md:w-[75%]" />
       <div className="absolute inset-0 z-10 bg-gradient-to-t from-slate-950/40 via-transparent to-transparent hidden md:block" />
 

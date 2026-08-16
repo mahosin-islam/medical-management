@@ -7,7 +7,7 @@ export default function SharedLayout({ children }: { children: ReactNode }) {
   return (
     <>
       <Navbar />
-     <main className="mt-24">
+     <main className="mt-22">
         {children}
      </main>
      <Footer/>

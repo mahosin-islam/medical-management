@@ -40,7 +40,7 @@ export default function Navbar() {
   };
 
   return (
-    <header className="fixed top-4 left-0 right-0 z-50 px-4 md:px-8 max-w-7xl mx-auto">
+    <header className="fixed  left-0 right-0 z-50 px-4 md:px-8 max-w-7xl mx-auto">
       {/* Navbar Container - Uses dynamic card background, border, and blur */}
       <nav className="bg-card/80 backdrop-blur-md border border-border shadow-sm rounded-full px-6 py-3 flex items-center justify-between transition-colors duration-300">
 

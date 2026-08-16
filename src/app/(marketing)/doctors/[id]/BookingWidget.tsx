@@ -1,6 +1,8 @@
 "use client";
 
 import React, { useState } from 'react';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
 interface BookingWidgetProps {
   doctor: {
@@ -28,36 +30,19 @@ interface BookingWidgetProps {
   currentUser: {
     name: string;
     email: string;
-  };
+  } | null; // 👈 লগইন না থাকলে null আসবে
 }
 
 export default function BookingWidget({ doctor, currentUser }: BookingWidgetProps) {
-  // ১. যদি ইউজার লগইন না থাকে বা ইমেইল না পায়
-  if (!currentUser || !currentUser.email) {
-    return (
-      <div className="bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-2xl p-6 text-center shadow-sm">
-        <h3 className="text-sm font-bold text-amber-500 mb-2">Login Required</h3>
-        <p className="text-xs text-zinc-500 leading-relaxed">অ্যাপয়েন্টমেন্ট বুক করতে প্রথমে আপনার অ্যাকাউন্টে লগইন করুন।</p>
-      </div>
-    );
-  }
+  const pathname = usePathname();
 
-  if (!doctor || !doctor.scheduleConfig || !doctor.scheduleConfig.availableDays || doctor.scheduleConfig.availableDays.length === 0) {
-    return (
-      <div className="bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-2xl p-6 text-center shadow-sm">
-        <h3 className="text-sm font-bold text-red-500 mb-2">Booking Unavailable</h3>
-        <p className="text-xs text-zinc-500 leading-relaxed">এই ডাক্তারের কোনো অ্যাক্টিভ শিডিউল সেট করা নেই।</p>
-      </div>
-    );
-  }
-
-  const clinicAddress = doctor.bioDetails?.clinicAddress || doctor.chamberConfig?.clinicAddress || "N/A";
-  const consultationFee = Number(doctor.bioDetails?.consultationFee || doctor.chamberConfig?.consultationFee) || 500;
-  const doctorPhone = doctor.bioDetails?.chamberPhone || doctor.chamberConfig?.chamberPhone || doctor.phone || "N/A";
+  const clinicAddress = doctor?.bioDetails?.clinicAddress || doctor?.chamberConfig?.clinicAddress || "N/A";
+  const consultationFee = Number(doctor?.bioDetails?.consultationFee || doctor?.chamberConfig?.consultationFee) || 500;
+  const doctorPhone = doctor?.bioDetails?.chamberPhone || doctor?.chamberConfig?.chamberPhone || doctor?.phone || "N/A";
   
   const minRequiredFee = consultationFee / 2; // 💸 মিনিমাম ৫০% ফি ক্যালকুলেশন
 
-  const { _id: doctorId, scheduleConfig } = doctor;
+  const { _id: doctorId, scheduleConfig } = doctor || {};
   
   const [isBookingStarted, setIsBookingStarted] = useState(false);
   const [showCalendar, setShowCalendar] = useState(false);
@@ -76,19 +61,56 @@ export default function BookingWidget({ doctor, currentUser }: BookingWidgetProp
   const [bookedSerials, setBookedSerials] = useState<number[]>([]);
   const [patientPhone, setPatientPhone] = useState<string>("");
 
-  // 💸 পেমেন্টের জন্য স্টেট (ডিফল্ট হিসেবে মিনিমাম ৫০% পেমেন্ট সেট থাকবে)
+  // 💸 পেমেন্টের জন্য স্টেট
   const [paidAmountInput, setPaidAmountInput] = useState<number>(minRequiredFee);
   const [paymentError, setPaymentError] = useState<string>("");
 
   const today = new Date(); 
   const [currentMonth, setCurrentMonth] = useState<Date>(new Date(today.getFullYear(), today.getMonth(), 1));
 
+  // 🌟 ১. ইউজার লগইন না থাকলে লগইন বাটন ও কার্ড রিডাইরেক্ট দেখাবে
+  if (!currentUser || !currentUser.email) {
+    return (
+      <div className="bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-2xl p-6 text-center shadow-sm space-y-4">
+        <div className="h-12 w-12 rounded-full bg-blue-50 dark:bg-blue-950/40 text-blue-600 flex items-center justify-center mx-auto text-xl font-bold">
+          🔒
+        </div>
+        <div>
+          <h3 className="text-base font-bold text-zinc-900 dark:text-zinc-50">Appointment Booking</h3>
+          <p className="text-xs text-zinc-500 mt-1 leading-relaxed">
+            অ্যাপয়েন্টমেন্ট নিশ্চিত করতে এবং ডাক্তারের সাথে সিরিয়াল নিতে প্রথমে আপনার অ্যাকাউন্টে লগইন করুন।
+          </p>
+        </div>
+
+        <div className="bg-zinc-50 dark:bg-zinc-900/50 p-3 rounded-xl border border-zinc-100 dark:border-zinc-800 text-xs font-semibold text-zinc-600 dark:text-zinc-300">
+          Consultation Fee: <span className="text-blue-600 dark:text-blue-400 font-bold">৳ {consultationFee}</span>
+        </div>
+
+        <Link
+          href={`/login?callbackUrl=${encodeURIComponent(pathname)}`}
+          className="w-full inline-flex items-center justify-center bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-xl text-xs sm:text-sm transition-all shadow-md hover:shadow-blue-600/20 cursor-pointer"
+        >
+          Login to Book Appointment
+        </Link>
+      </div>
+    );
+  }
+
+  // ডাক্তারের শিডিউল না থাকলে
+  if (!doctor || !scheduleConfig || !scheduleConfig.availableDays || scheduleConfig.availableDays.length === 0) {
+    return (
+      <div className="bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-2xl p-6 text-center shadow-sm">
+        <h3 className="text-sm font-bold text-red-500 mb-2">Booking Unavailable</h3>
+        <p className="text-xs text-zinc-500 leading-relaxed">এই ডাক্তারের কোনো অ্যাক্টিভ শিডিউল সেট করা নেই।</p>
+      </div>
+    );
+  }
+
   const isValidBDPhone = (phone: string) => {
     const phoneRegex = /^01[3-9]\d{8}$/;
     return phoneRegex.test(phone);
   };
 
-  // পেমেন্ট ভ্যালিডেশন সহ ফর্ম ভ্যালিড চেক
   const isFormValid = 
     selectedDateStr && 
     selectedSerial && 
@@ -140,7 +162,6 @@ export default function BookingWidget({ doctor, currentUser }: BookingWidgetProp
     setBookedSerials(existingBookings);
   };
 
-  // 💸 পেমেন্ট ইনপুট চেঞ্জ হ্যান্ডলার ও রিয়েলটাইম এরর ভ্যালিডেশন
   const handlePaymentChange = (value: number) => {
     setPaidAmountInput(value);
     if (value < minRequiredFee) {
@@ -193,8 +214,7 @@ export default function BookingWidget({ doctor, currentUser }: BookingWidgetProp
     }
   };
 
- if (bookingSuccess) {
-    // 🎯 ফ্রন্টএন্ডে রিয়েলটাইম স্ট্যাটাস টেক্সট ক্যালকুলেশন
+  if (bookingSuccess) {
     const finalStatus = (consultationFee - paidAmountInput) === 0 ? "Completed" : "Pending";
 
     return (
@@ -203,7 +223,6 @@ export default function BookingWidget({ doctor, currentUser }: BookingWidgetProp
         <h3 className="text-sm font-bold text-zinc-900 dark:text-zinc-50">Appointment Requested!</h3>
         <p className="text-xs text-zinc-500 mt-2">পেশেন্ট <span className="font-semibold text-zinc-800 dark:text-zinc-200">{currentUser.name}</span> এর জন্য ডেট {selectedDateStr}-এ সিরিয়াল <span className="font-bold text-blue-600">#{selectedSerial}</span> কনফার্ম হয়েছে।</p>
         
-        {/* 🎯 এখানে স্ট্যাটাস ডায়নামিক করা হয়েছে */}
         <div className="mt-3 flex justify-center gap-2">
           <span className={`text-[10px] font-black uppercase px-2 py-0.5 rounded-md ${finalStatus === "Completed" ? "bg-green-100 text-green-700" : "bg-blue-100 text-blue-700"}`}>
             Status: {finalStatus}
@@ -224,7 +243,7 @@ export default function BookingWidget({ doctor, currentUser }: BookingWidgetProp
         <h3 className="text-base font-bold text-zinc-900 dark:text-zinc-50 mb-2">Need an Appointment?</h3>
         <p className="text-xs text-zinc-500 mb-3 leading-relaxed">Hi <span className="font-semibold text-zinc-800 dark:text-zinc-200">{currentUser.name}</span>, নিচের বাটনে ক্লিক করে আপনার স্লটটি কনফার্ম করুন</p>
         <p className="text-[11px] font-bold text-zinc-400 mb-5">Consultation Fee: {consultationFee} Tk</p>
-        <button onClick={() => setIsBookingStarted(true)} className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-xl text-sm transition shadow-sm">Book Appointment Now</button>
+        <button onClick={() => setIsBookingStarted(true)} className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-xl text-sm transition shadow-sm cursor-pointer">Book Appointment Now</button>
       </div>
     );
   }
@@ -236,7 +255,7 @@ export default function BookingWidget({ doctor, currentUser }: BookingWidgetProp
           <h3 className="text-xs font-bold text-zinc-800 dark:text-zinc-200 uppercase tracking-wider">Select Location & Slot</h3>
           <span className="text-[11px] font-bold text-emerald-600 mt-0.5">Fee: {consultationFee} Tk</span>
         </div>
-        <button onClick={() => setIsBookingStarted(false)} className="text-xs text-zinc-400 hover:text-zinc-600 font-medium">Cancel</button>
+        <button onClick={() => setIsBookingStarted(false)} className="text-xs text-zinc-400 hover:text-zinc-600 font-medium cursor-pointer">Cancel</button>
       </div>
 
       {/* 👤 লগইনড ইউজার ইনফো প্রোফাইল */}
@@ -378,7 +397,7 @@ export default function BookingWidget({ doctor, currentUser }: BookingWidgetProp
             </div>
           )}
 
-          {/* 💸 পেমেন্ট ইনপুট সেকশন (আপডেটেড: এখন ডেট সিলেক্ট করার সাথে সাথেই আসবে) */}
+          {/* 💸 পেমেন্ট ইনপুট সেকশন */}
           {selectedDateStr && (
             <div className="space-y-2 bg-blue-50/40 dark:bg-blue-950/10 border border-blue-100/50 dark:border-blue-900/30 rounded-xl p-3.5">
               <div className="flex justify-between items-center text-[11px] font-bold text-blue-700 dark:text-blue-400">

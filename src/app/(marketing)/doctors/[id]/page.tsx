@@ -187,7 +187,7 @@ export default async function DoctorDetailPage({ params }: PageProps) {
           </div>
 
           {/* ডান পাশের কলামে বুকিং উইজেট */}
-          <div className="md:col-span-1">
+          <div className="md:col-span-1 ">
             <div className="sticky top-6">
               {/* 🌟 ৩. উইজেটের ভেতরে সাকসেসফুলি রিয়াল ডাইনামিক ইউজার অবজেক্ট পাস করে দেওয়া হলো */}
               <BookingWidget doctor={doctor as any} currentUser={currentUser} />

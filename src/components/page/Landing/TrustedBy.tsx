@@ -43,17 +43,6 @@ const trustedPartners: Partner[] = [
   },
   {
     id: 3,
-    name: "United Hospital Ltd.",
-    image: "https://images.unsplash.com/photo-1586773860418-d37222d8fce3?w=600&auto=format&fit=crop&q=80",
-    type: "Private",
-    established: 2006,
-    rating: 4.7,
-    certified: true,
-    beds: 500,
-    specialty: "General Surgery"
-  },
-  {
-    id: 4,
     name: "Evercare Hospital Dhaka",
     image: "https://images.unsplash.com/photo-1629909613654-28e377c37b09?w=600&auto=format&fit=crop&q=80",
     type: "Private",
@@ -122,7 +111,7 @@ export default function TrustedBy() {
         </motion.div>
 
         {/* Dynamic Partner Cards Grid Structural Array */}
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3">
           {trustedPartners.map((partner, idx) => (
             <motion.div
               key={partner.id}
@@ -143,22 +132,22 @@ export default function TrustedBy() {
                 {/* Upper Frame Display Area containing Medical Images */}
                 <div className="w-full aspect-[16/10] bg-slate-50 dark:bg-muted/10 rounded-xl overflow-hidden relative border border-slate-100 dark:border-border/20 mb-4">
                   {/* প্যারেন্ট ট্যাগে অবশ্যই 'relative' এবং কোনো Height/Aspect Ratio থাকতে হবে */}
-<div className="relative w-full h-48 overflow-hidden">
-  {partner.image ? (
-    <Image
-      src={partner.image}
-      alt={partner.name || "Partner"}
-      fill
-      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-      className="object-cover transition-transform duration-500 ease-out group-hover:scale-[1.03] pointer-events-none"
-    />
-  ) : (
-    /* image = null বা খালি থাকলে নিরাপদ ব্যাকআপ UI */
-    <div className="w-full h-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center font-bold text-slate-400 text-lg">
-      {partner.name ? partner.name[0] : "P"}
-    </div>
-  )}
-</div>
+                  <div className="relative w-full h-48 overflow-hidden">
+                    {partner.image ? (
+                      <Image
+                        src={partner.image}
+                        alt={partner.name || "Partner"}
+                        fill
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                        className="object-cover transition-transform duration-500 ease-out group-hover:scale-[1.03] pointer-events-none"
+                      />
+                    ) : (
+                      /* image = null বা খালি থাকলে নিরাপদ ব্যাকআপ UI */
+                      <div className="w-full h-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center font-bold text-slate-400 text-lg">
+                        {partner.name ? partner.name[0] : "P"}
+                      </div>
+                    )}
+                  </div>
 
                   {/* Absolute Top-Edge Certification Stamp */}
                   {partner.certified && (
@@ -221,8 +210,8 @@ export default function TrustedBy() {
                             <Star
                               key={i}
                               className={`h-2.5 w-2.5 ${i < Math.floor(partner.rating)
-                                  ? "fill-amber-400 text-amber-400"
-                                  : "fill-slate-100 text-slate-200 dark:fill-muted/20 dark:text-muted/10"
+                                ? "fill-amber-400 text-amber-400"
+                                : "fill-slate-100 text-slate-200 dark:fill-muted/20 dark:text-muted/10"
                                 }`}
                             />
                           ))}

@@ -4,7 +4,6 @@ import { db } from "@/lib/mongodb";
 import DoctorCardSkeleton from "@/components/Common/DoctorCardSkeleton";
 import FeaturedDocsList from "./Doctors";
 
-
 // 🔄 কার্ড লোডিং স্কেলিটন গ্রিড
 function DoctorsGridSkeleton() {
   return (
@@ -16,7 +15,7 @@ function DoctorsGridSkeleton() {
   );
 }
 
-// 📦 ডাটা ফেচিং কম্পোনেন্ট
+// 📦 ডাটা ফেচিং কম্পোনент
 async function DoctorDataGrid() {
   const rawDocs = await db
     .collection("doctors")
@@ -36,14 +35,14 @@ async function DoctorDataGrid() {
 
   if (!rawDocs || rawDocs.length === 0) {
     return (
-      <div className="col-span-full text-center text-xs text-zinc-400 p-12 bg-white dark:bg-zinc-950 rounded-2xl border border-zinc-200 dark:border-zinc-800">
+      <div className="col-span-full text-center text-xs text-muted-foreground p-12 bg-card rounded-2xl border border-border">
         No doctors found matching your criteria.
       </div>
     );
   }
 
   // ObjectId Serialization Fix
-  const featuredDocs = rawDocs.map((doc:any) => ({
+  const featuredDocs = rawDocs.map((doc: any) => ({
     ...doc,
     _id: doc._id.toString(),
   }));
@@ -54,33 +53,33 @@ async function DoctorDataGrid() {
 export default function FeaturedDoctors() {
   try {
     return (
-      <section className="py-10 bg-gradient-to-b from-transparent to-zinc-50/50 dark:to-zinc-950/20">
+      <section className="py-10 bg-gradient-to-b from-transparent to-muted/30">
         <div className="max-w-7xl mx-auto px-4">
           
-          {/* 🔥 সেকশন হেডার (সবসময় দেখা যাবে) */}
+          {/* 🔥 সেকশন হেডার (সবসময় দেখা যাবে) */}
           <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-6 gap-4">
             <div>
-              <span className="text-xs font-bold uppercase tracking-widest text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-950/40 px-3 py-1 rounded-full">
+              <span className="text-xs font-bold uppercase tracking-widest text-primary bg-primary/10 px-3 py-1 rounded-full">
                 Meet Our Experts
               </span>
-              <h2 className="text-2xl md:text-3xl font-extrabold text-zinc-900 dark:text-zinc-50 mt-3 tracking-tight">
+              <h2 className="text-2xl md:text-3xl font-extrabold text-foreground mt-3 tracking-tight">
                 Our Featured Specialists
               </h2>
-              <p className="text-xs md:text-sm text-zinc-500 mt-1">
+              <p className="text-xs md:text-sm text-muted-foreground mt-1">
                 সেরা অভিজ্ঞ চিকিৎসকদের পরামর্শ নিন ঘরে বসেই।
               </p>
             </div>
 
             <Link
               href="/doctors"
-              className="group text-xs font-bold text-blue-600 dark:text-blue-400 flex items-center gap-1 hover:underline bg-white dark:bg-zinc-900 px-4 py-2.5 rounded-xl border border-zinc-200 dark:border-zinc-800 shadow-sm transition"
+              className="group text-xs font-bold text-primary flex items-center gap-1 hover:underline bg-card px-4 py-2.5 rounded-xl border border-border shadow-sm transition"
             >
               See All Doctors
               <span className="transform group-hover:translate-x-1 transition-transform">→</span>
             </Link>
           </div>
 
-          {/* 📊 শুধুমাত্র কার্ডের জায়গায় Skeleton দেখাবে */}
+          {/* 📊 শুধুমাত্র কার্ডের জায়গায় Skeleton দেখাবে */}
           <Suspense fallback={<DoctorsGridSkeleton />}>
             <DoctorDataGrid />
           </Suspense>

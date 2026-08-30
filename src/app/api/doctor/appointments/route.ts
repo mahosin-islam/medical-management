@@ -6,22 +6,37 @@ export async function GET(request: Request) {
   try {
     const { searchParams } = new URL(request.url);
     const doctorId = searchParams.get("doctorId");
-    const dateStr = searchParams.get("date"); // e.g. "2026-06-18"
+    const dateStr = searchParams.get("date"); // e.g. "2026-08-26" (Optional now)
 
-    if (!doctorId || !dateStr) {
-      return NextResponse.json({ error: "Doctor ID and Date are required" }, { status: 400 });
+    if (!doctorId) {
+      return NextResponse.json({ error: "Doctor ID is required" }, { status: 400 });
     }
 
-    // 💡 মেগা সেফ ক্যোয়ারী: doctorId যদি ইউজার আইডি, প্রোফাইল আইডি বা ইমেইলও হয়, সব ক্ষেত্রে ডাটা আসবে
+    // 💡 ডাক্তার অবজেক্ট থেকে শিডিউল কনফিগারেশন আনা
+    let doctorDoc = null;
+    if (ObjectId.isValid(doctorId)) {
+      doctorDoc = await db.collection("doctors").findOne({ _id: new ObjectId(doctorId) });
+    }
+    if (!doctorDoc) {
+      doctorDoc = await db.collection("doctors").findOne({
+        $or: [{ email: doctorId }, { name: doctorId }]
+      });
+    }
+
+    // ক্যোয়ারী সেটআপ
     const query: any = {
-      date: dateStr,
       $or: [
         { doctorId: doctorId },
         { doctorId: ObjectId.isValid(doctorId) ? new ObjectId(doctorId) : null },
-        { doctorEmail: doctorId }, // যদি ফ্রন্টএন্ড থেকে আইডি-র জায়গায় ইমেইল পাস হয়
-        { doctorName: doctorId }   // ব্যাকআপ হিসেবে নাম ম্যাচিং
+        { doctorEmail: doctorId },
+        { doctorName: doctorId }
       ]
     };
+
+    // যদি নির্দিষ্ট ডেট পাঠানো হয়
+    if (dateStr) {
+      query.date = dateStr;
+    }
 
     const appointments = await db
       .collection("appointments")
@@ -29,21 +44,25 @@ export async function GET(request: Request) {
       .sort({ serialNumber: 1 })
       .toArray();
 
-    // ObjectId-কে স্ট্রিংয়ে সেফ কনভার্ট করা
     const formatted = appointments.map((app: any) => ({
       ...app,
       _id: app._id.toString(),
       doctorId: app.doctorId?.toString() || doctorId,
     }));
 
-    return NextResponse.json({ success: true, data: formatted }, { status: 200 });
+    return NextResponse.json({
+      success: true,
+      data: formatted,
+      scheduleConfig: doctorDoc?.scheduleConfig || { availableDays: [] },
+      bookedSchedules: doctorDoc?.bookedSchedules || {},
+    }, { status: 200 });
   } catch (error) {
     console.error("Doctor fetch appointments error:", error);
     return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
   }
 }
 
-// ২. পেশেন্টের বাকি টাকা ও স্ট্যাটাস আপডেট করা
+// ২. পেশেন্টের বকেয়া টাকা ও স্ট্যাটাস আপডেট করা
 export async function PATCH(request: Request) {
   try {
     const body = await request.json();

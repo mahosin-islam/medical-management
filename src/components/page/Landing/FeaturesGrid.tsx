@@ -59,26 +59,7 @@ const departmentsData = [
     link: "/departments/orthopedics", // 🔗 কারেন্ট রুট
     stats: "20+ Specialists"
   },
-  {
-    id: 5,
-    title: "Ophthalmology",
-    description: "Comprehensive eye examinations, advanced surgical procedures, and treatment for all vision-related disorders.",
-    icon: Eye, // 👁️ চোখের ডাক্তার (ডেমো রুট)
-    color: "text-teal-500 border-teal-500/20",
-    bgColor: "bg-teal-50 dark:bg-teal-950/20",
-    link: "/departments/ophthalmology", // 🔗 ডেমো রুট
-    stats: "15+ Specialists"
-  },
-  {
-    id: 6,
-    title: "Internal Medicine",
-    description: "Comprehensive primary care preventing, diagnosing, and treating complex chronic adult illnesses.",
-    icon: ActivitySquare, // 🩺 মেডিসিন বিভাগ (ডেমো রুট)
-    color: "text-indigo-500 border-indigo-500/20",
-    bgColor: "bg-indigo-50 dark:bg-indigo-950/20",
-    link: "/departments/internal-medicine", // 🔗 ডেমো রুট
-    stats: "30+ Specialists"
-  }
+
 ];
 
 export default function DepartmentsGrid() {
@@ -143,7 +124,7 @@ export default function DepartmentsGrid() {
           variants={containerVariants}
           initial="hidden"
           animate={controls}
-          className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3"
+          className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
         >
           {departmentsData.map((dept) => {
             const Icon = dept.icon;

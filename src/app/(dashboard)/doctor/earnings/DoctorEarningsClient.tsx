@@ -14,12 +14,16 @@ interface EarningsProps {
 export default function DoctorEarningsClient({ currentDoctor }: EarningsProps) {
   const [stats, setStats] = useState<any>(null);
   const [loading, setLoading] = useState<boolean>(true);
-  const [selectedMonth, setSelectedMonth] = useState<string>(""); // সিলেক্টেড মাস স্টেট
+  const [selectedMonth, setSelectedMonth] = useState<string>(""); 
+  const [isMounted, setIsMounted] = useState<boolean>(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   const fetchEarningsData = useCallback(async () => {
     setLoading(true);
     try {
-      // ডক্টর আইডি এবং সিলেক্টেড মাস কুয়েরি প্যারামিটার হিসেবে পাঠানো হচ্ছে
       let url = `/api/doctor/earnings?doctorId=${currentDoctor.id}`;
       if (selectedMonth) {
         url += `&month=${encodeURIComponent(selectedMonth)}`;
@@ -29,14 +33,12 @@ export default function DoctorEarningsClient({ currentDoctor }: EarningsProps) {
       const result = await res.json();
       if (result.success) {
         setStats(result.data);
-        // প্রথমবার লোড হওয়ার সময় যদি ডিফল্ট কোনো মাস সিলেক্ট না থাকে, তবে প্রথম এভেলেবল মাসটি সেট করা
         if (!selectedMonth && result.data.availableMonths?.length > 0) {
-          // কারেন্ট মাস ডাটাবেজে থাকলে সেটা দেখাবে, নয়তো একদম লেটেস্ট মাস
           setSelectedMonth(result.data.availableMonths[result.data.availableMonths.length - 1]);
         }
       }
     } catch (error) {
-      toast.error("আর্নিংস ডাটা লোড করতে সমস্যা হয়েছে");
+      toast.error("আর্নিংস ডাটা লোড করতে সমস্যা হয়েছে");
     } finally {
       setLoading(false);
     }
@@ -52,10 +54,9 @@ export default function DoctorEarningsClient({ currentDoctor }: EarningsProps) {
       <div className="bg-white dark:bg-zinc-950 p-4 rounded-2xl border border-zinc-200 dark:border-zinc-800 shadow-sm flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
           <h1 className="text-lg font-bold text-zinc-900 dark:text-zinc-50">Earnings Dashboard</h1>
-          <p className="text-[11px] text-zinc-500">স্বাগতম ডঃ {currentDoctor.name}! আপনার আয়ের হিসাব পর্যবেক্ষণ করুন।</p>
+          <p className="text-[11px] text-zinc-500">স্বাগতম ডঃ {currentDoctor.name}! আপনার আয়ের হিসাব পর্যবেক্ষণ করুন।</p>
         </div>
         
-        {/* 📊 মাস ফিল্টার ড্রপডাউন */}
         <div className="flex items-center gap-2">
           <label className="text-xs font-medium text-zinc-500">Select Month:</label>
           <select
@@ -76,12 +77,12 @@ export default function DoctorEarningsClient({ currentDoctor }: EarningsProps) {
         <div className="p-12 text-center text-xs text-zinc-500">ফিল্টার করা ডাটা লোড হচ্ছে...</div>
       ) : (
         <>
-          {/* 💸 ওপরে সামারি কার্ড */}
+          {/* 💸 সামারি কার্ড */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="bg-white dark:bg-zinc-950 p-6 rounded-2xl border border-zinc-200 dark:border-zinc-800 shadow-sm">
               <p className="text-xs font-medium text-zinc-500 dark:text-zinc-400">Total Earnings ({selectedMonth})</p>
               <h2 className="text-3xl font-bold text-zinc-900 dark:text-zinc-50 mt-1">৳ {stats?.totalEarnings || 0}</h2>
-              <p className="text-[11px] text-emerald-600 mt-2">৳ এই মাসে আপনার মোট অর্জিত আয়</p>
+              <p className="text-[11px] text-emerald-600 mt-2">৳ এই মাসে আপনার মোট অর্জিত আয়</p>
             </div>
 
             <div className="bg-white dark:bg-zinc-950 p-6 rounded-2xl border border-zinc-200 dark:border-zinc-800 shadow-sm">
@@ -91,25 +92,30 @@ export default function DoctorEarningsClient({ currentDoctor }: EarningsProps) {
             </div>
           </div>
 
-          {/* 📊 তারিখ ভিত্তিক ডেইলি ইনকাম চার্ট */}
+          {/* 📊 তারিখ ভিত্তিক ডেইলি ইনকাম চার্ট (Fixed Width/Height Error) */}
           <div className="bg-white dark:bg-zinc-950 p-6 rounded-2xl border border-zinc-200 dark:border-zinc-800 shadow-sm">
             <div className="mb-4">
               <h3 className="text-sm font-bold text-zinc-800 dark:text-zinc-200">Daily Revenue Breakdown</h3>
-              <p className="text-[11px] text-zinc-500">{selectedMonth} মাসের তারিখ ভিত্তিক আয়ের গ্রাফ</p>
+              <p className="text-[11px] text-zinc-500">{selectedMonth} মাসের তারিখ ভিত্তিক আয়ের গ্রাফ</p>
             </div>
-            <div className="w-full h-64 text-xs">
+
+            <div className="w-full h-[300px] min-w-0 text-xs">
               {stats?.chartData?.length > 0 ? (
-                <ResponsiveContainer width="100%" height="100%">
-                  <BarChart data={stats.chartData}>
-                    <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e4e4e7" className="dark:stroke-zinc-800" />
-                    <XAxis dataKey="name" stroke="#71717a" fontSize={10} tickLine={false} />
-                    <YAxis stroke="#71717a" fontSize={11} tickLine={false} axisLine={false} />
-                    <Tooltip cursor={{ fill: 'transparent' }} />
-                    <Bar dataKey="Amount" fill="#2563eb" radius={[6, 6, 0, 0]} barSize={30} />
-                  </BarChart>
-                </ResponsiveContainer>
+                isMounted ? (
+                  <ResponsiveContainer width="100%" height={300} minWidth={0}>
+                    <BarChart data={stats.chartData}>
+                      <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e4e4e7" className="dark:stroke-zinc-800" />
+                      <XAxis dataKey="name" stroke="#71717a" fontSize={10} tickLine={false} />
+                      <YAxis stroke="#71717a" fontSize={11} tickLine={false} axisLine={false} />
+                      <Tooltip cursor={{ fill: 'transparent' }} />
+                      <Bar dataKey="Amount" fill="#2563eb" radius={[6, 6, 0, 0]} barSize={30} />
+                    </BarChart>
+                  </ResponsiveContainer>
+                ) : (
+                  <div className="h-[300px] w-full bg-zinc-100 dark:bg-zinc-900 animate-pulse rounded-xl" />
+                )
               ) : (
-                <div className="h-full flex items-center justify-center text-zinc-400">এই মাসে কোনো ট্রানজেকশন ডাটা নেই</div>
+                <div className="h-[300px] flex items-center justify-center text-zinc-400">এই মাসে কোনো ট্রানজেকশন ডাটা নেই</div>
               )}
             </div>
           </div>
@@ -149,7 +155,7 @@ export default function DoctorEarningsClient({ currentDoctor }: EarningsProps) {
                     ))
                   ) : (
                     <tr>
-                      <td colSpan={4} className="p-8 text-center text-zinc-400">এই মাসে কোনো পেমেন্ট রেকর্ড পাওয়া যায়নি।</td>
+                      <td colSpan={4} className="p-8 text-center text-zinc-400">এই মাসে কোনো পেমেন্ট রেকর্ড পাওয়া যায়নি।</td>
                     </tr>
                   )}
                 </tbody>

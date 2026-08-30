@@ -4,7 +4,6 @@ import { db } from "@/lib/mongodb";
 import { redirect } from "next/navigation";
 import DoctorEarningsClient from "./DoctorEarningsClient";
 
-
 export default async function DoctorEarningsPage() {
   // 🔐 ১. কারেন্ট একটিভ সেশন চেক
   const session = await auth.api.getSession({

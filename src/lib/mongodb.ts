@@ -18,9 +18,8 @@ if (process.env.NODE_ENV === "development") {
   // প্রোডাকশনে (Vercel) একটিমাত্র গ্লোবাল কানেকশন তৈরি হবে
   client = new MongoClient(uri);
 }
-
-// আপনার ডাটাবেজের মেইন গেটওয়ে
+//database main get way
 db = client.db();
 
-// এগুলো এখন প্রজেক্টের যেকোনো জায়গা থেকে ইমপোর্ট করা যাবে
+
 export { client, db };

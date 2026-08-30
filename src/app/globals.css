@@ -1,41 +1,43 @@
 @import "tailwindcss";
+
 /* ==========================================================================
    SHIFACARE GLOBAL SYSTEM THEME VARIABLE SYSTEM (Tailwind v4 @theme)
+   Medical-Grade Professional Palette (Clinical Teal & Deep Slate)
    ========================================================================== */
 @theme {
   /* --- Light Mode CSS Variables --- */
-  --color-background: hsl(210 40% 98%);      /* #f8fafc - Soft Gray Blue */
-  --color-foreground: hsl(222 47% 11%);     /* #0f172a - Dark Slate Text */
+  --color-background: hsl(210 20% 98%);       /* #f8fafc - Medical Clean Light Gray */
+  --color-foreground: hsl(218 35% 15%);      /* #1e293b - Deep Slate Text */
   
-  --color-card: hsl(0 0% 100%);             /* #ffffff - Card Background */
-  --color-card-foreground: hsl(222 47% 11%);
+  --color-card: hsl(0 0% 100%);              /* #ffffff - Crisp Pure White Card */
+  --color-card-foreground: hsl(218 35% 15%);
   
-  --color-sidebar: hsl(0 0% 100%);          /* Clean White Sidebar */
-  --color-sidebar-foreground: hsl(215 16% 47%);
+  --color-sidebar: hsl(0 0% 100%);           /* Pure White Sidebar */
+  --color-sidebar-foreground: hsl(215 16% 40%);
   
-  --color-primary: hsl(188 95% 18%);        /* #015668 - Core Brand Teal */
+  --color-primary: hsl(186 100% 28%);        /* #006b7d - Professional Clinical Teal */
   --color-primary-foreground: hsl(0 0% 100%);
   
-  --color-muted: hsl(210 40% 96.1%);        /* #f1f5f9 - Subtle Lines */
-  --color-muted-foreground: hsl(215.4 16.3% 46.9%);
+  --color-muted: hsl(210 30% 95%);           /* #f1f5f9 - Soft Neutral Gray Lines */
+  --color-muted-foreground: hsl(215 16% 45%);
   
-  --color-accent: hsl(187 75% 95%);         /* Hover state */
-  --color-accent-foreground: hsl(188 95% 18%);
+  --color-accent: hsl(185 60% 94%);          /* Soft Ice Blue/Teal Hover Effect */
+  --color-accent-foreground: hsl(186 100% 28%);
   
-  --color-border: hsl(214.3 32% 91.4%);     /* #e2e8f0 - Separators */
-  --color-input: hsl(214.3 32% 91.4%);
+  --color-border: hsl(214 20% 90%);          /* Crisp Clean Borders */
+  --color-input: hsl(214 20% 90%);
   
   /* --- Medical Status Variables --- */
-  --color-status-success: hsl(142 76% 36%);     /* Active / Operational Green */
-  --color-status-success-bg: hsl(138 76% 96%);
+  --color-status-success: hsl(158 84% 32%);  /* Medical Emerald Green */
+  --color-status-success-bg: hsl(152 81% 96%);
   
-  --color-status-pending: hsl(24 95% 53%);      /* Pending Status Orange */
-  --color-status-pending-bg: hsl(32 95% 96%);
+  --color-status-pending: hsl(38 92% 50%);   /* Urgent/Pending Amber */
+  --color-status-pending-bg: hsl(48 100% 96%);
   
-  --color-status-info: hsl(217 91% 60%);         /* Dynamic blue tags */
-  --color-status-info-bg: hsl(214 96% 96%);
+  --color-status-info: hsl(200 98% 39%);     /* Diagnostic Medical Blue */
+  --color-status-info-bg: hsl(204 100% 96%);
   
-  --radius-sc: 0.75rem;                          /* 12px Dashboard Curves */
+  --radius-sc: 0.75rem;                       /* 12px Dashboard Curves */
 }
 
 /* ==========================================================================
@@ -44,44 +46,44 @@
 @variant dark (&:where(.dark, .dark *));
 
 .dark {
-  --color-background: hsl(224 71% 4%);       /* Deep Slate Charcoal Night */
-  --color-foreground: hsl(210 20% 98%);      /* White-gray text */
+  --color-background: hsl(220 40% 7%);       /* #0a0f1d - High-Contrast Dark Midnight */
+  --color-foreground: hsl(210 20% 98%);      /* Soft White-gray text */
   
-  --color-card: hsl(222 47% 7%);             /* Secondary Box base */
+  --color-card: hsl(220 30% 11%);            /* Elevated Dark Card Surface */
   --color-card-foreground: hsl(210 20% 98%);
   
-  --color-sidebar: hsl(224 71% 3%);          /* Darkest layout layer */
+  --color-sidebar: hsl(220 35% 9%);          /* Slightly Darker Sidebar Layer */
   --color-sidebar-foreground: hsl(215 20% 65%);
   
-  --color-primary: hsl(187 90% 38%);        /* Brighter teal for night */
-  --color-primary-foreground: hsl(222 47% 11%);
+  --color-primary: hsl(185 85% 42%);         /* Vibrant Ice Teal for Night Mode */
+  --color-primary-foreground: hsl(220 40% 7%);
   
-  --color-muted: hsl(217.2 32.6% 17.5%);     /* Grid lines */
+  --color-muted: hsl(220 20% 18%);           /* Subtle Grid lines */
   --color-muted-foreground: hsl(215 20% 65%);
   
-  --color-accent: hsl(217.2 32.6% 17.5%);
+  --color-accent: hsl(220 20% 18%);
   --color-accent-foreground: hsl(210 20% 98%);
   
-  --color-border: hsl(217.2 32.6% 17.5%);
-  --color-input: hsl(217.2 32.6% 17.5%);
+  --color-border: hsl(220 20% 18%);
+  --color-input: hsl(220 20% 18%);
 
   /* --- Dark Mode Status Adjustment --- */
-  --color-status-success-bg: hsl(142 70% 10%);
-  --color-status-pending-bg: hsl(24 90% 10%);
-  --color-status-info-bg: hsl(217 90% 12%);
+  --color-status-success-bg: hsl(158 84% 10%);
+  --color-status-pending-bg: hsl(38 92% 10%);
+  --color-status-info-bg: hsl(200 98% 10%);
 }
 
 /* ==========================================================================
    BASE & CUSTOM UTILITIES
    ========================================================================== */
    
-   @utility sc-card {
+@utility sc-card {
   background-color: var(--color-card);
   color: var(--color-card-foreground);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-sc);
   padding: 1.25rem;
-  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.04);
   transition: all 0.2s;
 }
 
@@ -116,9 +118,7 @@ body {
   transition-duration: 300ms;
 }
 
-
-/* globals.css - আপনার existing CSS এর সাথে যোগ করুন */
-
+/* Animations */
 @keyframes float {
   0%, 100% { transform: translateY(0px); }
   50% { transform: translateY(-20px); }

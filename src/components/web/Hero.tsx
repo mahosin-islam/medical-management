@@ -2,158 +2,142 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ArrowRight, CalendarDays, ChevronLeft, ChevronRight } from "lucide-react";
+import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
 import Link from "next/link";
 
 const sliderData = [
   {
     id: 1,
-    bgImage: "https://images.unsplash.com/photo-1629909613654-28e377c37b09?w=1920&auto=format&fit=crop&q=80",
-    tagline: "Now Registering is Even Easier",
-    heading: "Welcome to ShifaCare Regional Hospital",
-    subheading: "Your Health Is Our Happiness"
+    bgImage: "https://res.cloudinary.com/dzoigbkep/image/upload/v1793018584/ze3vssues3nvxqbdylhe.png",
+    heading: "Consult With Experienced Doctors In-Person Or From Your Home",
+    subheading: "Our doctors spend time to get to know you and your health with personalized care you can rely on.",
+    btnText: "Book Appointment",
+    btnLink: "/login"
   },
   {
     id: 2,
-    bgImage: "https://images.unsplash.com/photo-1516627145497-ae6968895b74?w=1920&auto=format&fit=crop&q=80",
-    tagline: "Emergency Services Just a Click Away",
-    heading: "Advanced ICUs & Specialized Medical Care",
-    subheading: "We are ready to help at your emergency 24/7"
+    bgImage: "https://res.cloudinary.com/dzoigbkep/image/upload/v1793018739/ktmwj7nv7dulcueo6shu.png",
+    heading: "Hassle-Free Lab Tests With Home Sample Collection",
+    subheading: "Quality diagnostic services delivered right to your doorstep, hassle-free and accurate.",
+    btnText: "Book a Test",
+    btnLink: "/login"
   },
   {
     id: 3,
-    bgImage: "https://plus.unsplash.com/premium_photo-1681966826227-d008a1cfe9c7?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    tagline: "Top Tier Medical Practitioners",
-    heading: "Expert Medical Consultation From Anywhere",
-    subheading: "Connecting you with verified doctors instantly"
+    bgImage: "https://res.cloudinary.com/dzoigbkep/image/upload/v1793018819/yq0zcfo0k3pukmsaruoq.png",
+    heading: "24/7 Emergency Care & Advanced Medical Support",
+    subheading: "Dedicated healthcare team always ready to serve you during your medical emergencies.",
+    btnText: "Emergency Services",
+    btnLink: "/doctors"
   }
 ];
 
 export default function Hero() {
   const [current, setCurrent] = useState(0);
+  const [direction, setDirection] = useState(1);
 
-  const nextSlide = () => setCurrent((prev) => (prev + 1) % sliderData.length);
-  const prevSlide = () => setCurrent((prev) => (prev - 1 + sliderData.length) % sliderData.length);
+  const nextSlide = () => {
+    setDirection(1);
+    setCurrent((prev) => (prev + 1) % sliderData.length);
+  };
+
+  const prevSlide = () => {
+    setDirection(-1);
+    setCurrent((prev) => (prev - 1 + sliderData.length) % sliderData.length);
+  };
 
   useEffect(() => {
     const timer = setInterval(nextSlide, 5000);
     return () => clearInterval(timer);
   }, []);
 
+  const slideVariants = {
+    enter: (dir: number) => ({
+      x: dir > 0 ? "100%" : "-100%",
+      opacity: 1
+    }),
+    center: {
+      x: "0%",
+      opacity: 1
+    },
+    exit: (dir: number) => ({
+      x: dir < 0 ? "100%" : "-100%",
+      opacity: 1
+    })
+  };
+
   return (
-    <section className="relative w-full h-[200px] sm:h-[400px] md:h-[75vh] max-h-[800px] flex items-center overflow-hidden bg-slate-950">
+    <section className="relative w-full h-[320px] sm:h-[420px] md:h-[400px] overflow-hidden bg-slate-100 mt-[-5px]">
       
-      {/* ================= CAROUSEL BACKGROUND IMAGES ================= */}
-      <div className="absolute inset-0 z-0">
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={current}
-            initial={{ opacity: 0.6, scale: 1.03 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0.5, scale: 1 }}
-            transition={{ duration: 0.7, ease: "easeInOut" }}
-            className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-            style={{ backgroundImage: `url('${sliderData[current].bgImage}')` }}
-          />
-        </AnimatePresence>
-      </div>
+      {/* ================= SLIDER CONTAINER ================= */}
+      <AnimatePresence initial={false} custom={direction}>
+        <motion.div
+          key={current}
+          custom={direction}
+          variants={slideVariants}
+          initial="enter"
+          animate="center"
+          exit="exit"
+          transition={{ duration: 0.5, ease: "easeInOut" }}
+          className="absolute inset-0 w-full h-full bg-cover bg-center flex items-center justify-center text-center"
+          style={{ backgroundImage: `url('${sliderData[current].bgImage}')` }}
+        >
+          {/* Subtle Light Overlay for Readable Text */}
+          <div className="absolute inset-0 bg-black/30" />
 
-      {/* ================= GRADIENT OVERLAYS ================= */}
-      <div className="absolute inset-0 z-10 bg-gradient-to-t from-slate-950 via-slate-950/70 to-slate-950/40 md:bg-gradient-to-r md:from-slate-950/95 md:via-slate-950/60 md:to-transparent" />
+          {/* ================= CENTER CONTENT ================= */}
+          <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 text-white space-y-3 sm:space-y-4">
+            <h1 className="text-xl sm:text-3xl md:text-4xl lg:text-5xl font-bold leading-tight drop-shadow-sm">
+              {sliderData[current].heading}
+            </h1>
+            
+            <p className="text-xs sm:text-sm md:text-base max-w-2xl mx-auto text-white/90 font-normal leading-relaxed">
+              {sliderData[current].subheading}
+            </p>
 
-      {/* ================= HERO CONTENT ================= */}
-      <div className="relative z-20 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 md:py-0">
-        <div className="max-w-2xl lg:max-w-3xl text-left text-white space-y-2.5 sm:space-y-4">
-          
-          {/* Tagline */}
-          <motion.div
-            key={`tag-${current}`}
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4 }}
-            className="inline-block border border-teal-500/40 bg-teal-950/50 backdrop-blur-md px-2.5 sm:px-3 py-1 text-[10px] sm:text-xs md:text-sm font-semibold text-teal-300 rounded-md tracking-wider uppercase"
-          >
-            {sliderData[current].tagline}
-          </motion.div>
-
-          {/* Heading */}
-          <motion.h1
-            key={`head-${current}`}
-            initial={{ opacity: 0, y: 15 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.1 }}
-            className="text-xl sm:text-3xl md:text-5xl lg:text-6xl font-extrabold tracking-tight leading-[1.25] text-white"
-          >
-            {sliderData[current].heading}
-          </motion.h1>
-
-          {/* Subheading */}
-          <motion.p
-            key={`sub-${current}`}
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            className="text-slate-300 font-medium text-[11px] sm:text-xs md:text-base lg:text-lg tracking-wide uppercase text-emerald-400 dark:text-emerald-300"
-          >
-            {sliderData[current].subheading}
-          </motion.p>
-
-          {/* Action Buttons */}
-          <motion.div
-            initial={{ opacity: 0, y: 15 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4, delay: 0.3 }}
-            className="flex flex-wrap items-center gap-2.5 sm:gap-4 pt-2 sm:pt-4"
-          >
-            <Link
-              href="/login"
-              className="group inline-flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-500 text-white px-4 sm:px-6 py-2 sm:py-3.5 rounded-xl font-bold text-xs sm:text-sm transition-all shadow-lg shadow-blue-600/30 hover:scale-[1.01] active:scale-95 cursor-pointer"
-            >
-              <span>Register Online Now</span>
-              <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 transition-transform group-hover:translate-x-1" />
-            </Link>
-
-            <Link
-              href="/doctors"
-              className="inline-flex items-center justify-center gap-2 bg-slate-900/80 hover:bg-slate-800/90 text-white border border-slate-700/80 backdrop-blur-md px-4 sm:px-6 py-2 sm:py-3.5 rounded-xl font-bold text-xs sm:text-sm transition-all hover:scale-[1.01] active:scale-95 cursor-pointer group"
-            >
-              <CalendarDays className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-emerald-400" />
-              <span>Find Doctor</span>
-            </Link>
-          </motion.div>
-
-        </div>
-      </div>
+            <div className="pt-2">
+              <Link
+                href={sliderData[current].btnLink}
+                className="inline-flex items-center gap-2 bg-[var(--color-primary)] hover:opacity-90 text-white px-6 py-2.5 sm:py-3 rounded-md font-medium text-xs sm:text-sm transition-all shadow-md active:scale-95"
+              >
+                <span>{sliderData[current].btnText}</span>
+                <ArrowRight className="w-4 h-4" />
+              </Link>
+            </div>
+          </div>
+        </motion.div>
+      </AnimatePresence>
 
       {/* ================= NAVIGATION ARROWS ================= */}
-      <button 
+      <button
         onClick={prevSlide}
-        className="absolute left-3 sm:left-5 top-1/2 -translate-y-1/2 z-30 p-2 sm:p-3 rounded-full bg-slate-900/40 hover:bg-slate-900/80 border border-white/10 text-white transition-all cursor-pointer group hidden sm:block backdrop-blur-sm"
-        aria-label="Previous slide"
+        className="absolute left-3 sm:left-5 top-1/2 -translate-y-1/2 z-20 w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-white/80 hover:bg-white text-slate-800 flex items-center justify-center shadow-md transition-all cursor-pointer"
+        aria-label="Previous Slide"
       >
-        <ChevronLeft className="w-5 h-5 transition-transform group-hover:-translate-x-0.5" />
+        <ChevronLeft className="w-5 h-5" />
       </button>
 
-      <button 
+      <button
         onClick={nextSlide}
-        className="absolute right-3 sm:right-5 top-1/2 -translate-y-1/2 z-30 p-2 sm:p-3 rounded-full bg-slate-900/40 hover:bg-slate-900/80 border border-white/10 text-white transition-all cursor-pointer group hidden sm:block backdrop-blur-sm"
-        aria-label="Next slide"
+        className="absolute right-3 sm:left-auto sm:right-5 top-1/2 -translate-y-1/2 z-20 w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-white/80 hover:bg-white text-slate-800 flex items-center justify-center shadow-md transition-all cursor-pointer"
+        aria-label="Next Slide"
       >
-        <ChevronRight className="w-5 h-5 transition-transform group-hover:translate-x-0.5" />
+        <ChevronRight className="w-5 h-5" />
       </button>
 
-      {/* ================= DOT INDICATORS ================= */}
-      <div className="absolute bottom-3 sm:bottom-6 left-1/2 -translate-x-1/2 z-30 flex items-center gap-2">
-        {sliderData.map((_, index) => (
+      {/* ================= BOTTOM LINE INDICATORS ================= */}
+      <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-20 flex items-center gap-1.5">
+        {sliderData.map((_, idx) => (
           <button
-            key={index}
-            onClick={() => setCurrent(index)}
-            className={`h-1.5 sm:h-2 rounded-full transition-all duration-300 cursor-pointer ${
-              current === index 
-                ? "w-6 sm:w-8 bg-blue-500" 
-                : "w-2 bg-white/40 hover:bg-white/70"
+            key={idx}
+            onClick={() => {
+              setDirection(idx > current ? 1 : -1);
+              setCurrent(idx);
+            }}
+            className={`h-1 rounded-full transition-all duration-300 cursor-pointer ${
+              current === idx ? "w-6 bg-white" : "w-3 bg-white/50"
             }`}
-            aria-label={`Go to slide ${index + 1}`}
+            aria-label={`Go to slide ${idx + 1}`}
           />
         ))}
       </div>

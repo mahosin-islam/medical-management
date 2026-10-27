@@ -2,22 +2,30 @@ import React from "react";
 import { Metadata } from "next";
 import SearchFilterWidget from "./SearchFilterWidget";
 
-
 export const metadata: Metadata = {
-  title: "Find Best Doctors | Online Consultation",
-  description: "Search and book appointments with verified orthopedic, cardiologists, and specialists in Dhaka.",
+  title: "Find Best Doctors | ShifaCare Online Consultation",
+  description: "Search and book appointments with verified specialists, cardiologists, and expert doctors in Dhaka.",
 };
 
 export default async function FindDoctorPage() {
   return (
-    <div className="max-w-6xl mx-auto p-4 md:p-8 min-h-screen space-y-6">
-      <div>
-        <h1 className="text-xl font-extrabold text-zinc-900 dark:text-zinc-50 tracking-tight">Find Your Specialist</h1>
-        <p className="text-xs text-zinc-500">আপনার প্রয়োজনীয় স্পেশালিটি বা ডক্টরের নাম লিখে সহজে অনুসন্ধান করুন।</p>
-      </div>
+    <main className="min-h-screen bg-[var(--color-background)] py-8 md:py-12 transition-colors duration-300">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+        
+        {/* Simple & Clean Page Header */}
+        <div className="space-y-1.5 border-b border-slate-200/80 pb-6">
+          <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight text-slate-900">
+            Find Your Specialist
+          </h1>
+          <p className="text-xs sm:text-sm text-slate-500 font-normal">
+            Search from our network of certified clinical experts and book your consultation instantly.
+          </p>
+        </div>
 
-      
-      <SearchFilterWidget />
-    </div>
+        {/* Search & Filter Component */}
+        <SearchFilterWidget />
+
+      </div>
+    </main>
   );
 }

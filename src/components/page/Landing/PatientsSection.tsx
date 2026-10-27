@@ -1,42 +1,30 @@
-
 "use client";
 
 import { useEffect, useRef } from "react";
-import { useInView,  useAnimation } from "framer-motion";
-
+import { useInView, useAnimation } from "framer-motion";
 import Image from "next/image";
-import { ChevronRight, Heart } from "lucide-react";
-
-
+import { ChevronRight } from "lucide-react";
 
 const ambulanceFleet = [
   {
     id: "ac",
     type: "AC Ambulance",
-    typeBn: "এসি অ্যাম্বুলেন্স",
-    // 🚑 রিয়েল লাইফ সাপোর্ট ইমার্জেন্সি অ্যাম্বুলেন্স (বাহিরের দৃশ্য)
-    image: "https://images.unsplash.com/photo-1705264895993-c544cf74a0c7?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    features: ["Get ambulance within 30 minutes*", "24/7 affordable quality service", "We are just a call away: 01405600700"]
+    image: "https://res.cloudinary.com/dzoigbkep/image/upload/v1793038102/nk8ybjgrcz1rpv6fgmsz.png",
+    features: ["Get ambulance within 30 minutes*", "24/7 affordable quality service", "Emergency Hotline: 01405600700"]
   },
   {
     id: "icu",
     type: "ICU Ambulance",
-    typeBn: "আইসিইউ অ্যাম্বুলেন্স",
-    // 🏥 অ্যাডভান্সড লাইফ সাপোর্ট ও আইসিইউ ইকুইপমেন্ট (অ্যাম্বুলেন্সের ভেতরের দৃশ্য)
-    image: "https://plus.unsplash.com/premium_photo-1664299503603-237d266dc7cb?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    features: ["Get ambulance within 30 minutes*", "24/7 affordable quality service", "We are just a call away: 01405600700"]
+    image: "https://res.cloudinary.com/dzoigbkep/image/upload/v1793038055/w2ydarg5wh13sk8qcruu.png",
+    features: ["Advanced life support & equipment", "24/7 affordable quality service", "Emergency Hotline: 01405600700"]
   },
   {
     id: "air",
     type: "AIR Ambulance",
-    typeBn: "এয়ার অ্যাম্বুলেন্স",
-    // 🚁 ইমার্জেন্সি এয়ার মেডিকেল রেসকিউ হেলিকপ্টার
-    image: "https://plus.unsplash.com/premium_photo-1661868386344-80726f22a620?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    features: ["Get ambulance within 60 minutes*", "24/7 affordable quality service", "We are just a call away: 01405600700"]
+    image: "https://res.cloudinary.com/dzoigbkep/image/upload/v1793038134/tsbdpqeqo2t4cqhw5uxc.png",
+    features: ["Get ambulance within 60 minutes*", "24/7 affordable quality service", "Emergency Hotline: 01405600700"]
   }
 ];
-
-
 
 export default function PatientsSection() {
   const containerRef = useRef(null);
@@ -50,41 +38,22 @@ export default function PatientsSection() {
   }, [isInView, controls]);
 
   return (
-    <section ref={containerRef} className="py-6  md:py-8 bg-gradient-to-b from-background to-muted/30 relative overflow-hidden transition-colors duration-300">
-      {/* Soft Background Blur Glows */}
-      <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-primary/5 rounded-full blur-[120px] pointer-events-none" />
-      <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-teal-500/5 rounded-full blur-[120px] pointer-events-none" />
-
+    <section ref={containerRef} className="py-12 md:py-16 bg-[var(--color-background)] border-b border-[var(--color-border)] relative overflow-hidden transition-colors duration-300">
+      
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
-        {/* ================= HEADER SECTION ================= */}
-        <div className="text-center mb-5">
-          <div className="inline-flex items-center gap-2 bg-primary/10 px-4 py-1.5 rounded-full mb-4 border border-primary/20">
-            <Heart className="w-4 h-4 text-primary animate-pulse" />
-            <span className="text-xs font-semibold text-primary tracking-wide uppercase">Patient-Centric Care</span>
-          </div>
-          <h2 className="text-3xl md:text-5xl font-extrabold text-foreground tracking-tight mb-4">
-            Why Patients Trust{" "}
-            <span className="bg-gradient-to-r from-primary via-emerald-500 to-teal-500 bg-clip-text text-transparent">
-              ShifaCare
-            </span>
-          </h2>
-          <p className="text-sm md:text-base text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-            Streamlining emergency services, dynamic provider slot scheduling, and robust data workflows to deliver uncompromising clinic excellence.
-          </p>
-        </div>
-
-        {/* ================= EMERGENCY AMBULANCE SECTION ================= */}
-        <div className="mb-20">
-          <div className="flex items-center justify-between mb-6 border-b border-border/60 pb-4">
+        
+        <div>
+          <div className="flex items-center justify-between mb-6 border-b border-slate-200 pb-3">
             <div>
-              <h3 className="text-xl md:text-2xl font-bold tracking-tight text-foreground">
-                We are ready to help at your emergency
+              <h3 className="text-lg md:text-xl font-bold tracking-tight text-slate-900">
+                Ready to Help at Your Emergency
               </h3>
-              <p className="text-xs text-muted-foreground mt-0.5">Instant dispatch logistics available countrywide</p>
+              <p className="text-xs text-slate-500">Instant dispatch logistics available countrywide</p>
             </div>
-            <button className="text-xs font-semibold text-primary flex items-center gap-1 hover:underline cursor-pointer">
-              View all fleet <ChevronRight className="w-4 h-4" />
+            <button className="text-xs font-semibold text-[var(--color-primary)] flex items-center gap-1 hover:underline cursor-pointer">
+              <span>View all fleet</span>
+              <ChevronRight className="w-3.5 h-3.5" />
             </button>
           </div>
 
@@ -92,48 +61,43 @@ export default function PatientsSection() {
             {ambulanceFleet.map((fleet) => (
               <div
                 key={fleet.id}
-                className="bg-card border border-border/80 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 flex flex-col group"
+                className="bg-card border border-slate-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 flex flex-col group"
               >
                 {/* Image Wrap */}
-                <div className="aspect-[16/10] overflow-hidden bg-muted relative border-b border-border/50">
-                 <div className="relative w-full h-64 overflow-hidden">
-  {fleet.image ? (
-    <Image
-      src={fleet.image}
-      alt={fleet.type || "Fleet"}
-      fill
-      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-      className="object-cover transition-transform duration-500 group-hover:scale-105"
-    />
-  ) : (
-    /* image = null হলে সেফ Fallback UI */
-    <div className="w-full h-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-400 font-medium text-xs">
-      <span>ছবি উপলব্ধ নেই</span>
-    </div>
-  )}
-</div>
+                <div className="relative w-full h-48 overflow-hidden bg-slate-100 border-b border-slate-100">
+                  {fleet.image ? (
+                    <Image
+                      src={fleet.image}
+                      alt={fleet.type}
+                      fill
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                      className="object-cover transition-transform duration-500 group-hover:scale-105"
+                    />
+                  ) : (
+                    <div className="w-full h-full flex items-center justify-center text-slate-400 text-xs">
+                      No Image Available
+                    </div>
+                  )}
 
-
-                  <div className="absolute top-3 right-3 bg-background/80 backdrop-blur-md border border-border px-2.5 py-1 rounded-lg text-[11px] font-bold text-foreground">
+                  <div className="absolute top-3 right-3 bg-white/90 backdrop-blur-md border border-slate-200 px-2.5 py-1 rounded-lg text-[10px] font-bold text-slate-800 shadow-sm">
                     24/7 Available
                   </div>
                 </div>
 
                 {/* Content Details */}
-                <div className="p-5 flex-1 flex flex-col justify-between">
-                  <div className="mb-4">
-                    <h4 className="text-base font-bold text-foreground tracking-tight">{fleet.type}</h4>
-                    <span className="text-[11px] font-medium text-muted-foreground/70">{fleet.typeBn}</span>
+                <div className="p-5 flex-1 flex flex-col justify-between space-y-4">
+                  <div>
+                    <h4 className="text-base font-bold text-slate-900 tracking-tight">{fleet.type}</h4>
                   </div>
 
                   {/* Features Bullet List */}
-                  <ul className="space-y-2.5 mb-2">
+                  <ul className="space-y-2">
                     {fleet.features.map((feature, index) => (
-                      <li key={index} className="flex items-start gap-2.5 text-xs text-muted-foreground leading-normal">
-                        <svg className="w-4 h-4 text-primary shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3">
+                      <li key={index} className="flex items-start gap-2 text-xs text-slate-600 leading-normal">
+                        <svg className="w-4 h-4 text-[var(--color-primary)] shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
                           <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
                         </svg>
-                        <span className={index === 2 ? "font-semibold text-foreground" : ""}>
+                        <span className={index === 2 ? "font-semibold text-slate-900" : ""}>
                           {feature}
                         </span>
                       </li>
@@ -144,9 +108,6 @@ export default function PatientsSection() {
             ))}
           </div>
         </div>
-
-
-
 
       </div>
     </section>

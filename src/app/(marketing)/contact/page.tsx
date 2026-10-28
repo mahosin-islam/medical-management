@@ -6,6 +6,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import { motion } from 'framer-motion';
 import { Mail, Phone, MapPin, Send, Clock } from 'lucide-react';
+import ContactMap from '@/components/web/ContactMap';
 
 // Contact form validation schema using Zod
 const contactSchema = z.object({
@@ -220,6 +221,7 @@ export default function ContactPage() {
 
         </div>
 
+        <ContactMap />
       </div>
     </section>
   );

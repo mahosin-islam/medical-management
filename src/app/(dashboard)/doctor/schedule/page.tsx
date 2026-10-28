@@ -1,10 +1,11 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { motion } from "framer-motion";
 import { useForm, Controller } from "react-hook-form";
 import { authClient } from "@/lib/auth-client"; 
 import { TimePicker } from "@/components/web/TimePicker";
-import { MonthPicker } from "@/components/web/MonthPicker"; 
+import { MonthPicker } from "@/components/web/MonthPicker";
 
 const DAYS_OF_WEEK = ["Saturday", "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday"];
 
@@ -120,68 +121,76 @@ export default function DoctorSchedulePage() {
   if (!session) return <div className="text-center mt-20 text-red-500 font-medium">দয়া করে ডাক্তার অ্যাকাউন্ট দিয়ে লগইন করুন।</div>;
 
   return (
-    <div className="max-w-3xl mx-auto mt-8 p-8 bg-white dark:bg-zinc-950 rounded-xl shadow-sm border border-zinc-200 dark:border-zinc-800">
-      <div className="mb-6">
-        <h2 className="text-2xl font-bold text-zinc-900 dark:text-zinc-50">Doctor Dashboard & Schedule Planner</h2>
-        <p className="text-sm text-zinc-500 dark:text-zinc-400 mt-1">
-          আপনার চেম্বারের প্রফেশনাল প্রোফাইল এবং রোগী দেখার সাপ্তাহিক শিডিউল এখান থেকে ম্যানেজ করুন।
-        </p>
-      </div>
+    <div className="max-w-4xl mx-auto space-y-6">
+      <motion.div
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.25 }}
+        className="sc-card"
+      >
+        <div className="mb-6">
+          <h1 className="text-2xl md:text-3xl font-bold tracking-tight text-foreground">Schedule Planner</h1>
+          <p className="text-muted-foreground text-sm mt-1">
+            Manage your chamber profile and weekly schedule in one place.
+          </p>
+        </div>
 
-      {serverMessage.text && (
-        <div className={`p-4 rounded-lg mb-6 text-sm font-medium border ${
-          serverMessage.type === "success" ? "bg-emerald-50 text-emerald-600 border-emerald-200" : "bg-red-50 text-red-600 border-red-200"
-        }`}>{serverMessage.text}</div>
-      )}
+        {serverMessage.text && (
+          <div className={`p-3.5 rounded-2xl mb-6 text-sm border ${
+            serverMessage.type === "success" 
+              ? "bg-status-success-bg text-status-success border-status-success/30" 
+              : "bg-status-pending-bg text-status-pending border-status-pending/30"
+          }`}>{serverMessage.text}</div>
+        )}
 
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
         
-        {/* 🌟 নতুন প্রফেশনাল সেকশন ১: বেসিক এক্সপেরিয়েন্স ও হসপিটাল */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 border-b border-zinc-100 dark:border-zinc-900 pb-4">
-          <div>
-            <label className="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-1">Current Hospital Name</label>
-            <input type="text" {...register("hospital")} placeholder="e.g. United Hospital Ltd." className="w-full px-3 py-2 border rounded-lg dark:bg-zinc-900 dark:border-zinc-700 text-zinc-900 dark:text-zinc-100" />
+        {/* Professional Section 1: Basic Experience & Hospital */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pb-2">
+          <div className="space-y-2">
+            <label className="text-sm font-medium text-foreground">Current Hospital Name</label>
+            <input type="text" {...register("hospital")} placeholder="e.g. United Hospital Ltd." className="w-full px-3.5 py-2.5 rounded-2xl border border-border bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-primary/40 transition" />
           </div>
-          <div>
-            <label className="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-1">Years of Experience</label>
-            <input type="number" {...register("experience")} placeholder="e.g. 12" className="w-full px-3 py-2 border rounded-lg dark:bg-zinc-900 dark:border-zinc-700 text-zinc-900 dark:text-zinc-100" />
+          <div className="space-y-2">
+            <label className="text-sm font-medium text-foreground">Years of Experience</label>
+            <input type="number" {...register("experience")} placeholder="e.g. 12" className="w-full px-3.5 py-2.5 rounded-2xl border border-border bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-primary/40 transition" />
           </div>
         </div>
 
-        {/* চেম্বার ও ফি ইনফো */}
+        {/* Chamber & Fee Info */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-          <div className="sm:col-span-1">
-            <label className="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-1">Chamber Phone Number</label>
-            <input type="text" {...register("chamberPhone")} placeholder="e.g. +880 171X-XXXXXX" className="w-full px-3 py-2 border rounded-lg dark:bg-zinc-900 dark:border-zinc-700 text-zinc-900 dark:text-zinc-100" />
+          <div className="space-y-2">
+            <label className="text-sm font-medium text-foreground">Chamber Phone Number</label>
+            <input type="text" {...register("chamberPhone")} placeholder="e.g. +880 171X-XXXXXX" className="w-full px-3.5 py-2.5 rounded-2xl border border-border bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-primary/40 transition" />
           </div>
-          <div className="sm:col-span-1">
-            <label className="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-1">Consultation Fee (BDT)</label>
-            <input type="number" {...register("consultationFee")} className="w-full px-3 py-2 border rounded-lg dark:bg-zinc-900 dark:border-zinc-700 text-zinc-900 dark:text-zinc-100" />
+          <div className="space-y-2">
+            <label className="text-sm font-medium text-foreground">Consultation Fee (BDT)</label>
+            <input type="number" {...register("consultationFee")} className="w-full px-3.5 py-2.5 rounded-2xl border border-border bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-primary/40 transition" />
           </div>
-          <div className="sm:col-span-1">
-            <label className="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-1">Chamber Address</label>
-            <input type="text" {...register("clinicAddress")} placeholder="e.g. Block B, Dhanmondi" className="w-full px-3 py-2 border rounded-lg dark:bg-zinc-900 dark:border-zinc-700 text-zinc-900 dark:text-zinc-100" />
-          </div>
-        </div>
-
-        {/* 🌟 নতুন প্রফেশনাল সেকশন ২: এডুকেশন এবং স্পেশালাইজেশন ট্যাগ লজিক */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 border-t border-zinc-100 dark:border-zinc-900 pt-4">
-          <div>
-            <label className="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-1">Education Degrees (comma separated)</label>
-            <textarea {...register("education")} placeholder="MBBS - DMC (2005), MS (Ortho) - NITOR (2012)" rows={2} className="w-full px-3 py-2 border rounded-lg dark:bg-zinc-900 dark:border-zinc-700 text-zinc-900 dark:text-zinc-100 text-sm" />
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-1">Specializations (comma separated)</label>
-            <textarea {...register("specialization")} placeholder="Joint Replacement, Spine Surgery, Sports Injury" rows={2} className="w-full px-3 py-2 border rounded-lg dark:bg-zinc-900 dark:border-zinc-700 text-zinc-900 dark:text-zinc-100 text-sm" />
+          <div className="space-y-2">
+            <label className="text-sm font-medium text-foreground">Chamber Address</label>
+            <input type="text" {...register("clinicAddress")} placeholder="e.g. Block B, Dhanmondi" className="w-full px-3.5 py-2.5 rounded-2xl border border-border bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-primary/40 transition" />
           </div>
         </div>
 
-        {/* চেম্বারের দিনসমূহ */}
-        <div>
-          <label className="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-2">Available Days (সাপ্তাহিক দিনসমূহ)</label>
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 p-4 bg-zinc-50 dark:bg-zinc-900 rounded-lg border border-zinc-200 dark:border-zinc-800">
+        {/* Education & Specialization */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div className="space-y-2">
+            <label className="text-sm font-medium text-foreground">Education Degrees (comma separated)</label>
+            <textarea {...register("education")} placeholder="MBBS - DMC (2005), MS (Ortho) - NITOR (2012)" rows={2} className="w-full px-3.5 py-2.5 rounded-2xl border border-border bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-primary/40 transition text-sm resize-none" />
+          </div>
+          <div className="space-y-2">
+            <label className="text-sm font-medium text-foreground">Specializations (comma separated)</label>
+            <textarea {...register("specialization")} placeholder="Joint Replacement, Spine Surgery, Sports Injury" rows={2} className="w-full px-3.5 py-2.5 rounded-2xl border border-border bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-primary/40 transition text-sm resize-none" />
+          </div>
+        </div>
+
+        {/* Available Days */}
+        <div className="space-y-3">
+          <label className="text-sm font-medium text-foreground">Available Days</label>
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 p-4 rounded-2xl border border-border bg-background/60">
             {DAYS_OF_WEEK.map((day) => (
-              <label key={day} className="flex items-center space-x-2 text-sm text-zinc-800 dark:text-zinc-200 cursor-pointer">
+              <label key={day} className="flex items-center gap-2 text-sm text-foreground cursor-pointer">
                 <input
                   type="checkbox"
                   value={day}
@@ -193,7 +202,7 @@ export default function DoctorSchedulePage() {
                       setValue("availableDays", selectedDays.filter((d: string) => d !== day));
                     }
                   }}
-                  className="rounded border-zinc-300 text-blue-600"
+                  className="rounded border-border text-primary focus:ring-primary/40"
                 />
                 <span>{day}</span>
               </label>
@@ -201,7 +210,7 @@ export default function DoctorSchedulePage() {
           </div>
         </div>
 
-        {/* সময়, রোগী লিমিট এবং ডাইনামিক মাস */}
+        {/* Time, Patients & Schedule Months */}
         <div className="grid grid-cols-1 sm:grid-cols-4 gap-4 items-end">
           <Controller
             name="startTime"
@@ -219,9 +228,9 @@ export default function DoctorSchedulePage() {
             )}
           />
 
-          <div>
-            <label className="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-1">Max Patients / Day</label>
-            <input type="number" {...register("maxPatients")} className="w-full px-3 py-2.5 border rounded-lg dark:bg-zinc-900 dark:border-zinc-700 text-zinc-900 dark:text-zinc-100" />
+          <div className="space-y-2">
+            <label className="text-sm font-medium text-foreground">Max Patients / Day</label>
+            <input type="number" {...register("maxPatients")} className="w-full px-3.5 py-2.5 rounded-2xl border border-border bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-primary/40 transition" />
           </div>
 
           <div className="w-full">
@@ -240,19 +249,20 @@ export default function DoctorSchedulePage() {
           </div>
         </div>
 
-        {/* ইমার্জেন্সি ক্লোজড টগল */}
-        <div className="flex items-center space-x-3 p-4 bg-red-50/50 dark:bg-red-950/10 rounded-lg border border-red-200/50">
-          <input type="checkbox" id="isClosed" {...register("isClosed")} className="rounded text-red-600 h-4 w-4" />
+        {/* Emergency Closed */}
+        <div className="flex items-start gap-3 p-4 rounded-2xl border border-border bg-background/60">
+          <input type="checkbox" id="isClosed" {...register("isClosed")} className="mt-0.5 rounded border-border text-primary h-4 w-4 focus:ring-primary/40" />
           <div>
-            <label htmlFor="isClosed" className="text-sm font-semibold text-zinc-900 dark:text-zinc-100 cursor-pointer">Emergency Closed</label>
-            <p className="text-xs text-zinc-500">সাময়িকভাবে চেম্বার বন্ধ রাখতে এটি টিক দিন।</p>
+            <label htmlFor="isClosed" className="text-sm font-medium text-foreground cursor-pointer">Emergency Closed</label>
+            <p className="text-xs text-muted-foreground mt-0.5">Temporarily close the chamber if needed.</p>
           </div>
         </div>
 
-        <button type="submit" disabled={loading} className="w-full bg-zinc-900 hover:bg-zinc-800 dark:bg-zinc-50 dark:hover:bg-zinc-200 text-zinc-50 dark:text-zinc-900 py-3 rounded-lg font-semibold transition disabled:opacity-50">
+        <button type="submit" disabled={loading} className="w-full bg-primary text-primary-foreground py-3 rounded-2xl font-semibold transition hover:opacity-90 disabled:opacity-50">
           {loading ? "Publishing Schedule..." : "Save & Publish Schedule"}
         </button>
       </form>
+      </motion.div>
     </div>
   );
 }

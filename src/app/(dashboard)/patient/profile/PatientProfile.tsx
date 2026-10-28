@@ -2,7 +2,8 @@
 
 import React, { useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { Edit2, X, Check, User, Phone, Droplet, Calendar, Heart, MapPin, Activity } from "lucide-react";
+import { Edit2, X, Check, User, Phone, Droplet, Calendar, MapPin, Activity } from "lucide-react";
+import { motion } from "framer-motion";
 import toast from "react-hot-toast";
 
 interface PatientData {
@@ -71,23 +72,28 @@ export default function PatientProfile({ initialData }: { initialData: PatientDa
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-6 max-w-4xl">
+    <form onSubmit={handleSubmit} className="space-y-6">
       
       {/* 💳 হেডার কার্ড */}
-      <div className="bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-2xl p-6 shadow-sm flex flex-col sm:flex-row items-center justify-between gap-6">
+      <motion.div
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.25 }}
+        className="sc-card flex flex-col sm:flex-row items-center justify-between gap-6"
+      >
         <div className="flex flex-col sm:flex-row items-center gap-5 w-full sm:w-auto">
-          <div className="relative w-20 h-20 rounded-2xl bg-zinc-100 dark:bg-zinc-900 overflow-hidden border border-zinc-200 dark:border-zinc-800 flex-shrink-0">
+          <div className="relative w-20 h-20 rounded-2xl bg-accent text-primary overflow-hidden border border-border flex-shrink-0">
             {formData.image ? (
               <img src={formData.image} alt={formData.name} className="w-full h-full object-cover" />
             ) : (
-              <div className="w-full h-full flex items-center justify-center font-black text-2xl text-zinc-400">P</div>
+              <div className="w-full h-full flex items-center justify-center text-xl font-medium">P</div>
             )}
           </div>
           <div className="space-y-1 text-center sm:text-left">
-            <h3 className="text-base font-bold text-zinc-900 dark:text-zinc-50">{formData.name || "Patient Name"}</h3>
-            <p className="text-xs text-zinc-400">{formData.email}</p>
-            <div className="mt-1 text-[10px] text-blue-600 bg-blue-50 dark:bg-blue-950/30 px-2.5 py-0.5 rounded-md font-bold inline-block">
-              Better-Auth Patient Account
+            <h3 className="text-lg font-medium text-foreground">{formData.name || "Patient Name"}</h3>
+            <p className="text-sm text-muted-foreground">{formData.email}</p>
+            <div className="mt-1 text-xs text-muted-foreground bg-background/40 px-2.5 py-1 rounded-full border border-border inline-block">
+              Patient Account
             </div>
           </div>
         </div>
@@ -98,9 +104,9 @@ export default function PatientProfile({ initialData }: { initialData: PatientDa
             <button
               type="button"
               onClick={() => setIsEditing(true)}
-              className="flex items-center gap-2 bg-zinc-900 dark:bg-zinc-100 hover:bg-zinc-800 dark:hover:bg-zinc-200 text-white dark:text-zinc-950 text-xs font-bold px-4 py-2.5 rounded-xl shadow-sm transition"
+              className="flex items-center gap-2 bg-primary text-primary-foreground text-sm px-4 py-2.5 rounded-2xl hover:opacity-90 transition"
             >
-              <Edit2 className="w-3.5 h-3.5" />
+              <Edit2 className="w-4 h-4" />
               Edit Profile
             </button>
           ) : (
@@ -108,27 +114,32 @@ export default function PatientProfile({ initialData }: { initialData: PatientDa
               <button
                 type="button"
                 onClick={handleCancel}
-                className="flex items-center gap-1.5 bg-zinc-100 dark:bg-zinc-900 text-zinc-700 dark:text-zinc-300 text-xs font-bold px-3 py-2.5 rounded-xl hover:bg-zinc-200 transition"
+                className="flex items-center gap-1.5 bg-card text-foreground text-sm px-3 py-2.5 rounded-2xl border border-border hover:bg-accent/40 transition"
               >
-                <X className="w-3.5 h-3.5" />
+                <X className="w-4 h-4" />
                 Cancel
               </button>
               <button
                 type="submit"
                 disabled={updateProfileMutation.isPending}
-                className="flex items-center gap-1.5 bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold px-4 py-2.5 rounded-xl shadow-sm transition disabled:bg-zinc-400"
+                className="flex items-center gap-1.5 bg-primary text-primary-foreground text-sm px-4 py-2.5 rounded-2xl hover:opacity-90 transition disabled:opacity-50"
               >
-                <Check className="w-3.5 h-3.5" />
+                <Check className="w-4 h-4" />
                 {updateProfileMutation.isPending ? "Saving..." : "Save Info"}
               </button>
             </div>
           )}
         </div>
-      </div>
+      </motion.div>
 
       {/* 📊 মেইন ইনফরমেশন ব্লক */}
-      <div className="bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-2xl p-6 shadow-sm space-y-6">
-        <h3 className="text-xs font-bold text-zinc-400 uppercase tracking-wider border-b border-zinc-100 dark:border-zinc-900 pb-2">
+      <motion.div
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.25, delay: 0.05 }}
+        className="sc-card space-y-6"
+      >
+        <h3 className="text-sm font-medium text-foreground border-b border-border pb-3">
           Personal & Medical Records
         </h3>
 
@@ -224,7 +235,7 @@ export default function PatientProfile({ initialData }: { initialData: PatientDa
           {/* 5. Gender */}
           <div className="space-y-2">
             <label className="font-bold text-zinc-500 dark:text-zinc-400 flex items-center gap-1.5">
-              <Heart className="w-3.5 h-3.5 text-zinc-400" /> Gender <span className="text-rose-500">*</span>
+              <User className="w-3.5 h-3.5 text-zinc-400" /> Gender <span className="text-rose-500">*</span>
             </label>
             {isEditing ? (
               <select
@@ -286,7 +297,7 @@ export default function PatientProfile({ initialData }: { initialData: PatientDa
           )}
         </div>
 
-      </div>
+      </motion.div>
     </form>
   );
 }

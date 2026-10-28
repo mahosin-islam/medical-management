@@ -36,10 +36,10 @@ export default async function PatientProfilePage() {
   };
 
   return (
-    <div className="max-w-4xl mx-auto p-4 md:p-8 space-y-6">
+    <div className="max-w-5xl mx-auto space-y-6">
       <div>
-        <h1 className="text-xl font-extrabold text-zinc-900 dark:text-zinc-50 tracking-tight">Patient Profile Settings</h1>
-        <p className="text-xs text-zinc-500">আপনার ব্যক্তিগত তথ্য, কন্ট্যাক্ট এবং জরুরি মেডিকেল রেকর্ডস আপডেট করে রাখুন।</p>
+        <h1 className="text-xl md:text-2xl font-semibold tracking-tight text-foreground">My Profile</h1>
+        <p className="text-sm text-muted-foreground mt-1">Manage your personal information and medical details.</p>
       </div>
 
       {/* 🛠️ পেশেন্ট ক্লায়েন্ট ফর্ম */}

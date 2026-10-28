@@ -1,6 +1,8 @@
 "use client";
 
 import React, { useState, useEffect, useCallback, useRef } from 'react';
+import { motion } from "framer-motion";
+import { MessageSquare } from "lucide-react";
 import toast from 'react-hot-toast';
 import PusherClient from 'pusher-js';
 
@@ -149,67 +151,79 @@ export default function DoctorMessengerClient({ currentDoctor }: MessengerProps)
   );
 
   return (
-    <div className="p-6 space-y-6 max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-6">
-      <div className="lg:col-span-1 space-y-4">
-        <div className="bg-white dark:bg-zinc-950 p-4 rounded-2xl border border-zinc-200 dark:border-zinc-800 shadow-sm space-y-3">
+    <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <motion.div
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.25 }}
+        className="lg:col-span-1 space-y-4"
+      >
+        <div className="sc-card space-y-3">
           <div>
-            <h1 className="text-lg font-bold text-zinc-900 dark:text-zinc-50">Patients</h1>
-            <p className="text-[11px] text-zinc-500">Mahoin পেইড রোগীদের চ্যাট লিস্ট</p>
+            <h1 className="text-lg font-semibold text-foreground">Messages</h1>
+            <p className="text-sm text-muted-foreground">Chat with your patients</p>
           </div>
           <input 
             type="text" 
             placeholder="Search patient..." 
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full text-xs bg-zinc-50 dark:bg-zinc-900 p-2.5 rounded-xl border border-zinc-200 dark:border-zinc-800 focus:outline-none"
+            className="w-full text-sm bg-background text-foreground placeholder:text-muted-foreground px-3.5 py-2.5 rounded-2xl border border-border focus:outline-none focus:ring-1 focus:ring-primary/40 transition"
           />
         </div>
 
-        <div className="bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-2xl shadow-sm overflow-hidden h-[450px] overflow-y-auto divide-y divide-zinc-100 dark:divide-zinc-900">
+        <div className="sc-card p-0 overflow-hidden h-[520px] overflow-y-auto">
           {loading ? (
-            <div className="p-8 text-center text-xs text-zinc-500">লোড হচ্ছে...</div>
+            <div className="p-8 text-center text-sm text-muted-foreground">Loading...</div>
           ) : filteredChats.length === 0 ? (
-            <div className="p-8 text-center text-xs text-zinc-400">📭 কোনো ইউজার নেই।</div>
+            <div className="p-8 text-center text-sm text-muted-foreground">No patients found</div>
           ) : (
-            filteredChats.map((chat) => {
-              const chatPatientId = chat.patientId || chat._id;
-              const currentActiveId = activePatient?.patientId || activePatient?._id;
-              const isSelected = currentActiveId === chatPatientId;
+            <div className="divide-y divide-border/70">
+              {filteredChats.map((chat) => {
+                const chatPatientId = chat.patientId || chat._id;
+                const currentActiveId = activePatient?.patientId || activePatient?._id;
+                const isSelected = currentActiveId === chatPatientId;
 
-              return (
-                <div 
-                  key={chat._id} 
-                  onClick={() => handleLaunchChat(chat)}
-                  className={`p-4 cursor-pointer transition flex justify-between items-center ${isSelected ? 'bg-zinc-100 dark:bg-zinc-900' : 'hover:bg-zinc-50/50 dark:hover:bg-zinc-900/40'}`}
-                >
-                  <div>
-                    <h4 className="text-xs font-bold text-zinc-800 dark:text-zinc-200">{chat.patientName}</h4>
-                    <p className="text-[10px] text-zinc-500">{chat.patientEmail}</p>
-                  </div>
-                  <span className="text-[10px] bg-blue-50 dark:bg-blue-500/10 text-blue-600 px-2 py-1 rounded-lg font-bold">Chat 💬</span>
-                </div>
-              );
-            })
+                return (
+                  <button 
+                    key={chat._id} 
+                    onClick={() => handleLaunchChat(chat)}
+                    className={`w-full text-left p-4 transition flex items-center justify-between ${isSelected ? 'bg-accent/60' : 'hover:bg-accent/40'}`}
+                  >
+                    <div>
+                      <h4 className="text-sm font-semibold text-foreground">{chat.patientName}</h4>
+                      <p className="text-xs text-muted-foreground mt-0.5">{chat.patientEmail}</p>
+                    </div>
+                    <span className="text-xs font-medium text-primary">Chat</span>
+                  </button>
+                );
+              })}
+            </div>
           )}
         </div>
-      </div>
+      </motion.div>
 
-      <div className="lg:col-span-2">
+      <motion.div
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.25, delay: 0.05 }}
+        className="lg:col-span-2"
+      >
         {activePatient ? (
-          <div className="bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-2xl shadow-sm h-[560px] flex flex-col justify-between overflow-hidden">
-            <div className="p-4 bg-zinc-50 dark:bg-zinc-900 border-b border-zinc-200 dark:border-zinc-800 flex justify-between items-center">
+          <div className="sc-card p-0 h-[600px] flex flex-col overflow-hidden">
+            <div className="p-4 border-b border-border flex items-center justify-between">
               <div>
-                <h2 className="text-sm font-bold text-zinc-800 dark:text-zinc-100">{activePatient.patientName}</h2>
-                <p className="text-[10px] text-zinc-400">{activePatient.patientEmail} | {activePatient.patientPhone}</p>
+                <h2 className="text-sm font-semibold text-foreground">{activePatient.patientName}</h2>
+                <p className="text-xs text-muted-foreground">{activePatient.patientEmail} {activePatient.patientPhone ? `• ${activePatient.patientPhone}` : ""}</p>
               </div>
             </div>
 
-            <div className="p-4 flex-1 overflow-y-auto space-y-3 bg-zinc-50/30 dark:bg-zinc-950/10">
+            <div className="p-4 flex-1 overflow-y-auto space-y-3 bg-background/40">
               {messages.map((msg, idx) => {
                 const isMe = msg.senderId === currentDoctor.id;
                 return (
                   <div key={idx} className={`flex ${isMe ? 'justify-end' : 'justify-start'}`}>
-                    <div className={`max-w-xs px-3 py-2 rounded-2xl text-xs shadow-sm ${isMe ? 'bg-blue-600 text-white rounded-br-none' : 'bg-white dark:bg-zinc-900 text-zinc-800 dark:text-zinc-200 rounded-bl-none border border-zinc-100 dark:border-zinc-800/60'}`}>
+                    <div className={`max-w-xs md:max-w-md px-3.5 py-2.5 rounded-2xl text-sm ${isMe ? 'bg-primary text-primary-foreground rounded-br-md' : 'bg-card text-foreground border border-border rounded-bl-md'}`}>
                       {msg.message || msg.text}
                     </div>
                   </div>
@@ -218,25 +232,26 @@ export default function DoctorMessengerClient({ currentDoctor }: MessengerProps)
               <div ref={messagesEndRef} />
             </div>
 
-            <form onSubmit={handleSendMessage} className="p-3 bg-white dark:bg-zinc-950 border-t border-zinc-200 dark:border-zinc-800 flex gap-2">
+            <form onSubmit={handleSendMessage} className="p-3 border-t border-border flex gap-2">
               <input 
                 type="text" 
-                placeholder="Type your message here..."
+                placeholder="Type your message..."
                 value={typedMessage}
                 onChange={(e) => setTypedMessage(e.target.value)}
-                className="flex-1 text-xs bg-zinc-50 dark:bg-zinc-900 p-3 rounded-xl border border-zinc-200 dark:border-zinc-800 focus:outline-none"
+                className="flex-1 text-sm bg-background text-foreground placeholder:text-muted-foreground px-3.5 py-2.5 rounded-2xl border border-border focus:outline-none focus:ring-1 focus:ring-primary/40 transition"
               />
-              <button type="submit" className="bg-blue-600 hover:bg-blue-700 text-white font-bold px-4 py-2 rounded-xl text-xs transition">
-                Send 🚀
+              <button type="submit" className="bg-primary text-primary-foreground font-medium px-4 py-2.5 rounded-2xl text-sm hover:opacity-90 transition">
+                Send
               </button>
             </form>
           </div>
         ) : (
-          <div className="bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-2xl shadow-sm h-[560px] flex flex-col justify-center items-center text-zinc-400 text-xs">
-            📭 চ্যাট শুরু করতে বাম পাশের লিস্ট থেকে যেকোনো রোগীকে সিলেক্ট করুন।
+          <div className="sc-card h-[600px] flex flex-col justify-center items-center text-center">
+            <MessageSquare className="w-8 h-8 text-muted-foreground mb-3" />
+            <p className="text-sm text-muted-foreground">Select a patient from the list to start chatting.</p>
           </div>
         )}
-      </div>
+      </motion.div>
     </div>
   );
 }

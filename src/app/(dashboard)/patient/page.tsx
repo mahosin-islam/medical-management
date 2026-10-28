@@ -49,35 +49,40 @@ export default function PatientDashboardPage() {
   return (
     <div className="space-y-8 bg-background text-foreground min-h-screen transition-colors duration-300">
       
-      {/* ওয়েলকাম হেডার */}
-      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+      {/* Welcome Header */}
+      <motion.div 
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.25 }}
+        className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4"
+      >
         <div>
-          <h1 className="text-2xl md:text-3xl font-bold tracking-tight text-foreground">
+          <h1 className="text-xl md:text-2xl lg:text-3xl font-semibold tracking-tight text-foreground">
             Welcome back, Mahsin Siam
           </h1>
-          <div className="flex items-center gap-2 mt-1">
+          <div className="flex flex-wrap items-center gap-2 mt-2">
             <p className="text-muted-foreground text-sm">
               Patient ID: #MC-9021 | Member since Jan 2024
             </p>
-            <span className="badge-success">
+            <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-medium badge-success">
               <CheckCircle2 className="w-3 h-3" />
               Active
             </span>
           </div>
         </div>
-        <div className="flex gap-3">
-          <button className="text-sm font-semibold text-primary bg-accent px-5 py-2.5 rounded-2xl border border-border hover:bg-accent/80 transition-colors flex items-center gap-2 cursor-pointer">
+        <div className="flex flex-wrap gap-3">
+          <button className="text-sm text-foreground bg-card px-4 py-2.5 rounded-2xl border border-border hover:bg-accent/40 transition-colors flex items-center gap-2">
             <MessageCircle className="w-4 h-4" />
             Message Doctor
           </button>
-          <div className="text-sm font-semibold text-primary bg-accent px-5 py-2.5 rounded-2xl border border-border flex items-center transition-colors">
+          <div className="text-sm text-muted-foreground bg-background/40 px-4 py-2.5 rounded-2xl border border-border flex items-center">
             {new Date().toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
           </div>
         </div>
-      </div>
+      </motion.div>
 
-      {/* স্ট্যাটিস্টিকস কার্ড */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+      {/* Statistics Cards */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-5">
         {patientStats.map((stat, index) => {
           const Icon = stat.icon;
           return (
@@ -85,18 +90,18 @@ export default function PatientDashboardPage() {
               key={stat.name}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.3, delay: index * 0.05 }}
-              className="sc-card flex flex-col justify-between hover:border-primary/30"
+              transition={{ duration: 0.25, delay: index * 0.05 }}
+              className="sc-card flex flex-col justify-between hover:border-primary/40 transition-colors"
             >
               <div className="flex items-center justify-between mb-4">
-                <span className="text-sm font-semibold text-muted-foreground">{stat.name}</span>
-                <div className="w-10 h-10 bg-accent text-primary rounded-xl flex items-center justify-center transition-colors">
+                <span className="text-sm text-muted-foreground">{stat.name}</span>
+                <div className="w-10 h-10 bg-accent text-primary rounded-2xl flex items-center justify-center">
                   <Icon className="w-5 h-5" />
                 </div>
               </div>
               <div>
-                <h3 className="text-2xl font-bold text-foreground mb-1">{stat.value}</h3>
-                <span className={`text-xs font-medium ${stat.isIncrease ? "text-status-success" : "text-status-pending"}`}>
+                <h3 className="text-2xl font-semibold text-foreground mb-1">{stat.value}</h3>
+                <span className={`text-xs ${stat.isIncrease ? "text-status-success" : "text-muted-foreground"}`}>
                   {stat.change}
                 </span>
               </div>
@@ -111,35 +116,40 @@ export default function PatientDashboardPage() {
         {/* বাম দিক: আসন্ন অ্যাপয়েন্টমেন্ট (২ কলাম) */}
         <div className="lg:col-span-2 space-y-6">
           
-          {/* আসন্ন অ্যাপয়েন্টমেন্ট কার্ড */}
-          <div className="sc-card">
+          {/* Upcoming Appointments */}
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.25, delay: 0.1 }}
+            className="sc-card rounded-3xl"
+          >
             <div className="flex items-center justify-between mb-6">
-              <h3 className="font-bold text-foreground text-lg">Upcoming Appointments</h3>
-              <button className="text-xs font-bold text-primary hover:underline flex items-center gap-1 cursor-pointer">
+              <h3 className="font-semibold text-foreground text-lg">Upcoming Appointments</h3>
+              <button className="text-sm text-primary hover:underline flex items-center gap-1">
                 View All <ArrowUpRight className="w-3 h-3" />
               </button>
             </div>
             
-            <div className="space-y-4">
+            <div className="space-y-3">
               {upcomingAppointments.map((app, idx) => (
                 <motion.div
                   key={app.id}
-                  initial={{ opacity: 0, x: -20 }}
+                  initial={{ opacity: 0, x: -10 }}
                   animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: idx * 0.1 }}
-                  className="flex flex-col sm:flex-row sm:items-center justify-between p-4 bg-background border border-border rounded-2xl hover:border-primary/30 transition-all"
+                  transition={{ delay: 0.15 + idx * 0.05 }}
+                  className="flex flex-col sm:flex-row sm:items-center justify-between p-4 bg-background/50 border border-border rounded-2xl hover:bg-accent/30 transition-colors"
                 >
                   <div className="flex items-start gap-4">
-                    <div className="w-12 h-12 bg-accent rounded-xl flex items-center justify-center flex-shrink-0 transition-colors">
+                    <div className="w-12 h-12 bg-accent rounded-2xl flex items-center justify-center flex-shrink-0">
                       <Stethoscope className="w-6 h-6 text-primary" />
                     </div>
                     <div>
-                      <h4 className="font-bold text-foreground">{app.doctor}</h4>
+                      <h4 className="font-medium text-foreground">{app.doctor}</h4>
                       <p className="text-xs text-muted-foreground mt-0.5">{app.specialty}</p>
-                      <div className="flex items-center gap-2 mt-2">
-                        <span className="text-xs font-medium text-foreground/70 bg-muted px-2 py-0.5 rounded-md">{app.type}</span>
+                      <div className="flex flex-wrap items-center gap-2 mt-2">
+                        <span className="text-xs text-foreground/80 bg-muted px-2 py-0.5 rounded-full">{app.type}</span>
                         {app.isVideo && (
-                          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium bg-status-info-bg text-status-info transition-colors">
+                          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs bg-accent text-foreground">
                             <Video className="w-3 h-3" />
                             Video Call
                           </span>
@@ -148,10 +158,10 @@ export default function PatientDashboardPage() {
                     </div>
                   </div>
                   <div className="flex flex-col items-end gap-2 mt-3 sm:mt-0">
-                    <span className="text-sm font-bold text-foreground bg-card border border-border px-3 py-1.5 rounded-xl shadow-xs transition-colors">
+                    <span className="text-sm text-foreground bg-card border border-border px-3 py-1.5 rounded-xl">
                       {app.time}
                     </span>
-                    <span className={app.status === "Confirmed" ? "badge-success" : "badge-pending"}>
+                    <span className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-medium ${app.status === "Confirmed" ? "badge-success" : "badge-pending"}`}>
                       {app.status === "Confirmed" ? <CheckCircle2 className="w-3 h-3" /> : <AlertCircle className="w-3 h-3" />}
                       {app.status}
                     </span>
@@ -160,11 +170,11 @@ export default function PatientDashboardPage() {
               ))}
             </div>
 
-            <Link href="/doctors" className="w-full bg-primary text-primary-foreground text-sm font-semibold py-3.5 rounded-2xl hover:bg-primary/90 transition-all shadow-md mt-6 flex items-center justify-center gap-2 cursor-pointer">
+            <Link href="/doctors" className="w-full bg-primary text-primary-foreground text-sm py-3.5 rounded-2xl hover:opacity-90 transition-all mt-6 flex items-center justify-center gap-2">
               <Calendar className="w-4 h-4" />
               Book New Appointment
             </Link>
-          </div>
+          </motion.div>
 
           {/* সাম্প্রতিক প্রেসক্রিপশন */}
           <div className="sc-card">
@@ -229,42 +239,52 @@ export default function PatientDashboardPage() {
             </div>
           </div>
 
-          {/* হেলথ টিপস */}
-          <div className="sc-card">
-            <h3 className="font-bold text-foreground text-lg mb-4">Health Tips</h3>
-            <div className="space-y-4">
+          {/* Health Tips */}
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.25, delay: 0.2 }}
+            className="sc-card rounded-3xl"
+          >
+            <h3 className="font-semibold text-foreground text-lg mb-4">Health Tips</h3>
+            <div className="space-y-3">
               {healthTips.map((tip) => (
-                <div key={tip.id} className="flex items-start gap-3 p-3 bg-background border border-border rounded-xl transition-colors">
-                  <div className="text-2xl">{tip.icon}</div>
+                <div key={tip.id} className="flex items-start gap-3 p-3 bg-background/50 border border-border rounded-2xl">
+                  <div className="text-xl">{tip.icon}</div>
                   <div>
-                    <h4 className="font-semibold text-foreground text-sm">{tip.title}</h4>
+                    <h4 className="font-medium text-foreground text-sm">{tip.title}</h4>
                     <p className="text-xs text-muted-foreground mt-0.5">{tip.description}</p>
                   </div>
                 </div>
               ))}
             </div>
-          </div>
+          </motion.div>
 
-          {/* কন্টাক্ট ইনফরমেশন (এমারজেন্সি সেকশন) */}
-          <div className="sc-card">
-            <h3 className="font-bold text-foreground text-lg mb-4">Emergency Contact</h3>
-            <div className="space-y-3">
-              <div className="flex items-center justify-between p-3 bg-red-500/10 dark:bg-red-500/20 border border-red-500/20 rounded-xl transition-colors">
+          {/* Emergency Contact */}
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.25, delay: 0.25 }}
+            className="sc-card rounded-3xl"
+          >
+            <h3 className="font-semibold text-foreground text-lg mb-4">Emergency Contact</h3>
+            <div className="space-y-2">
+              <div className="flex items-center justify-between p-3 bg-red-500/10 dark:bg-red-500/15 border border-red-500/30 rounded-2xl">
                 <div className="flex items-center gap-3">
                   <AlertCircle className="w-5 h-5 text-red-500" />
-                  <span className="font-semibold text-foreground">Emergency Hotline</span>
+                  <span className="text-foreground">Emergency Hotline</span>
                 </div>
-                <span className="text-red-500 font-bold">10666</span>
+                <span className="text-red-500 font-medium">10666</span>
               </div>
-              <div className="flex items-center justify-between p-3 bg-background border border-border rounded-xl transition-colors">
+              <div className="flex items-center justify-between p-3 bg-background/50 border border-border rounded-2xl">
                 <div className="flex items-center gap-3">
                   <MapPin className="w-5 h-5 text-primary" />
                   <span className="text-sm text-foreground/80">Nearest Hospital</span>
                 </div>
-                <span className="text-xs font-medium text-muted-foreground">2.5 km away</span>
+                <span className="text-xs text-muted-foreground">2.5 km away</span>
               </div>
             </div>
-          </div>
+          </motion.div>
 
         </div>
       </div>

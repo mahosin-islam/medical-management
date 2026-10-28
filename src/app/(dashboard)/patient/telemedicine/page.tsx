@@ -1,30 +1,34 @@
 "use client";
-import { Wrench, ArrowLeft } from "lucide-react";
-import { useRouter } from "next/navigation";
 
-export default function Telemedicine({ pageName }: { pageName: string }) {
-  const router = useRouter();
+import { motion } from "framer-motion";
+import { Video } from "lucide-react";
 
+export default function Telemedicine() {
   return (
-    <div className="min-h-[60vh] flex flex-col items-center justify-center p-6 text-center">
-      <div className="bg-amber-50 dark:bg-amber-950/20 text-amber-600 dark:text-amber-400 p-4 rounded-3xl border border-amber-100 dark:border-amber-900/50 mb-4 animate-bounce">
-        <Wrench className="w-8 h-8" />
-      </div>
-      
-      <h2 className="text-base font-black text-zinc-900 dark:text-zinc-50 uppercase tracking-wider">
-        {pageName} Feature
-      </h2>
-      
-      <p className="text-xs text-zinc-500 max-w-sm mt-2 leading-relaxed">
-        এই পেজটির কাজ বর্তমানে চলমান রয়েছে।  মূল ফিচারগুলো টেস্ট করার পর খুব শীঘ্রই এটি লাইভ করা হবে।
-      </p>
-
-      <button
-        onClick={() => router.back()}
-        className="mt-6 flex items-center gap-2 text-xs font-bold text-zinc-600 dark:text-zinc-400 hover:text-blue-600 dark:hover:text-blue-400 border border-zinc-200 dark:border-zinc-800 px-4 py-2 rounded-xl bg-zinc-50 dark:bg-zinc-900 transition"
+    <div className="max-w-7xl mx-auto flex flex-col items-center justify-center min-h-[60vh]">
+      <motion.div
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.25 }}
+        className="sc-card max-w-lg w-full text-center space-y-5"
       >
-        <ArrowLeft className="w-4 h-4" /> Go Back
-      </button>
+        <div className="mx-auto w-14 h-14 bg-accent text-primary rounded-2xl flex items-center justify-center">
+          <Video className="w-6 h-6" />
+        </div>
+        
+        <div className="space-y-2">
+          <h1 className="text-xl md:text-2xl font-semibold tracking-tight text-foreground">
+            Telemedicine
+          </h1>
+          <p className="text-sm text-muted-foreground max-w-sm mx-auto">
+            Virtual consultations will appear here when available. This section is coming soon.
+          </p>
+        </div>
+
+        <div className="w-full bg-muted h-1.5 rounded-full overflow-hidden">
+          <div className="bg-primary h-full w-2/3 rounded-full"></div>
+        </div>
+      </motion.div>
     </div>
   );
 }

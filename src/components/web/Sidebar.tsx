@@ -77,7 +77,7 @@ export default function Sidebar() {
         </div>
         <div className="min-w-0">
           <h2 className="text-base font-bold text-foreground tracking-tight leading-none mb-1.5 truncate">
-            MediChamber
+            ShifaCare
           </h2>
           <span className="text-[10px] font-bold text-emerald-500 bg-emerald-500/10 px-2 py-0.5 rounded-full border border-emerald-500/20 whitespace-nowrap">
             {roleName}
@@ -128,7 +128,7 @@ export default function Sidebar() {
           <div className="w-8 h-8 bg-primary text-primary-foreground rounded-xl flex items-center justify-center shadow-sm">
             <Activity className="w-4 h-4" />
           </div>
-          <span className="text-sm font-bold text-foreground tracking-tight">MediChamber</span>
+          <span className="text-sm font-bold text-foreground tracking-tight">ShifaCare</span>
         </div>
         
         <button

@@ -101,23 +101,23 @@ export default function PatientChatContainer({ allowedDoctors, patientId }: { al
 
     if (allowedDoctors.length === 0) {
         return (
-            <div className="flex-1 border border-zinc-200 dark:border-zinc-800 rounded-3xl bg-white dark:bg-zinc-950 flex flex-col items-center justify-center p-8 text-center h-[560px]">
-                <div className="p-4 bg-zinc-50 dark:bg-zinc-900 rounded-2xl border border-dashed border-zinc-200 dark:border-zinc-800 text-zinc-400">
-                    <ShieldAlert className="w-8 h-8 mx-auto text-amber-500 mb-2" />
-                    <h3 className="text-xs font-bold text-zinc-800 dark:text-zinc-200">No Chat Support Available</h3>
-                    <p className="text-[11px] max-w-sm mt-1">আপনার কোনো সম্পন্ন হওয়া (Completed) অ্যাপয়েন্টমেন্ট নেই। ডাক্তার ভিジット কমপ্লিট হলে চ্যাট অপশন চালু হবে।</p>
+            <div className="flex-1 sc-card flex flex-col items-center justify-center p-8 text-center h-full rounded-3xl">
+                <div className="p-6 bg-background/50 rounded-2xl border border-dashed border-border text-center max-w-sm">
+                    <ShieldAlert className="w-8 h-8 mx-auto text-primary mb-3" />
+                    <h3 className="text-foreground font-medium">No Chat Support Available</h3>
+                    <p className="text-sm text-muted-foreground mt-1">Chat is available with doctors after your appointments are completed.</p>
                 </div>
             </div>
         );
     }
 
     return (
-        <div className="flex-1 bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-3xl overflow-hidden grid grid-cols-1 md:grid-cols-3 shadow-sm h-[560px]">
+        <div className="flex-1   sc-card p-0 overflow-hidden grid grid-cols-1 md:grid-cols-3 h-full rounded-3xl">
 
             {/* 📁 বাম পাশ: ডক্টর লিস্ট প্যানেল */}
-            <div className="border-r border-zinc-200 dark:border-zinc-800 flex flex-col bg-zinc-50/50 dark:bg-zinc-900/10 h-full overflow-hidden">
-                <div className="p-4 border-b border-zinc-200 dark:border-zinc-800">
-                    <p className="text-[10px] font-black text-zinc-400 uppercase tracking-wider">My Doctors list</p>
+            <div className="border-r border-border flex flex-col bg-background/40 h-full overflow-hidden">
+                <div className="p-4 border-b border-border">
+                    <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider">Doctorsd</p>
                 </div>
 
                 <div className="flex-1 overflow-y-auto p-2 space-y-1">
@@ -130,7 +130,7 @@ export default function PatientChatContainer({ allowedDoctors, patientId }: { al
                                 onClick={() => setSelectedDoctor(doc)}
                                 className={`w-full flex items-center gap-3 p-3 rounded-2xl text-left transition ${
                                     isSelected
-                                        ? "bg-blue-600 text-white shadow-sm"
+                                        ? "bg-primary text-white shadow-sm"
                                         : "hover:bg-zinc-100 dark:hover:bg-zinc-900 text-zinc-800 dark:text-zinc-200"
                                 }`}
                             >
@@ -148,28 +148,28 @@ export default function PatientChatContainer({ allowedDoctors, patientId }: { al
             </div>
 
             {/* 💬 ডান পাশ: একটিভ চ্যাট উইন্ডো */}
-            <div className="md:col-span-2 flex flex-col h-full bg-white dark:bg-zinc-950 overflow-hidden">
+            <div className="md:col-span-2 flex flex-col h-full overflow-hidden">
                 {selectedDoctor ? (
                     <>
                         {/* চ্যাট হেডার */}
-                        <div className="p-4 bg-zinc-50 dark:bg-zinc-900 border-b border-zinc-200 dark:border-zinc-800 flex items-center gap-3">
-                            <div className="w-8 h-8 rounded-lg bg-blue-50 dark:bg-zinc-900 flex items-center justify-center text-blue-600 font-bold text-xs">
+                        <div className="p-4 bg-background/40 border-b border-border flex items-center gap-3">
+                            <div className="w-9 h-9 rounded-full bg-accent text-primary flex items-center justify-center font-medium">
                                 {selectedDoctor.name ? selectedDoctor.name[0] : "D"}
                             </div>
                             <div>
-                                <h4 className="text-sm font-bold text-zinc-800 dark:text-zinc-100">{selectedDoctor.name}</h4>
-                                <p className="text-[10px] text-zinc-400">{selectedDoctor.specialty}</p>
+                                <h4 className="text-sm font-medium text-foreground">Dr. {selectedDoctor.name}</h4>
+                                <p className="text-xs text-muted-foreground">{selectedDoctor.specialty}</p>
                             </div>
                         </div>
 
                         {/* মেসেজেস এরিয়া */}
-                        <div className="flex-1 overflow-y-auto p-4 space-y-3 bg-zinc-50/30 dark:bg-zinc-950/10">
+                        <div className="flex-1 overflow-y-auto p-4 space-y-3">
                             {isLoading ? (
-                                <p className="text-[11px] text-zinc-400 text-center italic">Loading conversations...</p>
+                                <p className="text-sm text-muted-foreground text-center mt-8">Loading conversations...</p>
                             ) : messages.length === 0 ? (
-                                <div className="text-center py-12 text-zinc-400 space-y-1">
-                                    <MessageSquare className="w-5 h-5 mx-auto opacity-40" />
-                                    <p className="text-[11px]">ডাক্তারের সাথে আপনার চ্যাট শুরু করুন।</p>
+                                <div className="text-center py-12 text-muted-foreground space-y-2">
+                                    <MessageSquare className="w-6 h-6 mx-auto" />
+                                    <p className="text-sm">Start a conversation with your doctor.</p>
                                 </div>
                             ) : (
                                 messages.map((msg: any) => {
@@ -177,10 +177,10 @@ export default function PatientChatContainer({ allowedDoctors, patientId }: { al
                                     return (
                                         <div key={msg._id} className={`flex ${isMe ? "justify-end" : "justify-start"}`}>
                                             <div
-                                                className={`max-w-xs px-3 py-2 rounded-2xl text-xs shadow-sm leading-relaxed ${
+                                                className={`max-w-xs sm:max-w-sm px-3.5 py-2 rounded-2xl text-sm leading-relaxed ${
                                                     isMe
-                                                        ? "bg-blue-600 text-white rounded-br-none" 
-                                                        : "bg-white dark:bg-zinc-900 text-zinc-800 dark:text-zinc-200 rounded-bl-none border border-zinc-100 dark:border-zinc-800/60" 
+                                                        ? "bg-primary text-primary-foreground rounded-br-md" 
+                                                        : "bg-muted text-foreground rounded-bl-md" 
                                                 }`}
                                             >
                                                 {msg.message || msg.text}
@@ -193,26 +193,26 @@ export default function PatientChatContainer({ allowedDoctors, patientId }: { al
                         </div>
 
                         {/* মেসেজ টাইপিং ফর্ম ইনপুট */}
-                        <form onSubmit={handleSend} className="p-3 bg-white dark:bg-zinc-950 border-t border-zinc-200 dark:border-zinc-800 flex gap-2">
+                        <form onSubmit={handleSend} className="p-3 border-t border-border flex gap-2">
                             <input
                                 type="text"
                                 value={typedMessage}
                                 onChange={(e) => setTypedMessage(e.target.value)}
-                                placeholder="Type your medical query..."
-                                className="flex-1 text-xs bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-xl p-3 focus:outline-none focus:ring-1 focus:ring-blue-500 font-semibold"
+                                placeholder="Type your message..."
+                                className="flex-1 text-sm bg-background text-foreground placeholder:text-muted-foreground border border-border rounded-2xl px-3 py-2.5 focus:outline-none focus:ring-1 focus:ring-primary/40"
                             />
                             <button
                                 type="submit"
                                 disabled={!typedMessage.trim() || sendMessageMutation.isPending}
-                                className="bg-blue-600 hover:bg-blue-700 disabled:bg-zinc-100 dark:disabled:bg-zinc-900 text-white disabled:text-zinc-400 px-4 py-2 rounded-xl text-xs font-bold shadow-sm transition flex items-center justify-center"
+                                className="bg-primary text-primary-foreground disabled:opacity-50 px-4 py-2.5 rounded-2xl text-sm hover:opacity-90 transition flex items-center justify-center"
                             >
                                 <Send className="w-4 h-4" />
                             </button>
                         </form>
                     </>
                 ) : (
-                    <div className="flex-1 flex items-center justify-center text-zinc-400 text-xs italic">
-                        বাম পাশ থেকে ডাক্তার সিলেক্ট করুন
+                    <div className="flex-1 flex items-center justify-center text-muted-foreground text-sm">
+                        Select a doctor to start chatting
                     </div>
                 )}
             </div>

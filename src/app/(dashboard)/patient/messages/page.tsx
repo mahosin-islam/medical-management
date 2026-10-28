@@ -51,14 +51,16 @@ export default async function PatientMessagesPage() {
   const allowedDoctors = Array.from(doctorMap.values());
 
   return (
-    <div className="max-w-6xl mx-auto p-4 md:p-6 h-[calc(100vh-120px)] flex flex-col space-y-4">
+    <div className="max-w-7xl mx-auto h-[calc(100vh-140px)] flex flex-col space-y-6">
       <div>
-        <h1 className="text-xl font-extrabold text-zinc-900 dark:text-zinc-50 tracking-tight">Consultation Messages</h1>
-        <p className="text-xs text-zinc-500">আপনার সম্পন্ন হওয়া (Completed) অ্যাপয়েন্টমেন্টের ডাক্তারদের সাথে চ্যাট করুন।</p>
+        <h1 className="text-xl md:text-2xl font-semibold tracking-tight text-foreground">Messages</h1>
+        <p className="text-sm text-muted-foreground mt-1">Chat with your doctors from completed consultations.</p>
       </div>
 
       {/* 💬 মেইন চ্যাট ইন্টারফেস কন্টেইনার */}
-      <PatientChatContainer allowedDoctors={allowedDoctors} patientId={patientIdString} />
+      <div className="flex-1 min-h-0">
+        <PatientChatContainer allowedDoctors={allowedDoctors} patientId={patientIdString} />
+      </div>
     </div>
   );
 }

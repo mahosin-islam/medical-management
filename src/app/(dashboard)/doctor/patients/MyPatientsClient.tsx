@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useCallback } from 'react';
+import { motion } from "framer-motion";
 import Swal from 'sweetalert2';
 import toast from 'react-hot-toast';
 
@@ -77,87 +78,87 @@ export default function MyPatientsClient({ currentDoctor }: ClientProps) {
   }
 
   return (
-    <div className="p-6 space-y-6 max-w-7xl mx-auto">
+    <div className="space-y-6 max-w-7xl mx-auto">
       
-      {/* 🔝 টপ বার ও সার্চ বক্স */}
-      <div className="flex flex-col md:flex-row md:items-center md:justify-between bg-white dark:bg-zinc-950 p-6 rounded-2xl border border-zinc-200 dark:border-zinc-800 shadow-sm gap-4">
+      {/* Header */}
+      <motion.div
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.25 }}
+        className="sc-card flex flex-col md:flex-row md:items-center md:justify-between gap-4"
+      >
         <div>
-          <h1 className="text-xl font-bold text-zinc-900 dark:text-zinc-50">
-            My Patients Directory
+          <h1 className="text-xl md:text-2xl font-bold tracking-tight text-foreground">
+            My Patients
           </h1>
-          <p className="text-xs text-zinc-500 mt-0.5">আপনার কাছে চিকিৎসা নেওয়া সকল রোগীদের লাইফটাইম তালিকা ও হিস্ট্রি।</p>
+          <p className="text-sm text-muted-foreground mt-1">All patients you&apos;ve treated in one place.</p>
         </div>
         
-        {/* 🔍 লাইভ সার্চ ইনপুট */}
         <div className="w-full md:w-80">
           <input 
             type="text" 
             placeholder="Search by name or phone..." 
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full text-xs font-medium bg-zinc-50 dark:bg-zinc-900 text-zinc-800 dark:text-zinc-200 p-3 rounded-xl border border-zinc-200 dark:border-zinc-800 focus:outline-none focus:ring-1 focus:ring-blue-500"
+            className="w-full text-sm bg-background text-foreground placeholder:text-muted-foreground px-3.5 py-2.5 rounded-2xl border border-border focus:outline-none focus:ring-1 focus:ring-primary/40 transition"
           />
         </div>
-      </div>
+      </motion.div>
 
-      {/* 📊 টেবিল এরিয়া */}
-      <div className="bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-2xl shadow-sm overflow-hidden">
-        <div className="p-5 border-b border-zinc-100 dark:border-zinc-900 flex justify-between items-center bg-zinc-50/50 dark:bg-zinc-900/20">
-          <h3 className="text-sm font-bold text-zinc-800 dark:text-zinc-200">
-            Total Unique Patients ({filteredPatients.length})
+      {/* Table */}
+      <motion.div
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.25, delay: 0.05 }}
+        className="sc-card p-0 overflow-hidden rounded-3xl"
+      >
+        <div className="p-6 border-b border-border flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+          <h3 className="text-lg font-semibold text-foreground">
+            Patient List <span className="text-muted-foreground font-normal">({filteredPatients.length})</span>
           </h3>
-          <button onClick={fetchPatients} className="text-xs font-bold text-blue-600 hover:underline">
-            🔄 Refresh List
+          <button onClick={fetchPatients} className="text-sm text-primary hover:underline">
+            Refresh
           </button>
         </div>
 
         {loading ? (
-          <div className="p-16 text-center text-xs font-medium text-zinc-500">রোগীদের তালিকা লোড হচ্ছে...</div>
+          <div className="p-16 text-center text-sm text-muted-foreground">Loading patients...</div>
         ) : filteredPatients.length === 0 ? (
-          <div className="p-16 text-center text-xs text-zinc-400 font-medium">
-            📭 কোনো রোগীর তথ্য খুঁজে পাওয়া যায়নি।
+          <div className="p-16 text-center text-sm text-muted-foreground">
+            No patients found.
           </div>
         ) : (
           <div className="overflow-x-auto">
-            <table className="w-full text-left border-collapse">
+            <table className="w-full text-left">
               <thead>
-                <tr className="bg-zinc-50 dark:bg-zinc-900/40 text-[11px] font-bold text-zinc-400 uppercase tracking-wider border-b border-zinc-100 dark:border-zinc-900">
-                  <th className="p-4">Patient Name</th>
-                  <th className="p-4">Contact</th>
-                  <th className="p-4 text-center">Total Visits</th>
-                  <th className="p-4">Last Visit</th>
-                  <th className="p-4 text-center">Action</th>
+                <tr className="border-b border-border text-xs font-medium text-muted-foreground uppercase tracking-wider">
+                  <th className="p-5">Patient</th>
+                  <th className="p-5">Contact</th>
+                  <th className="p-5 text-center">Total Visits</th>
+                  <th className="p-5">Last Visit</th>
+                  <th className="p-5 text-center">Action</th>
                 </tr>
               </thead>
-              <tbody className="text-xs divide-y divide-zinc-100 dark:divide-zinc-900">
+              <tbody className="text-sm divide-y divide-border/60">
                 {filteredPatients.map((patient) => (
-                  <tr key={patient._id} className="hover:bg-zinc-50/40 dark:hover:bg-zinc-900/20 transition">
-                    {/* রোগীর নাম */}
-                    <td className="p-4">
-                      <div className="font-bold text-zinc-800 dark:text-zinc-200">{patient.patientName}</div>
-                      <div className="text-[10px] text-zinc-400 mt-0.5">ID: {patient._id.substring(0, 8)}...</div>
+                  <tr key={patient._id} className="hover:bg-accent/30 transition-colors">
+                    <td className="p-5">
+                      <div className="font-medium text-foreground">{patient.patientName}</div>
+                      <div className="text-xs text-muted-foreground mt-0.5">ID: {patient._id.substring(0, 8)}...</div>
                     </td>
-                    {/* ফোন নম্বর */}
-                    <td className="p-4 font-medium text-zinc-600 dark:text-zinc-400">
-                      📞 {patient.patientPhone}
-                    </td>
-                    {/* মোট ভিজিট কাউন্ট */}
-                    <td className="p-4 text-center">
-                      <span className="px-2.5 py-1 rounded-full text-[11px] font-bold bg-blue-50 dark:bg-blue-500/10 text-blue-600 dark:text-blue-400">
-                        {patient.totalVisits} Times
+                    <td className="p-5 text-foreground">{patient.patientPhone}</td>
+                    <td className="p-5 text-center">
+                      <span className="inline-flex items-center px-2.5 py-1 rounded-full text-xs bg-accent text-accent-foreground">
+                        {patient.totalVisits} {patient.totalVisits === 1 ? "visit" : "visits"}
                       </span>
                     </td>
-                    {/* সর্বশেষ ভিজিটের ডেট */}
-                    <td className="p-4 text-zinc-600 dark:text-zinc-400 font-medium">
-                      📅 {patient.lastVisit}
-                    </td>
-                    {/* অ্যাকশন বাটন */}
-                    <td className="p-4 text-center">
+                    <td className="p-5 text-foreground">{patient.lastVisit}</td>
+                    <td className="p-5 text-center">
                       <button
                         onClick={() => handleViewHistory(patient.patientName, patient.totalVisits, patient.lastVisit)}
-                        className="bg-zinc-100 dark:bg-zinc-900 hover:bg-zinc-200 dark:hover:bg-zinc-800 text-zinc-800 dark:text-zinc-200 font-bold px-3 py-2 rounded-xl text-[11px] transition border border-zinc-200 dark:border-zinc-800"
+                        className="text-sm text-primary hover:underline"
                       >
-                        👁️ View Summary
+                        View Summary
                       </button>
                     </td>
                   </tr>
@@ -166,7 +167,7 @@ export default function MyPatientsClient({ currentDoctor }: ClientProps) {
             </table>
           </div>
         )}
-      </div>
+      </motion.div>
     </div>
   );
 }

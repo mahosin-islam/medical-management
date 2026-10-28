@@ -3,6 +3,7 @@
 import React from "react";
 import { useQuery } from "@tanstack/react-query";
 import PatientAppointments from "./PatientAppointments";
+import Loading from "@/app/loading";
 
 
 export default function PatientAppointmentsPage() {
@@ -18,16 +19,15 @@ export default function PatientAppointmentsPage() {
   });
 
   if (isLoading) {
-    return <div className="p-12 text-center text-sm text-zinc-500">লোড হচ্ছে...</div>;
+    return <Loading/>;
   }
 
   if (error) {
-    return <div className="p-12 text-center text-sm text-rose-500">ডাটা লোড করতে সমস্যা হয়েছে!</div>;
+    return <div className="p-12 text-center text-sm text-red-500">Failed to load appointments.</div>;
   }
 
   return (
-    <div className="md:p-6 ">
-      {/* আমরা আগে যে টেবিলটি বানিয়েছিলাম সেটি এখানে কল করা হলো */}
+    <div className="max-w-7xl mx-auto">
       <PatientAppointments appointments={appointments} />
     </div>
   );

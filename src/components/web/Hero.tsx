@@ -67,7 +67,7 @@ export default function Hero() {
   };
 
   return (
-    <section className="relative w-full h-[320px] sm:h-[420px] md:h-[400px] overflow-hidden bg-slate-100 mt-[-5px]">
+    <section className="relative w-full h-[360px] sm:h-[450px] md:h-[480px] overflow-hidden bg-slate-100 mt-[-5px]">
       
       {/* ================= SLIDER CONTAINER ================= */}
       <AnimatePresence initial={false} custom={direction}>

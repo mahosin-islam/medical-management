@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import { motion } from "framer-motion";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Edit2, X, Check, Award, Briefcase, DollarSign, Building, User, FileText } from "lucide-react";
 import toast from "react-hot-toast";
@@ -94,34 +95,38 @@ export default function DoctorProfileForm({ initialData }: { initialData: Profil
   return (
     <form onSubmit={handleSubmit} className="space-y-6 max-w-4xl">
       
-      {/* 💳 হেডার কার্ড */}
-      <div className="bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-2xl p-6 shadow-sm flex flex-col sm:flex-row items-center justify-between gap-6">
+      {/* Header Card */}
+      <motion.div
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.25 }}
+        className="sc-card flex flex-col sm:flex-row items-center justify-between gap-6"
+      >
         <div className="flex flex-col sm:flex-row items-center gap-5 w-full sm:w-auto">
-          <div className="relative w-20 h-20 rounded-2xl bg-zinc-100 dark:bg-zinc-900 overflow-hidden border border-zinc-200 dark:border-zinc-800 flex-shrink-0">
+          <div className="relative w-20 h-20 rounded-2xl bg-muted overflow-hidden border border-border flex-shrink-0">
             {formData.image ? (
               <img src={formData.image} alt={formData.name} className="w-full h-full object-cover" />
             ) : (
-              <div className="w-full h-full flex items-center justify-center font-black text-2xl text-zinc-400">D</div>
+              <div className="w-full h-full flex items-center justify-center font-semibold text-2xl text-muted-foreground">D</div>
             )}
           </div>
           <div className="space-y-1 text-center sm:text-left">
-            <h3 className="text-base font-bold text-zinc-900 dark:text-zinc-50">{formData.name || "Doctor Name"}</h3>
-            <p className="text-xs text-zinc-400">{formData.email}</p>
-            <div className="mt-1 text-[10px] text-emerald-600 bg-emerald-50 dark:bg-emerald-950/30 px-2 py-0.5 rounded-md font-bold inline-block">
-              ✓ Active Better-Auth Provider
+            <h3 className="text-lg font-semibold text-foreground">{formData.name || "Doctor Name"}</h3>
+            <p className="text-sm text-muted-foreground">{formData.email}</p>
+            <div className="mt-1 inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-status-success-bg text-status-success">
+              Active Account
             </div>
           </div>
         </div>
 
-        {/* ⚙️ অ্যাকশন বাটনসমূহ */}
         <div className="w-full sm:w-auto flex justify-center">
           {!isEditing ? (
             <button
               type="button"
               onClick={() => setIsEditing(true)}
-              className="flex items-center gap-2 bg-zinc-900 dark:bg-zinc-100 hover:bg-zinc-800 dark:hover:bg-zinc-200 text-white dark:text-zinc-950 text-xs font-bold px-4 py-2.5 rounded-xl shadow-sm transition"
+              className="flex items-center gap-2 bg-primary text-primary-foreground text-sm font-medium px-4 py-2.5 rounded-2xl hover:opacity-90 transition"
             >
-              <Edit2 className="w-3.5 h-3.5" />
+              <Edit2 className="w-4 h-4" />
               Edit Profile
             </button>
           ) : (
@@ -129,29 +134,34 @@ export default function DoctorProfileForm({ initialData }: { initialData: Profil
               <button
                 type="button"
                 onClick={handleCancel}
-                className="flex items-center gap-1.5 bg-zinc-100 dark:bg-zinc-900 text-zinc-700 dark:text-zinc-300 text-xs font-bold px-3 py-2.5 rounded-xl hover:bg-zinc-200 transition"
+                className="flex items-center gap-2 bg-card text-foreground text-sm font-medium px-4 py-2.5 rounded-2xl border border-border hover:bg-accent/40 transition"
               >
-                <X className="w-3.5 h-3.5" />
+                <X className="w-4 h-4" />
                 Cancel
               </button>
               <button
                 type="submit"
                 disabled={updateProfileMutation.isPending}
-                className="flex items-center gap-1.5 bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold px-4 py-2.5 rounded-xl shadow-sm transition disabled:bg-zinc-400"
+                className="flex items-center gap-2 bg-primary text-primary-foreground text-sm font-medium px-4 py-2.5 rounded-2xl hover:opacity-90 transition disabled:opacity-50"
               >
-                <Check className="w-3.5 h-3.5" />
-                {updateProfileMutation.isPending ? "Saving..." : "Save Info"}
+                <Check className="w-4 h-4" />
+                {updateProfileMutation.isPending ? "Saving..." : "Save Changes"}
               </button>
             </div>
           )}
         </div>
-      </div>
+      </motion.div>
 
-      {/* 📊 মেইন ইনফরমেশন ব্লক */}
-      <div className="bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-2xl p-6 shadow-sm space-y-6">
-        <h3 className="text-xs font-bold text-zinc-400 uppercase tracking-wider border-b border-zinc-100 dark:border-zinc-900 pb-2">
-          Profile Details
-        </h3>
+      {/* Main Info */}
+      <motion.div
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.25, delay: 0.05 }}
+        className="sc-card space-y-6"
+      >
+        <div className="flex items-center justify-between">
+          <h3 className="text-base font-semibold text-foreground">Profile Details</h3>
+        </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-xs">
           
@@ -342,7 +352,7 @@ export default function DoctorProfileForm({ initialData }: { initialData: Profil
           )}
         </div>
 
-      </div>
+      </motion.div>
     </form>
   );
 }

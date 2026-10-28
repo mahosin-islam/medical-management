@@ -30,7 +30,7 @@ interface BookingWidgetProps {
   currentUser: {
     name: string;
     email: string;
-  } | null; // 👈 লগইন না থাকলে null আসবে
+  } | null; 
 }
 
 export default function BookingWidget({ doctor, currentUser }: BookingWidgetProps) {
@@ -40,7 +40,7 @@ export default function BookingWidget({ doctor, currentUser }: BookingWidgetProp
   const consultationFee = Number(doctor?.bioDetails?.consultationFee || doctor?.chamberConfig?.consultationFee) || 500;
   const doctorPhone = doctor?.bioDetails?.chamberPhone || doctor?.chamberConfig?.chamberPhone || doctor?.phone || "N/A";
   
-  const minRequiredFee = consultationFee / 2; // 💸 মিনিমাম ৫০% ফি ক্যালকুলেশন
+  const minRequiredFee = consultationFee / 2; 
 
   const { _id: doctorId, scheduleConfig } = doctor || {};
   
@@ -61,34 +61,32 @@ export default function BookingWidget({ doctor, currentUser }: BookingWidgetProp
   const [bookedSerials, setBookedSerials] = useState<number[]>([]);
   const [patientPhone, setPatientPhone] = useState<string>("");
 
-  // 💸 পেমেন্টের জন্য স্টেট
   const [paidAmountInput, setPaidAmountInput] = useState<number>(minRequiredFee);
   const [paymentError, setPaymentError] = useState<string>("");
 
   const today = new Date(); 
   const [currentMonth, setCurrentMonth] = useState<Date>(new Date(today.getFullYear(), today.getMonth(), 1));
 
-  // 🌟 ১. ইউজার লগইন না থাকলে লগইন বাটন ও কার্ড রিডাইরেক্ট দেখাবে
   if (!currentUser || !currentUser.email) {
     return (
-      <div className="bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-2xl p-6 text-center shadow-sm space-y-4">
-        <div className="h-12 w-12 rounded-full bg-blue-50 dark:bg-blue-950/40 text-blue-600 flex items-center justify-center mx-auto text-xl font-bold">
+      <div className="bg-white dark:bg-zinc-900 border border-slate-200/80 dark:border-zinc-800 rounded-3xl p-6 text-center shadow-sm space-y-4">
+        <div className="h-12 w-12 rounded-full bg-[var(--color-primary)]/10 text-[var(--color-primary)] flex items-center justify-center mx-auto text-xl font-bold">
           🔒
         </div>
         <div>
-          <h3 className="text-base font-bold text-zinc-900 dark:text-zinc-50">Appointment Booking</h3>
-          <p className="text-xs text-zinc-500 mt-1 leading-relaxed">
+          <h3 className="text-base font-bold text-slate-900 dark:text-white">Appointment Booking</h3>
+          <p className="text-xs text-slate-500 mt-1 leading-relaxed">
             অ্যাপয়েন্টমেন্ট নিশ্চিত করতে এবং ডাক্তারের সাথে সিরিয়াল নিতে প্রথমে আপনার অ্যাকাউন্টে লগইন করুন।
           </p>
         </div>
 
-        <div className="bg-zinc-50 dark:bg-zinc-900/50 p-3 rounded-xl border border-zinc-100 dark:border-zinc-800 text-xs font-semibold text-zinc-600 dark:text-zinc-300">
-          Consultation Fee: <span className="text-blue-600 dark:text-blue-400 font-bold">৳ {consultationFee}</span>
+        <div className="bg-slate-50 dark:bg-zinc-950 p-3 rounded-2xl border border-slate-200 dark:border-zinc-800 text-xs font-semibold text-slate-600 dark:text-zinc-300">
+          Consultation Fee: <span className="text-[var(--color-primary)] font-bold">৳ {consultationFee}</span>
         </div>
 
         <Link
           href={`/login?callbackUrl=${encodeURIComponent(pathname)}`}
-          className="w-full inline-flex items-center justify-center bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-xl text-xs sm:text-sm transition-all shadow-md hover:shadow-blue-600/20 cursor-pointer"
+          className="w-full inline-flex items-center justify-center bg-[var(--color-primary)] hover:opacity-90 text-white font-bold py-3 px-4 rounded-2xl text-xs sm:text-sm transition-all shadow-sm cursor-pointer"
         >
           Login to Book Appointment
         </Link>
@@ -96,12 +94,11 @@ export default function BookingWidget({ doctor, currentUser }: BookingWidgetProp
     );
   }
 
-  // ডাক্তারের শিডিউল না থাকলে
   if (!doctor || !scheduleConfig || !scheduleConfig.availableDays || scheduleConfig.availableDays.length === 0) {
     return (
-      <div className="bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-2xl p-6 text-center shadow-sm">
+      <div className="bg-white dark:bg-zinc-900 border border-slate-200/80 dark:border-zinc-800 rounded-3xl p-6 text-center shadow-sm">
         <h3 className="text-sm font-bold text-red-500 mb-2">Booking Unavailable</h3>
-        <p className="text-xs text-zinc-500 leading-relaxed">এই ডাক্তারের কোনো অ্যাক্টিভ শিডিউল সেট করা নেই।</p>
+        <p className="text-xs text-slate-500 leading-relaxed">এই ডাক্তারের কোনো অ্যাক্টিভ শিডিউল সেট করা নেই।</p>
       </div>
     );
   }
@@ -183,8 +180,8 @@ export default function BookingWidget({ doctor, currentUser }: BookingWidgetProp
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           doctorId,
-          doctorName: doctor.name,             
-          doctorPhone: doctorPhone,             
+          doctorName: doctor.name,            
+          doctorPhone: doctorPhone,            
           monthStr: currentMonthKey, 
           dateStr: selectedDateStr,  
           dayName: selectedDayName,   
@@ -218,61 +215,61 @@ export default function BookingWidget({ doctor, currentUser }: BookingWidgetProp
     const finalStatus = (consultationFee - paidAmountInput) === 0 ? "Completed" : "Pending";
 
     return (
-      <div className="bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-2xl p-6 text-center shadow-sm">
-        <div className="h-12 w-12 rounded-full bg-emerald-100 dark:bg-emerald-950/40 text-emerald-600 flex items-center justify-center mx-auto mb-3 text-xl">✓</div>
-        <h3 className="text-sm font-bold text-zinc-900 dark:text-zinc-50">Appointment Requested!</h3>
-        <p className="text-xs text-zinc-500 mt-2">পেশেন্ট <span className="font-semibold text-zinc-800 dark:text-zinc-200">{currentUser.name}</span> এর জন্য ডেট {selectedDateStr}-এ সিরিয়াল <span className="font-bold text-blue-600">#{selectedSerial}</span> কনফার্ম হয়েছে।</p>
+      <div className="bg-white dark:bg-zinc-900 border border-slate-200/80 dark:border-zinc-800 rounded-3xl p-6 text-center shadow-sm">
+        <div className="h-12 w-12 rounded-full bg-emerald-100 dark:bg-emerald-950/40 text-emerald-600 flex items-center justify-center mx-auto mb-3 text-xl font-bold">✓</div>
+        <h3 className="text-sm font-bold text-slate-900 dark:text-white">Appointment Requested!</h3>
+        <p className="text-xs text-slate-500 mt-2">পেশেন্ট <span className="font-semibold text-slate-800 dark:text-zinc-200">{currentUser.name}</span> এর জন্য ডেট {selectedDateStr}-এ সিরিয়াল <span className="font-bold text-[var(--color-primary)]">#{selectedSerial}</span> কনফার্ম হয়েছে।</p>
         
         <div className="mt-3 flex justify-center gap-2">
-          <span className={`text-[10px] font-black uppercase px-2 py-0.5 rounded-md ${finalStatus === "Completed" ? "bg-green-100 text-green-700" : "bg-blue-100 text-blue-700"}`}>
+          <span className={`text-[10px] font-black uppercase px-2.5 py-1 rounded-lg ${finalStatus === "Completed" ? "bg-emerald-50 text-emerald-600" : "bg-amber-50 text-amber-600"}`}>
             Status: {finalStatus}
           </span>
         </div>
 
-        <div className="bg-zinc-50 dark:bg-zinc-900 text-[11px] p-2.5 rounded-xl mt-3 text-zinc-600 dark:text-zinc-400 font-medium">
+        <div className="bg-slate-50 dark:bg-zinc-950 text-xs p-3 rounded-2xl mt-3 text-slate-600 dark:text-zinc-400 font-medium border border-slate-200 dark:border-zinc-800">
           Paid Advance: <span className="text-emerald-600 font-bold">{paidAmountInput} Tk</span> | Due Balance: <span className="text-rose-500 font-bold">{consultationFee - paidAmountInput} Tk</span>
         </div>
-        <button onClick={() => { setIsBookingStarted(false); setBookingSuccess(false); setSelectedDateStr(""); setSelectedSerial(null); setPatientPhone(""); setPaidAmountInput(minRequiredFee); setPaymentError(""); }} className="mt-4 w-full bg-zinc-900 text-white text-xs font-semibold py-2 rounded-xl">Done</button>
+        <button onClick={() => { setIsBookingStarted(false); setBookingSuccess(false); setSelectedDateStr(""); setSelectedSerial(null); setPatientPhone(""); setPaidAmountInput(minRequiredFee); setPaymentError(""); }} className="mt-4 w-full bg-[var(--color-primary)] text-white text-xs font-bold py-2.5 rounded-2xl cursor-pointer shadow-sm">Done</button>
       </div>
     );
   }
 
   if (!isBookingStarted) {
     return (
-      <div className="bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-2xl p-6 text-center shadow-sm">
-        <h3 className="text-base font-bold text-zinc-900 dark:text-zinc-50 mb-2">Need an Appointment?</h3>
-        <p className="text-xs text-zinc-500 mb-3 leading-relaxed">Hi <span className="font-semibold text-zinc-800 dark:text-zinc-200">{currentUser.name}</span>, নিচের বাটনে ক্লিক করে আপনার স্লটটি কনফার্ম করুন</p>
-        <p className="text-[11px] font-bold text-zinc-400 mb-5">Consultation Fee: {consultationFee} Tk</p>
-        <button onClick={() => setIsBookingStarted(true)} className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-xl text-sm transition shadow-sm cursor-pointer">Book Appointment Now</button>
+      <div className="bg-white dark:bg-zinc-900 border border-slate-200/80 dark:border-zinc-800 rounded-3xl p-6 text-center shadow-sm">
+        <h3 className="text-base font-bold text-slate-900 dark:text-white mb-2">Need an Appointment?</h3>
+        <p className="text-xs text-slate-500 mb-3 leading-relaxed">Hi <span className="font-semibold text-slate-800 dark:text-zinc-200">{currentUser.name}</span>, নিচের বাটনে ক্লিক করে আপনার স্লটটি কনফার্ম করুন</p>
+        <p className="text-xs font-bold text-slate-400 mb-5 uppercase tracking-wider">Consultation Fee: {consultationFee} Tk</p>
+        <button onClick={() => setIsBookingStarted(true)} className="w-full bg-[var(--color-primary)] hover:opacity-90 text-white font-bold py-3 px-4 rounded-2xl text-sm transition shadow-sm cursor-pointer">Book Appointment Now</button>
       </div>
     );
   }
 
   return (
-    <div className="bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-2xl p-5 shadow-sm text-left space-y-4">
-      <div className="flex justify-between items-center border-b border-zinc-100 dark:border-zinc-900 pb-3">
+    <div className="bg-white dark:bg-zinc-900 border border-slate-200/80 dark:border-zinc-800 rounded-3xl p-6 shadow-sm text-left space-y-4">
+      <div className="flex justify-between items-center border-b border-slate-100 dark:border-zinc-800 pb-3">
         <div className="flex flex-col">
-          <h3 className="text-xs font-bold text-zinc-800 dark:text-zinc-200 uppercase tracking-wider">Select Location & Slot</h3>
-          <span className="text-[11px] font-bold text-emerald-600 mt-0.5">Fee: {consultationFee} Tk</span>
+          <h3 className="text-xs font-bold text-slate-800 dark:text-zinc-200 uppercase tracking-wider">Select Location & Slot</h3>
+          <span className="text-xs font-bold text-[var(--color-primary)] mt-0.5">Fee: {consultationFee} Tk</span>
         </div>
-        <button onClick={() => setIsBookingStarted(false)} className="text-xs text-zinc-400 hover:text-zinc-600 font-medium cursor-pointer">Cancel</button>
+        <button onClick={() => setIsBookingStarted(false)} className="text-xs text-slate-400 hover:text-slate-600 font-bold cursor-pointer">Cancel</button>
       </div>
 
       {/* 👤 লগইনড ইউজার ইনফো প্রোফাইল */}
-      <div className="bg-zinc-50 dark:bg-zinc-900/40 p-3 rounded-xl border border-zinc-200/60 dark:border-zinc-800/60 flex items-center gap-2.5">
-        <div className="h-7 w-7 rounded-full bg-blue-100 dark:bg-blue-950/50 flex items-center justify-center text-blue-600 dark:text-blue-400 font-bold text-xs uppercase">
+      <div className="bg-slate-50 dark:bg-zinc-950 p-3.5 rounded-2xl border border-slate-200 dark:border-zinc-800 flex items-center gap-3">
+        <div className="h-8 w-8 rounded-xl bg-[var(--color-primary)]/10 flex items-center justify-center text-[var(--color-primary)] font-bold text-xs uppercase">
           {currentUser.name ? currentUser.name[0] : "U"}
         </div>
         <div className="flex-1 min-w-0">
-          <h4 className="text-xs font-bold text-zinc-800 dark:text-zinc-200 truncate">{currentUser.name}</h4>
-          <p className="text-[10px] text-zinc-500 truncate">{currentUser.email}</p>
+          <h4 className="text-xs font-bold text-slate-800 dark:text-zinc-200 truncate">{currentUser.name}</h4>
+          <p className="text-[10px] text-slate-400 truncate">{currentUser.email}</p>
         </div>
-        <span className="text-[10px] bg-emerald-50 dark:bg-emerald-950/30 text-emerald-600 dark:text-emerald-400 font-semibold px-2 py-0.5 rounded-md border border-emerald-200/50 flex-shrink-0">Account</span>
+        <span className="text-[10px] bg-emerald-50 dark:bg-emerald-950/30 text-emerald-600 dark:text-emerald-400 font-bold px-2 py-0.5 rounded-lg border border-emerald-200/50 flex-shrink-0 uppercase">Account</span>
       </div>
 
       {/* 📞 মোবাইল নম্বর ইনপুট */}
       <div className="space-y-1.5">
-        <label className="text-[11px] font-bold text-zinc-400 uppercase tracking-wider block">
+        <label className="text-[11px] font-bold text-slate-400 uppercase tracking-wider block">
           Contact Mobile Number <span className="text-red-500">*</span>
         </label>
         <input 
@@ -281,47 +278,47 @@ export default function BookingWidget({ doctor, currentUser }: BookingWidgetProp
           placeholder="e.g. 01712345678"
           value={patientPhone}
           onChange={(e) => setPatientPhone(e.target.value.replace(/\D/g, ''))}
-          className={`w-full text-xs border rounded-xl p-2.5 bg-zinc-50 dark:bg-zinc-900 text-zinc-800 dark:text-zinc-200 focus:outline-none focus:ring-1 ${
+          className={`w-full text-xs border rounded-2xl p-3 bg-slate-50 dark:bg-zinc-950 text-slate-900 dark:text-zinc-100 focus:outline-none transition font-medium ${
             patientPhone.length > 0 && !isValidBDPhone(patientPhone)
-              ? "border-red-500 focus:ring-red-500" 
-              : "border-zinc-200 dark:border-zinc-800 focus:border-blue-500 focus:ring-blue-500"
+              ? "border-red-500" 
+              : "border-slate-200 dark:border-zinc-800 focus:border-[var(--color-primary)]"
           }`}
         />
         {patientPhone.length > 0 && !isValidBDPhone(patientPhone) && (
-          <p className="text-[10px] text-red-500 font-medium">দয়া করে একটি সঠিক ১১ ডিজিটের মোবাইল নম্বর দিন।</p>
+          <p className="text-[10px] text-red-500 font-semibold">দয়া করে একটি সঠিক ১১ ডিজিটের মোবাইল নম্বর দিন।</p>
         )}
       </div>
 
       {/* 📍 লোকেশন */}
       <div className="space-y-2">
-        <label className="text-[11px] font-bold text-zinc-400 uppercase tracking-wider block">Select a Location</label>
+        <label className="text-[11px] font-bold text-slate-400 uppercase tracking-wider block">Select a Location</label>
         <div 
           onClick={() => setSelectedLocation(clinicAddress)}
-          className={`p-3.5 border rounded-xl cursor-pointer transition flex items-start space-x-3 ${selectedLocation ? 'border-blue-500 bg-blue-50/10' : 'border-zinc-200 dark:border-zinc-800 hover:border-zinc-300'}`}
+          className={`p-4 border rounded-2xl cursor-pointer transition flex items-start space-x-3 ${selectedLocation ? 'border-[var(--color-primary)] bg-[var(--color-primary)]/5' : 'border-slate-200 dark:border-zinc-800 hover:border-slate-300'}`}
         >
-          <div className={`h-4 w-4 rounded-full border flex items-center justify-center mt-0.5 ${selectedLocation ? 'border-blue-600 bg-blue-600 text-white' : 'border-zinc-300'}`}>
+          <div className={`h-4 w-4 rounded-full border flex items-center justify-center mt-0.5 ${selectedLocation ? 'border-[var(--color-primary)] bg-[var(--color-primary)] text-white' : 'border-slate-300'}`}>
             {selectedLocation && <div className="h-1.5 w-1.5 rounded-full bg-white" />}
           </div>
           <div className="flex-1">
-            <h4 className="text-xs font-bold text-zinc-800 dark:text-zinc-200">Chamber / Clinic</h4>
-            <p className="text-[11px] text-zinc-500 mt-0.5">{clinicAddress}</p>
+            <h4 className="text-xs font-bold text-slate-800 dark:text-zinc-200">Chamber / Clinic</h4>
+            <p className="text-xs text-slate-500 mt-0.5">{clinicAddress}</p>
           </div>
         </div>
       </div>
 
       {selectedLocation && (
-        <div className="mt-3 space-y-4 pt-3 border-t border-dashed border-zinc-200 dark:border-zinc-800">
+        <div className="mt-3 space-y-4 pt-4 border-t border-dashed border-slate-200 dark:border-zinc-800">
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className="text-[11px] font-bold text-zinc-400 uppercase tracking-wider block mb-1.5">Type</label>
-              <button type="button" className="w-full text-center py-1.5 text-xs font-semibold rounded-xl border bg-blue-50 dark:bg-blue-950/30 border-blue-600 text-blue-600">Face to Face</button>
+              <label className="text-[11px] font-bold text-slate-400 uppercase tracking-wider block mb-1.5">Type</label>
+              <button type="button" className="w-full text-center py-2 text-xs font-bold rounded-xl border bg-[var(--color-primary)]/10 border-[var(--color-primary)] text-[var(--color-primary)]">Face to Face</button>
             </div>
             <div>
-              <label className="text-[11px] font-bold text-zinc-400 uppercase tracking-wider block mb-1.5">Category</label>
+              <label className="text-[11px] font-bold text-slate-400 uppercase tracking-wider block mb-1.5">Category</label>
               <select 
                 value={appointmentType} 
                 onChange={(e) => setAppointmentType(e.target.value)}
-                className="w-full text-xs font-medium rounded-xl border border-zinc-200 dark:border-zinc-800 p-1.5 bg-white dark:bg-zinc-900 text-zinc-700 dark:text-zinc-300 focus:outline-none"
+                className="w-full text-xs font-semibold rounded-xl border border-slate-200 dark:border-zinc-800 p-2 bg-slate-50 dark:bg-zinc-950 text-slate-700 dark:text-zinc-300 focus:outline-none"
               >
                 {["New Patient", "Follow Up", "Report Show"].map((type) => (
                   <option key={type} value={type}>{type}</option>
@@ -331,22 +328,22 @@ export default function BookingWidget({ doctor, currentUser }: BookingWidgetProp
           </div>
 
           <div className="relative">
-            <label className="text-[11px] font-bold text-zinc-400 uppercase tracking-wider block mb-1.5">Select an Available Time</label>
-            <div onClick={() => setShowCalendar(!showCalendar)} className="w-full border border-zinc-200 dark:border-zinc-800 rounded-xl p-2.5 flex justify-between items-center cursor-pointer bg-zinc-50 dark:bg-zinc-900 shadow-sm">
-              <span className="text-xs font-medium text-zinc-700 dark:text-zinc-300">{selectedDateStr || "Choose Date (yyyy-mm-dd)"}</span>
-              <span className="text-zinc-400 text-xs">📅</span>
+            <label className="text-[11px] font-bold text-slate-400 uppercase tracking-wider block mb-1.5">Select an Available Time</label>
+            <div onClick={() => setShowCalendar(!showCalendar)} className="w-full border border-slate-200 dark:border-zinc-800 rounded-2xl p-3 flex justify-between items-center cursor-pointer bg-slate-50 dark:bg-zinc-950 shadow-sm">
+              <span className="text-xs font-semibold text-slate-700 dark:text-zinc-300">{selectedDateStr || "Choose Date (yyyy-mm-dd)"}</span>
+              <span className="text-slate-400 text-xs">📅</span>
             </div>
 
             {showCalendar && (
-              <div className="absolute left-0 bottom-full mb-2 z-50 w-full bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-xl p-3 shadow-xl">
-                <div className="flex justify-between items-center mb-2">
-                  <span className="text-xs font-bold text-zinc-800 dark:text-zinc-200">{currentMonth.toLocaleString('en-US', { month: 'long', year: 'numeric' })}</span>
+              <div className="absolute left-0 bottom-full mb-2 z-50 w-full bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 rounded-2xl p-4 shadow-xl">
+                <div className="flex justify-between items-center mb-3">
+                  <span className="text-xs font-bold text-slate-800 dark:text-zinc-200">{currentMonth.toLocaleString('en-US', { month: 'long', year: 'numeric' })}</span>
                   <div className="flex space-x-1">
-                    <button type="button" onClick={() => setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1, 1))} className="text-xs px-1.5 py-0.5 bg-zinc-100 dark:bg-zinc-800 rounded">←</button>
-                    <button type="button" onClick={() => setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 1))} className="text-xs px-1.5 py-0.5 bg-zinc-100 dark:bg-zinc-800 rounded">→</button>
+                    <button type="button" onClick={() => setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1, 1))} className="text-xs px-2 py-1 bg-slate-100 dark:bg-zinc-800 rounded-lg font-bold cursor-pointer">←</button>
+                    <button type="button" onClick={() => setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 1))} className="text-xs px-2 py-1 bg-slate-100 dark:bg-zinc-800 rounded-lg font-bold cursor-pointer">→</button>
                   </div>
                 </div>
-                <div className="grid grid-cols-7 gap-1 text-center mb-1 text-[10px] font-bold text-zinc-400">
+                <div className="grid grid-cols-7 gap-1 text-center mb-2 text-[10px] font-bold text-slate-400 uppercase">
                   {["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"].map(d => <span key={d}>{d}</span>)}
                 </div>
                 <div className="grid grid-cols-7 gap-1 text-center">
@@ -358,7 +355,7 @@ export default function BookingWidget({ doctor, currentUser }: BookingWidgetProp
                     return (
                       <button
                         key={idx} type="button" disabled={!isAvailable} onClick={() => handleDateSelect(date)}
-                        className={`h-7 text-[11px] font-semibold rounded-md flex items-center justify-center transition ${isSelected ? "bg-blue-600 text-white" : isAvailable ? "text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-950/50 border border-blue-100 dark:border-blue-900/50" : "text-zinc-300 dark:text-zinc-700 cursor-not-allowed text-opacity-50"}`}
+                        className={`h-8 text-xs font-bold rounded-xl flex items-center justify-center transition cursor-pointer ${isSelected ? "bg-[var(--color-primary)] text-white shadow-sm" : isAvailable ? "text-[var(--color-primary)] bg-[var(--color-primary)]/10 hover:bg-[var(--color-primary)]/20" : "text-slate-300 dark:text-zinc-700 cursor-not-allowed opacity-50"}`}
                       >
                         {date.getDate()}
                       </button>
@@ -371,8 +368,8 @@ export default function BookingWidget({ doctor, currentUser }: BookingWidgetProp
 
           {selectedDateStr && (
             <div className="space-y-1.5">
-              <label className="text-[11px] font-bold text-zinc-400 uppercase tracking-wider block">Available Serial Slots</label>
-              <div className="grid grid-cols-5 gap-1.5 max-h-24 overflow-y-auto border border-zinc-100 dark:border-zinc-900 rounded-xl p-2 bg-zinc-50/50">
+              <label className="text-[11px] font-bold text-slate-400 uppercase tracking-wider block">Available Serial Slots</label>
+              <div className="grid grid-cols-5 gap-1.5 max-h-28 overflow-y-auto border border-slate-200 dark:border-zinc-800 rounded-2xl p-2.5 bg-slate-50/50 dark:bg-zinc-950">
                 {Array.from({ length: scheduleConfig?.maxPatients || 20 }, (_, i) => i + 1).map((serial) => {
                   const isBooked = bookedSerials.includes(serial);
                   return (
@@ -381,12 +378,12 @@ export default function BookingWidget({ doctor, currentUser }: BookingWidgetProp
                       type="button"
                       disabled={isBooked}
                       onClick={() => setSelectedSerial(serial)}
-                      className={`p-1.5 text-[10px] font-bold rounded-lg border text-center transition ${
+                      className={`p-2 text-xs font-bold rounded-xl border text-center transition cursor-pointer ${
                         isBooked 
-                          ? "bg-zinc-200 text-zinc-400 border-transparent cursor-not-allowed line-through dark:bg-zinc-900 dark:text-zinc-600" 
+                          ? "bg-slate-200 dark:bg-zinc-800 text-slate-400 dark:text-zinc-600 border-transparent cursor-not-allowed line-through" 
                           : selectedSerial === serial 
-                            ? "bg-blue-600 text-white border-transparent shadow-sm" 
-                            : "bg-white dark:bg-zinc-900 border-zinc-200 dark:border-zinc-800 text-zinc-700 dark:text-zinc-300 hover:border-zinc-400"
+                            ? "bg-[var(--color-primary)] text-white border-transparent shadow-sm" 
+                            : "bg-white dark:bg-zinc-900 border-slate-200 dark:border-zinc-800 text-slate-700 dark:text-zinc-300 hover:border-slate-400"
                       }`}
                     >
                       #{serial}
@@ -399,10 +396,10 @@ export default function BookingWidget({ doctor, currentUser }: BookingWidgetProp
 
           {/* 💸 পেমেন্ট ইনপুট সেকশন */}
           {selectedDateStr && (
-            <div className="space-y-2 bg-blue-50/40 dark:bg-blue-950/10 border border-blue-100/50 dark:border-blue-900/30 rounded-xl p-3.5">
-              <div className="flex justify-between items-center text-[11px] font-bold text-blue-700 dark:text-blue-400">
+            <div className="space-y-2 bg-[var(--color-primary)]/5 border border-[var(--color-primary)]/20 rounded-2xl p-4">
+              <div className="flex justify-between items-center text-xs font-bold text-[var(--color-primary)]">
                 <span>ADVANCE PAYMENT</span>
-                <span className="bg-blue-100 dark:bg-blue-950 text-blue-800 dark:text-blue-300 px-2 py-0.5 rounded-md text-[10px]">Min 50% Required</span>
+                <span className="bg-[var(--color-primary)]/10 text-[var(--color-primary)] px-2.5 py-0.5 rounded-lg text-[10px]">Min 50% Required</span>
               </div>
               
               <div className="flex items-center gap-2 mt-1">
@@ -412,21 +409,12 @@ export default function BookingWidget({ doctor, currentUser }: BookingWidgetProp
                   max={consultationFee}
                   value={paidAmountInput}
                   onChange={(e) => handlePaymentChange(Number(e.target.value))}
-                  className={`w-full px-3 py-1.5 text-xs font-bold rounded-lg border outline-none bg-white dark:bg-zinc-900 text-zinc-800 dark:text-zinc-200 ${
-                    paymentError ? "border-red-500 focus:ring-red-500" : "border-blue-200 dark:border-blue-900 focus:border-blue-500"
+                  className={`w-full px-3.5 py-2.5 text-xs font-bold rounded-xl border outline-none bg-white dark:bg-zinc-900 text-slate-900 dark:text-white ${
+                    paymentError ? "border-red-500" : "border-slate-200 dark:border-zinc-800 focus:border-[var(--color-primary)]"
                   }`}
                 />
-                <span className="font-bold text-xs text-zinc-500">Tk</span>
+                <span className="font-bold text-xs text-slate-500">Tk</span>
               </div>
-
-              <div className="flex justify-between text-[10px] text-zinc-400 pt-0.5 font-medium">
-                <span>Min Require: {minRequiredFee} Tk</span>
-                <span>Remaining Due: <span className="font-bold text-zinc-600 dark:text-zinc-300">{consultationFee - paidAmountInput} Tk</span></span>
-              </div>
-
-              {paymentError && (
-                <p className="text-[10px] text-red-500 font-semibold mt-1">⚠️ {paymentError}</p>
-              )}
             </div>
           )}
 
@@ -434,13 +422,9 @@ export default function BookingWidget({ doctor, currentUser }: BookingWidgetProp
             type="button"
             disabled={!isFormValid}
             onClick={handleConfirmBooking}
-            className={`w-full py-2.5 rounded-xl font-bold text-xs transition shadow-sm ${
-              isFormValid
-                ? "bg-blue-600 hover:bg-blue-700 text-white cursor-pointer" 
-                : "bg-zinc-100 dark:bg-zinc-900 text-zinc-400 dark:text-zinc-600 cursor-not-allowed"
-            }`}
+            className="w-full bg-[var(--color-primary)] hover:opacity-90 text-white font-bold py-3 px-4 rounded-2xl text-xs sm:text-sm transition shadow-sm disabled:opacity-50 cursor-pointer mt-2"
           >
-            {isSubmitting ? "Processing..." : "Confirm Appointment"}
+            {isSubmitting ? "Processing..." : "Confirm Booking"}
           </button>
         </div>
       )}

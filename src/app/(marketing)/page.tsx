@@ -10,6 +10,7 @@ import AboutStats from "@/components/page/Landing/AboutStats"
 import HealthPackages from "@/components/page/Landing/HealthPackages"
 import WhyShifaCare from "@/components/page/Landing/WhyShifaCare"
 import HealthcareAnytime from "@/components/page/Landing/HealthcareAnytime"
+import UpcomingEventSection from "@/components/page/Landing/UpcomingEventSection"
 
 function HomePage() {
   return (
@@ -20,7 +21,9 @@ function HomePage() {
       <WhyShifaCare/>
       <HealthcareAnytime/>
       <HealthPackages/>
+      <UpcomingEventSection/>
       <PatientsSection />
+   
       <FeedbackSection/>
       <FaqSection />
       <CtaBanner />
